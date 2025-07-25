@@ -21,17 +21,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Trang chủ</a>
                         </li>
-                        <li class="nav-item" th:each="j: ${journeys}">
-                            <a class="nav-link" href="#" th:text="${j.name}"></a>
-                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    
-    
-    
+
     <footer th:fragment="footer">
         <div class="mt-4 p-5 bg-primary text-white rounded">
             <h1>KMT &copy; 2025</h1>

@@ -21,7 +21,7 @@ import java.io.Serializable;
  * @author kieum
  */
 @Entity
-@Table(name = "admin")
+@Table(name = "admins")
 @NamedQueries({
     @NamedQuery(name = "Admin.findAll", query = "SELECT a FROM Admin a"),
     @NamedQuery(name = "Admin.findById", query = "SELECT a FROM Admin a WHERE a.id = :id")})

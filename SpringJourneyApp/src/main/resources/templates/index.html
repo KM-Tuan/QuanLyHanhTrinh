@@ -7,7 +7,7 @@
 <body>
     <div th:replace="base :: header"></div>
 
-    <h1>Xin chào Kiều Minh Tuấn</h1>
+    <h1 th:each="j: ${journeys}" th:text="${j.name}"></h1>
 
     <div th:replace="base :: footer"></div>
 </body>

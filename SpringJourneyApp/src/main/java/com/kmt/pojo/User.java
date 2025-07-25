@@ -8,6 +8,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +28,7 @@ import java.util.Set;
  * @author kieum
  */
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -60,9 +62,9 @@ public class User implements Serializable {
     private String avatar;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 9)
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
+    private UserRole role;
     @Column(name = "is_active")
     private Boolean isActive;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -97,7 +99,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String password, String role) {
+    public User(Integer id, String password, UserRole role) {
         this.id = id;
         this.password = password;
         this.role = role;
@@ -143,11 +145,11 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
@@ -189,14 +191,6 @@ public class User implements Serializable {
 
     public void setJourneySet(Set<Journey> journeySet) {
         this.journeySet = journeySet;
-    }
-
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
     }
 
     public Set<ServiceOrder> getServiceOrderSet() {
@@ -247,6 +241,14 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
     public Email getEmail() {
         return email;
     }
@@ -278,6 +280,10 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.kmt.pojo.User[ id=" + id + " ]";
+    }
+    
+    public enum UserRole {
+        ADMIN, STAFF, PASSENGER
     }
     
 }
