@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
-    <!-- Define Persistence Unit -->
-    <persistence-unit name="my_persistence_unit">
-        
-    </persistence-unit>
+  <!-- Define Persistence Unit -->
+  <persistence-unit name="my_persistence_unit">
+    <class>com.kmt.pojo.Journeys</class>
+    <class>com.kmt.pojo.FoodOrders</class>
+    <class>com.kmt.pojo.TrainRoutes</class>
+    <class>com.kmt.pojo.Staffs</class>
+    <class>com.kmt.pojo.Phones</class>
+    <class>com.kmt.pojo.FoodComments</class>
+    <class>com.kmt.pojo.ServiceComments</class>
+    <class>com.kmt.pojo.Foods</class>
+    <class>com.kmt.pojo.Emails</class>
+    <class>com.kmt.pojo.ServiceLikes</class>
+    <class>com.kmt.pojo.Trains</class>
+    <class>com.kmt.pojo.Stations</class>
+    <class>com.kmt.pojo.FoodLikes</class>
+    <class>com.kmt.pojo.Passengers</class>
+    <class>com.kmt.pojo.Services</class>
+    <class>com.kmt.pojo.FoodOrderItems</class>
+    <class>com.kmt.pojo.FoodCategories</class>
+    <class>com.kmt.pojo.ServiceOrders</class>
+    <class>com.kmt.pojo.Admins</class>
+    <class>com.kmt.pojo.Users</class>
+    <class>com.kmt.pojo.FoodComment</class>
+    <class>com.kmt.pojo.Admin</class>
+    <class>com.kmt.pojo.FoodCategory</class>
+    <class>com.kmt.pojo.Journey</class>
+    <class>com.kmt.pojo.Food</class>
+    <class>com.kmt.pojo.User</class>
+    <class>com.kmt.pojo.TrainRoute</class>
+    <class>com.kmt.pojo.ServiceLike</class>
+    <class>com.kmt.pojo.ServiceComment</class>
+    <class>com.kmt.pojo.Service</class>
+    <class>com.kmt.pojo.FoodOrder</class>
+    <class>com.kmt.pojo.Staff</class>
+    <class>com.kmt.pojo.FoodLike</class>
+    <class>com.kmt.pojo.FoodOrderItem</class>
+    <class>com.kmt.pojo.Passenger</class>
+    <class>com.kmt.pojo.Phone</class>
+    <class>com.kmt.pojo.ServiceOrder</class>
+    <class>com.kmt.pojo.Email</class>
+    <class>com.kmt.pojo.Station</class>
+    <class>com.kmt.pojo.Train</class>
+  </persistence-unit>
 </persistence>
