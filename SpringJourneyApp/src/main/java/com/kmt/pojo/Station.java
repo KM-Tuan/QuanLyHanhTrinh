@@ -57,6 +57,12 @@ public class Station implements Serializable {
     private Set<TrainRoute> trainRouteSet1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stationId")
     private Set<Service> serviceSet;
+    
+    @OneToMany(mappedBy = "departureStationId")
+    private Set<Journey> departures;
+
+    @OneToMany(mappedBy = "arrivalStationId")
+    private Set<Journey> arrivals;
 
     public Station() {
     }
@@ -151,5 +157,5 @@ public class Station implements Serializable {
     public String toString() {
         return "com.kmt.pojo.Station[ id=" + id + " ]";
     }
-    
+
 }

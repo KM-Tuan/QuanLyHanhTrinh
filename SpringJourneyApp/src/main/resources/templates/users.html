@@ -67,42 +67,28 @@
     </video>
 
     <div th:replace="base :: header"></div>
-    
+
     <div th:replace="base :: sidebar"></div>
 
     <div class="container">
-        <h1>QUẢN LÝ HÀNH TRÌNH DI CHUYỂN</h1>
+        <h1>QUẢN LÝ NGƯỜI DÙNG</h1>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Họ Tên</th>
                     <th>Tên</th>
-                    <th>Tàu</th>
-                    <th>Ga đi</th>
-                    <th>Ga đến</th>
-                    <th>Giờ đi</th>
-                    <th>Giờ đến</th>
-                    <th>Khoảng cách (km)</th>
-                    <th>Thời gian đi</th>
+                    <th>Vai trò</th>
                     <th>Trạng thái</th>
-                    <th>Ngày tạo</th>
-                    <th>Người tạo</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="j : ${journeys}">
-                    <td th:text="${j.id}"></td>
-                    <td th:text="${j.name}"></td>
-                    <td th:text="${j.trainId.name}"></td>
-                    <td th:text="${j.departureStationId.name}"></td>
-                    <td th:text="${j.arrivalStationId.name}"></td>
-                    <td th:text="${#dates.format(j.departureTime, 'HH:mm dd/MM/yyyy')}"></td>
-                    <td th:text="${#dates.format(j.arrivalTime, 'HH:mm dd/MM/yyyy')}"></td>
-                    <td th:text="${j.totalDistance}"></td>
-                    <td th:text="${j.totalTravelTime}"></td>
-                    <td th:text="${j.status}"></td>
-                    <td th:text="${#dates.format(j.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
-                    <td th:text="${j.createdBy.firstName}"></td>
+                <tr th:each="u : ${users}">
+                    <td th:text="${u.id}"></td>
+                    <td th:text="${u.lastName}"></td>
+                    <td th:text="${u.firstName}"></td>
+                    <td th:text="${u.role}"></td>
+                    <td th:text="${u.isActive}"></td>
                 </tr>
             </tbody>
         </table>

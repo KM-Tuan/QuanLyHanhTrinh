@@ -35,7 +35,6 @@ import java.util.Set;
     @NamedQuery(name = "Journey.findAll", query = "SELECT j FROM Journey j"),
     @NamedQuery(name = "Journey.findById", query = "SELECT j FROM Journey j WHERE j.id = :id"),
     @NamedQuery(name = "Journey.findByName", query = "SELECT j FROM Journey j WHERE j.name = :name"),
-    @NamedQuery(name = "Journey.findByTicketCode", query = "SELECT j FROM Journey j WHERE j.ticketCode = :ticketCode"),
     @NamedQuery(name = "Journey.findByTrainId", query = "SELECT j FROM Journey j WHERE j.trainId = :trainId"),
     @NamedQuery(name = "Journey.findByDepartureStationId", query = "SELECT j FROM Journey j WHERE j.departureStationId = :departureStationId"),
     @NamedQuery(name = "Journey.findByArrivalStationId", query = "SELECT j FROM Journey j WHERE j.arrivalStationId = :arrivalStationId"),
@@ -58,23 +57,16 @@ public class Journey implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "ticket_code")
-    private String ticketCode;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "train_id")
-    private int trainId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "departure_station_id")
-    private int departureStationId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "arrival_station_id")
-    private int arrivalStationId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "train_id", referencedColumnName = "id")
+    private Train trainId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "departure_station_id", referencedColumnName = "id")
+    private Station departureStationId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "arrival_station_id", referencedColumnName = "id")
+    private Station arrivalStationId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "departure_time")
@@ -117,10 +109,9 @@ public class Journey implements Serializable {
         this.id = id;
     }
 
-    public Journey(Integer id, String name, String ticketCode, int trainId, int departureStationId, int arrivalStationId, Date departureTime, Date arrivalTime, int totalDistance, Date totalTravelTime, String status) {
+    public Journey(Integer id, String name, Train trainId, Station departureStationId, Station arrivalStationId, Date departureTime, Date arrivalTime, int totalDistance, Date totalTravelTime, String status) {
         this.id = id;
         this.name = name;
-        this.ticketCode = ticketCode;
         this.trainId = trainId;
         this.departureStationId = departureStationId;
         this.arrivalStationId = arrivalStationId;
@@ -147,35 +138,27 @@ public class Journey implements Serializable {
         this.name = name;
     }
 
-    public String getTicketCode() {
-        return ticketCode;
-    }
-
-    public void setTicketCode(String ticketCode) {
-        this.ticketCode = ticketCode;
-    }
-
-    public int getTrainId() {
+    public Train getTrainId() {
         return trainId;
     }
 
-    public void setTrainId(int trainId) {
+    public void setTrainId(Train trainId) {
         this.trainId = trainId;
     }
 
-    public int getDepartureStationId() {
+    public Station getDepartureStationId() {
         return departureStationId;
     }
 
-    public void setDepartureStationId(int departureStationId) {
+    public void setDepartureStationId(Station departureStationId) {
         this.departureStationId = departureStationId;
     }
 
-    public int getArrivalStationId() {
+    public Station getArrivalStationId() {
         return arrivalStationId;
     }
 
-    public void setArrivalStationId(int arrivalStationId) {
+    public void setArrivalStationId(Station arrivalStationId) {
         this.arrivalStationId = arrivalStationId;
     }
 
@@ -275,5 +258,5 @@ public class Journey implements Serializable {
     public String toString() {
         return "com.kmt.pojo.Journey[ id=" + id + " ]";
     }
-    
+
 }
