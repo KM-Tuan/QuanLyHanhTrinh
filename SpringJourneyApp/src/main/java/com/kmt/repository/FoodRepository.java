@@ -2,16 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package com.kmt.service;
+package com.kmt.repository;
 
-import com.kmt.pojo.Journey;
+import com.kmt.pojo.Food;
 import java.util.List;
 
 /**
  *
  * @author kieum
  */
-public interface JourneyService {
-    List<Journey> getJours();
-    List<Journey> getJoursCompleted();
+public interface FoodRepository {
+    List<Food> getFoods();
 }

@@ -22,7 +22,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("journeys", this.jourSer.getJours());
+        model.addAttribute("journeys", this.jourSer.getJoursCompleted());
         return "index";
     }
 }

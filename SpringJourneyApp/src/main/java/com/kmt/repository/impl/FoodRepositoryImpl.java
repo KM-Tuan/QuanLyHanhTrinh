@@ -4,9 +4,8 @@
  */
 package com.kmt.repository.impl;
 
-import com.kmt.pojo.Journey;
-import com.kmt.repository.JourneyRepository;
-
+import com.kmt.pojo.Food;
+import com.kmt.repository.FoodRepository;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -21,22 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class JourneyRepositoryImpl implements JourneyRepository {
+public class FoodRepositoryImpl implements FoodRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
 
-    public List<Journey> getJours() {
+    public List<Food> getFoods() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Journey", Journey.class);
-        return q.getResultList();
-    }
-
-    @Override
-    public List<Journey> getJoursCompleted() {
-        Session s = this.factory.getObject().getCurrentSession();
-        Query<Journey> q = s.createQuery("FROM Journey WHERE status = :status", Journey.class);
-        q.setParameter("status", Journey.JourneyStatus.COMPLETED);
+        Query q = s.createQuery("From Food", Food.class);
         return q.getResultList();
     }
 }

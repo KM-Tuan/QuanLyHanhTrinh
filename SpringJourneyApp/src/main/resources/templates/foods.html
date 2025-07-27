@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+    <head>
     <div th:replace="base :: title"></div>
     <block th:replace="base :: styles"></block>
 
@@ -60,6 +60,11 @@
             flex: 1;
             max-width: 600px;
         }
+        
+        .single-table h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
         table {
             width: 100%;
@@ -85,19 +90,22 @@
     </style>
 </head>
 <body>
+    <!-- Video nền -->
     <video id="bg-video" autoplay muted loop playsinline>
         <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
         Your browser does not support the video tag.
     </video>
 
     <div th:replace="base :: header"></div>
+
     <div th:replace="base :: sidebar"></div>
 
     <div class="content-wrapper">
         <div class="table-container">
-            <h1>DANH SÁCH GA TÀU</h1>
+            <h1>DANH SÁCH MENU</h1>
             <div class="tables-flex">
                 <div class="single-table">
+                    <h3>NƯỚC UỐNG</h3>
                     <table>
                         <thead>
                             <tr>
@@ -106,14 +114,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="s : ${staList1}">
-                                <td th:text="${s.id}"></td>
-                                <td th:text="${s.name}"></td>
+                            <tr th:each="d : ${drinks}">
+                                <td th:text="${d.id}"></td>
+                                <td th:text="${d.name}"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="single-table">
+                    <h3>MÓN ĂN</h3>
                     <table>
                         <thead>
                             <tr>
@@ -122,9 +131,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="s : ${staList2}">
-                                <td th:text="${s.id}"></td>
-                                <td th:text="${s.name}"></td>
+                            <tr th:each="f : ${foods}">
+                                <td th:text="${f.id}"></td>
+                                <td th:text="${f.name}"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -136,3 +145,4 @@
     <div th:replace="base :: footer"></div>
 </body>
 </html>
+

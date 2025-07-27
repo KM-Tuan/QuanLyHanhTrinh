@@ -25,10 +25,21 @@
             z-index: -1;
         }
 
+        /* Wrapper căn giữa nội dung chính */
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 100px;      /* tránh header che */
+            padding-bottom: 140px;   /* tránh footer che */
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
         /* Container bảng journey */
         .container {
             max-width: 1200px;
-            margin: 50px auto;
+            width: 90%;
             padding: 20px;
             text-align: center;
             background-color: rgba(19, 16, 16, 0.85);
@@ -67,31 +78,33 @@
     </video>
 
     <div th:replace="base :: header"></div>
-
     <div th:replace="base :: sidebar"></div>
 
-    <div class="container">
-        <h1>QUẢN LÝ NGƯỜI DÙNG</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Họ Tên</th>
-                    <th>Tên</th>
-                    <th>Vai trò</th>
-                    <th>Trạng thái</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="u : ${users}">
-                    <td th:text="${u.id}"></td>
-                    <td th:text="${u.lastName}"></td>
-                    <td th:text="${u.firstName}"></td>
-                    <td th:text="${u.role}"></td>
-                    <td th:text="${u.isActive}"></td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- Nội dung chính -->
+    <div class="content-wrapper">
+        <div class="container">
+            <h1>QUẢN LÝ NGƯỜI DÙNG</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Họ Tên</th>
+                        <th>Tên</th>
+                        <th>Vai trò</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u : ${users}">
+                        <td th:text="${u.id}"></td>
+                        <td th:text="${u.lastName}"></td>
+                        <td th:text="${u.firstName}"></td>
+                        <td th:text="${u.role}"></td>
+                        <td th:text="${u.isActive}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div th:replace="base :: footer"></div>

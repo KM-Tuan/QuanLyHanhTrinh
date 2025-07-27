@@ -14,7 +14,6 @@
             overflow-x: hidden;
         }
 
-        /* Video nền fullscreen */
         #bg-video {
             position: fixed;
             top: 0;
@@ -25,21 +24,46 @@
             z-index: -1;
         }
 
-        /* Container bảng journey */
-        .container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 20px;
-            text-align: center;
+        .content-wrapper {
+            padding: 100px 20px 140px 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* Container chứa tiêu đề và cả 2 bảng */
+        .table-container {
             background-color: rgba(19, 16, 16, 0.85);
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        .table-container h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .tables-flex {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .single-table {
+            flex: 1;
+            max-width: 600px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
             background-color: transparent;
         }
 
@@ -48,6 +72,7 @@
             padding: 12px;
             text-align: center;
             background-color: rgba(30, 30, 30, 0.75);
+            color: #fff;
         }
 
         th {
@@ -70,22 +95,44 @@
 
     <div th:replace="base :: sidebar"></div>
 
-    <div class="container">
-        <h1>QUẢN LÝ TÀU HỎA</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tên</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="t : ${trains}">
-                    <td th:text="${t.id}"></td>
-                    <td th:text="${t.name}"></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="content-wrapper">
+        <div class="table-container">
+            <h1>DANH SÁCH TÀU HỎA</h1>
+            <div class="tables-flex">
+                <div class="single-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="t : ${trainList1}">
+                                <td th:text="${t.id}"></td>
+                                <td th:text="${t.name}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="single-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="t : ${trainList2}">
+                                <td th:text="${t.id}"></td>
+                                <td th:text="${t.name}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div th:replace="base :: footer"></div>

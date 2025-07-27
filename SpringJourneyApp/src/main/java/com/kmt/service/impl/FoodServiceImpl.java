@@ -4,31 +4,28 @@
  */
 package com.kmt.service.impl;
 
-import com.kmt.pojo.Journey;
-import com.kmt.repository.JourneyRepository;
-import com.kmt.service.JourneyService;
+import com.kmt.pojo.Food;
+import com.kmt.repository.FoodRepository;
+import com.kmt.service.FoodService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author kieum
  */
 @Service
-public class JourneyServiceImpl implements JourneyService {
+@Transactional
+public class FoodServiceImpl implements FoodService {
 
     @Autowired
-    private JourneyRepository jourRepo;
-
+    private FoodRepository foodRepo;
+    
     @Override
-    public List<Journey> getJours() {
-        return this.jourRepo.getJours();
-    }
-
-    @Override
-    public List<Journey> getJoursCompleted() {
-        return this.jourRepo.getJoursCompleted();
+    public List<Food> getFoods() {
+        return this.foodRepo.getFoods();
     }
 
 }

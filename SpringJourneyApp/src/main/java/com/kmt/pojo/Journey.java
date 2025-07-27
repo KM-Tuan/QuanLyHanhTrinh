@@ -8,6 +8,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -88,9 +90,9 @@ public class Journey implements Serializable {
     private Date totalTravelTime;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 9)
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private JourneyStatus status;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -109,7 +111,7 @@ public class Journey implements Serializable {
         this.id = id;
     }
 
-    public Journey(Integer id, String name, Train trainId, Station departureStationId, Station arrivalStationId, Date departureTime, Date arrivalTime, int totalDistance, Date totalTravelTime, String status) {
+    public Journey(Integer id, String name, Train trainId, Station departureStationId, Station arrivalStationId, Date departureTime, Date arrivalTime, int totalDistance, Date totalTravelTime, JourneyStatus status) {
         this.id = id;
         this.name = name;
         this.trainId = trainId;
@@ -194,11 +196,11 @@ public class Journey implements Serializable {
         this.totalTravelTime = totalTravelTime;
     }
 
-    public String getStatus() {
+    public JourneyStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(JourneyStatus status) {
         this.status = status;
     }
 
@@ -257,6 +259,10 @@ public class Journey implements Serializable {
     @Override
     public String toString() {
         return "com.kmt.pojo.Journey[ id=" + id + " ]";
+    }
+    
+    public enum JourneyStatus {
+        WAITING, RUNNING, COMPLETED
     }
 
 }

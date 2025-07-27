@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface JourneyRepository {
     List<Journey> getJours();
+    List<Journey> getJoursCompleted();
 }

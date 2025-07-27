@@ -4,14 +4,13 @@
  */
 package com.kmt.service;
 
-import com.kmt.pojo.Journey;
+import com.kmt.pojo.Food;
 import java.util.List;
 
 /**
  *
  * @author kieum
  */
-public interface JourneyService {
-    List<Journey> getJours();
-    List<Journey> getJoursCompleted();
+public interface FoodService {
+    List<Food> getFoods();
 }

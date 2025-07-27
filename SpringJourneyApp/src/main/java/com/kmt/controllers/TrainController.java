@@ -4,7 +4,9 @@
  */
 package com.kmt.controllers;
 
+import com.kmt.pojo.Train;
 import com.kmt.service.TrainService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,16 @@ public class TrainController {
     
     @RequestMapping("/trains")
     public String index(Model model) {
-        model.addAttribute("trains", this.trainSer.getTrains());
-        return "trains";
+        List<Train> allTrains = this.trainSer.getTrains();
+        int total = allTrains.size();
+        int mid = total / 2;
+
+        List<Train> trains1 = allTrains.subList(0, mid);
+        List<Train> trains2 = allTrains.subList(mid, total);
+
+        model.addAttribute("trainList1", trains1);
+        model.addAttribute("trainList2", trains2);
+
+        return "trains"; // Tên template HTML
     }
 }
