@@ -28,7 +28,7 @@ public class StationRepositoryImpl implements StationRepository {
     @Override
     public List<Station> getStas() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Station", Station.class);
+        Query q = s.createNamedQuery("Station.findAll", Station.class);
         return q.getResultList();
     }
 }

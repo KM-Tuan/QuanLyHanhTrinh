@@ -27,7 +27,7 @@ public class FoodRepositoryImpl implements FoodRepository {
 
     public List<Food> getFoods() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Food", Food.class);
+        Query q = s.createNamedQuery("Food.findAll", Food.class);
         return q.getResultList();
     }
 }

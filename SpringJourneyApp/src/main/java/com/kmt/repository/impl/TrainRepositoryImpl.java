@@ -28,7 +28,7 @@ public class TrainRepositoryImpl implements TrainRepository {
     @Override
     public List<Train> getTrains() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Train", Train.class);
+        Query q = s.createNamedQuery("Train.findAll", Train.class);
         return q.getResultList();
     }
 }

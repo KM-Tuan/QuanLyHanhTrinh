@@ -32,6 +32,7 @@ import java.util.Set;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
     @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
@@ -46,6 +47,11 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "username")
+    private String username;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -99,8 +105,9 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String password, UserRole role) {
+    public User(Integer id, String username, String password, UserRole role) {
         this.id = id;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
@@ -111,6 +118,14 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -281,9 +296,9 @@ public class User implements Serializable {
     public String toString() {
         return "com.kmt.pojo.User[ id=" + id + " ]";
     }
-    
+
     public enum UserRole {
         ADMIN, STAFF, PASSENGER
     }
-    
+
 }

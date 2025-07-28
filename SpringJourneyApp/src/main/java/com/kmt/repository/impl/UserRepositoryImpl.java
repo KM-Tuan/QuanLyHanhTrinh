@@ -20,13 +20,24 @@ import com.kmt.repository.UserRepository;
  */
 @Repository
 @Transactional
-public class UserRepositoryImpl implements UserRepository{
+public class UserRepositoryImpl implements UserRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
+    @Override
     public List<User> getUsers() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From User", User.class);
+        Query q = s.createNamedQuery("User.findAll", User.class);
         return q.getResultList();
     }
+
+    @Override
+    public User getUserByUsername(String username) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("User.findByUsername", User.class);
+        q.setParameter("username", username);
+        return (User) q.getSingleResult();
+    }
+
 }

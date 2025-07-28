@@ -28,14 +28,14 @@ public class JourneyRepositoryImpl implements JourneyRepository {
 
     public List<Journey> getJours() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Journey", Journey.class);
+        Query q = s.createNamedQuery("Journey.findAll", Journey.class);
         return q.getResultList();
     }
 
     @Override
     public List<Journey> getJoursCompleted() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query<Journey> q = s.createQuery("FROM Journey WHERE status = :status", Journey.class);
+        Query<Journey> q = s.createNamedQuery("Journey.findCompleted", Journey.class);
         q.setParameter("status", Journey.JourneyStatus.COMPLETED);
         return q.getResultList();
     }

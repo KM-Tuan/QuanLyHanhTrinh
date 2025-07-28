@@ -45,7 +45,8 @@ import java.util.Set;
     @NamedQuery(name = "Journey.findByTotalDistance", query = "SELECT j FROM Journey j WHERE j.totalDistance = :totalDistance"),
     @NamedQuery(name = "Journey.findByTotalTravelTime", query = "SELECT j FROM Journey j WHERE j.totalTravelTime = :totalTravelTime"),
     @NamedQuery(name = "Journey.findByStatus", query = "SELECT j FROM Journey j WHERE j.status = :status"),
-    @NamedQuery(name = "Journey.findByCreatedAt", query = "SELECT j FROM Journey j WHERE j.createdAt = :createdAt")})
+    @NamedQuery(name = "Journey.findByCreatedAt", query = "SELECT j FROM Journey j WHERE j.createdAt = :createdAt"),
+    @NamedQuery(name = "Journey.findCompleted", query = "SELECT j FROM Journey j WHERE j.status = :status")})
 public class Journey implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -260,7 +261,7 @@ public class Journey implements Serializable {
     public String toString() {
         return "com.kmt.pojo.Journey[ id=" + id + " ]";
     }
-    
+
     public enum JourneyStatus {
         WAITING, RUNNING, COMPLETED
     }
