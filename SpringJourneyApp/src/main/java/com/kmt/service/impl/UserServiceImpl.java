@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,20 @@ public class UserServiceImpl implements UserService {
         authorities.add(new SimpleGrantedAuthority("ROLE_" + u.getRole().name()));
         return new org.springframework.security.core.userdetails.User(
                 u.getUsername(), u.getPassword(), authorities);
+    }
+
+    @Override
+    public String getCurrentUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails userDetails) {
+            return userDetails.getUsername();
+        }
+        return null;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        String username = getCurrentUsername();
+        return username != null ? userRepo.getUserByUsername(username) : null;
     }
 }

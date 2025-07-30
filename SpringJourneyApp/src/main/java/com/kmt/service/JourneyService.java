@@ -14,4 +14,7 @@ import java.util.List;
 public interface JourneyService {
     List<Journey> getJours();
     List<Journey> getJoursCompleted();
+    void saveJourney(Journey journey);
+    boolean isNameExists(String name);
+    String generateRandomName();
 }

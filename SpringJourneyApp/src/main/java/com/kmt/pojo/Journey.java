@@ -24,8 +24,11 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Set;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -73,30 +76,29 @@ public class Journey implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "departure_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date departureTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime departureTime;
     @Basic(optional = false)
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "arrival_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date arrivalTime;
-    @Basic(optional = false)
+    private LocalDateTime arrivalTime;
     @NotNull
     @Column(name = "total_distance")
     private int totalDistance;
     @Basic(optional = false)
     @NotNull
+    @DateTimeFormat(pattern = "HH:mm:ss")
     @Column(name = "total_travel_time")
-    @Temporal(TemporalType.TIME)
-    private Date totalTravelTime;
+    private LocalTime totalTravelTime;
     @Basic(optional = false)
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private JourneyStatus status;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private LocalDateTime createdAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "journeyId")
     private Set<FoodOrder> foodOrderSet;
     @JoinColumn(name = "created_by", referencedColumnName = "id")
@@ -112,7 +114,7 @@ public class Journey implements Serializable {
         this.id = id;
     }
 
-    public Journey(Integer id, String name, Train trainId, Station departureStationId, Station arrivalStationId, Date departureTime, Date arrivalTime, int totalDistance, Date totalTravelTime, JourneyStatus status) {
+    public Journey(Integer id, String name, Train trainId, Station departureStationId, Station arrivalStationId, LocalDateTime departureTime, LocalDateTime arrivalTime, int totalDistance, LocalTime  totalTravelTime, JourneyStatus status) {
         this.id = id;
         this.name = name;
         this.trainId = trainId;
@@ -165,19 +167,19 @@ public class Journey implements Serializable {
         this.arrivalStationId = arrivalStationId;
     }
 
-    public Date getDepartureTime() {
+    public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Date departureTime) {
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
-    public Date getArrivalTime() {
+    public LocalDateTime getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(Date arrivalTime) {
+    public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
@@ -189,11 +191,11 @@ public class Journey implements Serializable {
         this.totalDistance = totalDistance;
     }
 
-    public Date getTotalTravelTime() {
+    public LocalTime getTotalTravelTime() {
         return totalTravelTime;
     }
 
-    public void setTotalTravelTime(Date totalTravelTime) {
+    public void setTotalTravelTime(LocalTime totalTravelTime) {
         this.totalTravelTime = totalTravelTime;
     }
 
@@ -205,11 +207,11 @@ public class Journey implements Serializable {
         this.status = status;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

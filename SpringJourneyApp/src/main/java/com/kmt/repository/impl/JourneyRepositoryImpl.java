@@ -5,6 +5,8 @@
 package com.kmt.repository.impl;
 
 import com.kmt.pojo.Journey;
+import com.kmt.pojo.Station;
+import com.kmt.pojo.Train;
 import com.kmt.repository.JourneyRepository;
 
 import java.util.List;
@@ -38,5 +40,33 @@ public class JourneyRepositoryImpl implements JourneyRepository {
         Query<Journey> q = s.createNamedQuery("Journey.findCompleted", Journey.class);
         q.setParameter("status", Journey.JourneyStatus.COMPLETED);
         return q.getResultList();
+    }
+
+    @Override
+    public void saveJourney(Journey journey) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        if (journey.getId() == null) {
+            s.persist(journey);
+        } else {
+            s.merge(journey);
+        }
+    }
+
+    @Override
+    public boolean isNameExists(String name) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query<Journey> q = s.createNamedQuery("Journey.findByName", Journey.class);
+        q.setParameter("name", name);
+        return !q.getResultList().isEmpty();
+    }
+
+    @Override
+    public Journey getJourneyByName(String name) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query<Journey> q = s.createNamedQuery("Journey.findByName", Journey.class);
+        q.setParameter("name", name);
+        List<Journey> list = q.getResultList();
+        return list.isEmpty() ? null : list.get(0);
     }
 }

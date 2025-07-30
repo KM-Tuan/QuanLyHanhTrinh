@@ -108,16 +108,24 @@
                         <td th:text="${j.trainId.name}"></td>
                         <td th:text="${j.departureStationId.name}"></td>
                         <td th:text="${j.arrivalStationId.name}"></td>
-                        <td th:text="${#dates.format(j.departureTime, 'HH:mm dd/MM/yyyy')}"></td>
-                        <td th:text="${#dates.format(j.arrivalTime, 'HH:mm dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(j.departureTime, 'HH:mm dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(j.arrivalTime, 'HH:mm dd/MM/yyyy')}"></td>
                         <td th:text="${j.totalDistance}"></td>
-                        <td th:text="${j.totalTravelTime}"></td>
+                        <td th:text="${#temporals.format(j.totalTravelTime, 'HH:mm:ss')}"></td>
                         <td th:text="${j.status}"></td>
-                        <td th:text="${#dates.format(j.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#temporals.format(j.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${j.createdBy.firstName}"></td>
                     </tr>
                 </tbody>
             </table>
+            <div style="margin-top: 20px; text-align: right;">
+                <a th:href="@{/journeys/add}"
+                   style="background-color: #28a745; color: white; padding: 10px 20px;
+                   text-decoration: none; border-radius: 6px; font-weight: bold;
+                   display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-plus-circle"></i> Thêm mới
+                </a>
+            </div>
         </div>
     </div>
 
