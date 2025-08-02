@@ -15,11 +15,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -32,7 +31,19 @@ import java.util.Date;
     @NamedQuery(name = "TrainRoute.findById", query = "SELECT t FROM TrainRoute t WHERE t.id = :id"),
     @NamedQuery(name = "TrainRoute.findByDistance", query = "SELECT t FROM TrainRoute t WHERE t.distance = :distance"),
     @NamedQuery(name = "TrainRoute.findByTravelTime", query = "SELECT t FROM TrainRoute t WHERE t.travelTime = :travelTime"),
-    @NamedQuery(name = "TrainRoute.findByStopOrder", query = "SELECT t FROM TrainRoute t WHERE t.stopOrder = :stopOrder")})
+    @NamedQuery(name = "TrainRoute.findByStopOrder", query = "SELECT t FROM TrainRoute t WHERE t.stopOrder = :stopOrder"),
+    // Trường hợp 1: ga đi và ga đến nằm trong cùng 1 đoạn (liền kề)
+    @NamedQuery(name = "TrainRoute.findTrainsByAdjacentStations", query = "SELECT DISTINCT tr.trainId FROM TrainRoute tr " + "WHERE tr.departureStationId.id = :departureStationId " + "AND tr.arrivalStationId.id = :arrivalStationId"),
+    // Trường hợp 2: ga đi và ga đến nằm ở 2 đoạn khác nhau (không liền kề)
+    @NamedQuery(name = "TrainRoute.findTrainsByStations", query = "SELECT DISTINCT tr1.trainId FROM TrainRoute tr1, TrainRoute tr2 " + "WHERE tr1.trainId = tr2.trainId " + "AND tr1.departureStationId.id = :departureStationId " + "AND tr2.arrivalStationId.id = :arrivalStationId " + "AND tr1.stopOrder < tr2.stopOrder"),
+    @NamedQuery(
+            name = "TrainRoute.findRoutesBetweenStations",
+            query = "SELECT tr FROM TrainRoute tr "
+            + "WHERE tr.trainId.id = :trainId "
+            + "AND tr.stopOrder >= (SELECT tr1.stopOrder FROM TrainRoute tr1 WHERE tr1.trainId.id = :trainId AND tr1.departureStationId.id = :departureStationId) "
+            + "AND tr.stopOrder <= (SELECT tr2.stopOrder FROM TrainRoute tr2 WHERE tr2.trainId.id = :trainId AND tr2.arrivalStationId.id = :arrivalStationId) "
+            + "ORDER BY tr.stopOrder ASC"
+    )})
 public class TrainRoute implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,9 +58,9 @@ public class TrainRoute implements Serializable {
     private int distance;
     @Basic(optional = false)
     @NotNull
+    @DateTimeFormat(pattern = "HH:mm:ss")
     @Column(name = "travel_time")
-    @Temporal(TemporalType.TIME)
-    private Date travelTime;
+    private LocalTime travelTime;
     @Basic(optional = false)
     @NotNull
     @Column(name = "stop_order")
@@ -71,7 +82,7 @@ public class TrainRoute implements Serializable {
         this.id = id;
     }
 
-    public TrainRoute(Integer id, int distance, Date travelTime, int stopOrder) {
+    public TrainRoute(Integer id, int distance, LocalTime travelTime, int stopOrder) {
         this.id = id;
         this.distance = distance;
         this.travelTime = travelTime;
@@ -94,11 +105,11 @@ public class TrainRoute implements Serializable {
         this.distance = distance;
     }
 
-    public Date getTravelTime() {
+    public LocalTime getTravelTime() {
         return travelTime;
     }
 
-    public void setTravelTime(Date travelTime) {
+    public void setTravelTime(LocalTime travelTime) {
         this.travelTime = travelTime;
     }
 
@@ -158,5 +169,5 @@ public class TrainRoute implements Serializable {
     public String toString() {
         return "com.kmt.pojo.TrainRoute[ id=" + id + " ]";
     }
-    
+
 }

@@ -27,5 +27,10 @@ public class StationServiceImpl implements StationService{
     public List<Station> getStas() {
         return this.staRepo.getStas();
     }
+
+    @Override
+    public Station getStationById(int id) {
+        return this.staRepo.getStationById(id);
+    }
     
 }

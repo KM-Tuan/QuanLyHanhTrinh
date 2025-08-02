@@ -28,4 +28,9 @@ public class TrainServiceImpl implements TrainService {
         return this.trainRepo.getTrains();
     }
 
+    @Override
+    public Train getTrainById(int id) {
+        return trainRepo.getTrainById(id);
+    }
+
 }

@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface TrainService {
     List<Train> getTrains();
+    Train getTrainById(int id);
 }

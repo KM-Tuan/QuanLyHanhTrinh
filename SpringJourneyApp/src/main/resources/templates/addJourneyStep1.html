@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chọn ga đi và ga đến</title>
+</head>
+<body>
+    <h2>Bước 1: Chọn ga đi và ga đến</h2>
+    <form th:action="@{/journeys/add/step2}" method="post">
+        <label>Departure Station:</label>
+        <select name="departureStationId" required>
+            <option th:each="s : ${stations}" th:value="${s.id}" th:text="${s.name}"></option>
+        </select><br/>
+
+        <label>Arrival Station:</label>
+        <select name="arrivalStationId" required>
+            <option th:each="s : ${stations}" th:value="${s.id}" th:text="${s.name}"></option>
+        </select><br/>
+
+        <button type="submit">Next</button>
+    </form>
+</body>
+</html>

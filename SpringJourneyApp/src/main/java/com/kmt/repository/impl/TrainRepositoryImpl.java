@@ -31,4 +31,13 @@ public class TrainRepositoryImpl implements TrainRepository {
         Query q = s.createNamedQuery("Train.findAll", Train.class);
         return q.getResultList();
     }
+
+    @Override
+    public Train getTrainById(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Query<Train> q = session.createNamedQuery("Train.findById", Train.class);
+        q.setParameter("id", id);
+        return q.getSingleResult();
+    }
+
 }

@@ -108,12 +108,12 @@
                         <td th:text="${j.trainId.name}"></td>
                         <td th:text="${j.departureStationId.name}"></td>
                         <td th:text="${j.arrivalStationId.name}"></td>
-                        <td th:text="${#dates.format(j.departureTime, 'HH:mm dd/MM/yyyy')}"></td>
-                        <td th:text="${#dates.format(j.arrivalTime, 'HH:mm dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(j.departureTime, 'HH:mm dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(j.arrivalTime, 'HH:mm dd/MM/yyyy')}"></td>
                         <td th:text="${j.totalDistance}"></td>
                         <td th:text="${j.totalTravelTime}"></td>
                         <td th:text="${j.status}"></td>
-                        <td th:text="${#dates.format(j.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#temporals.format(j.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${j.createdBy.firstName}"></td>
                     </tr>
                 </tbody>

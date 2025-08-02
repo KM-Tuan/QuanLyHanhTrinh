@@ -5,13 +5,14 @@
 package com.kmt.repository;
 
 import com.kmt.pojo.Train;
+import com.kmt.pojo.TrainRoute;
 import java.util.List;
 
 /**
  *
  * @author kieum
  */
-public interface TrainRepository {
-    List<Train> getTrains();
-    Train getTrainById(int id);
+public interface TrainRouteRepository {
+    List<Train> findTrainsByStations(int departureStationId, int arrivalStationId);
+    List<TrainRoute> findByTrainAndStations(int trainId, int departureStationId, int arrivalStationId);
 }

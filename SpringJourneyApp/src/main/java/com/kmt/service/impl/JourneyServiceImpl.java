@@ -5,8 +5,10 @@
 package com.kmt.service.impl;
 
 import com.kmt.pojo.Journey;
+import com.kmt.pojo.Train;
 import com.kmt.repository.JourneyRepository;
 import com.kmt.service.JourneyService;
+import com.kmt.service.TrainService;
 import java.util.List;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Autowired
     private JourneyRepository jourRepo;
+
+    @Autowired
+    private TrainService trainService;
 
     @Override
     public List<Journey> getJours() {

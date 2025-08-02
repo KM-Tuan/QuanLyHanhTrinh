@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Thông tin hành trình</title>
+    </head>
+    <body>
+        <h2>Bước 3: Nhập thông tin hành trình</h2>
+        <form th:action="@{/journeys/add/submit}" method="post">
+            <!-- Giữ lại các thông tin trước -->
+            <input type="hidden" name="departureStationId" th:value="${departureStationId}" />
+            <input type="hidden" name="arrivalStationId" th:value="${arrivalStationId}" />
+            <input type="hidden" name="trainId" th:value="${trainId}" />
+            <input type="hidden" name="departureTime" th:value="${departureTime}" />
+            <input type="hidden" name="arrivalTime" th:value="${arrivalTime}" />
+            <input type="hidden" name="totalDistance" th:value="${totalDistance}" />
+            <input type="hidden" name="totalTravelTime" th:value="${totalTravelTime}" />
+
+            <p>Arrival Time: <span th:text="${arrivalTime}"></span></p>
+
+            <p>Total Distance: <span th:text="${totalDistance} + ' km'"></span></p>
+
+            <p>Total Travel Time: 
+                <span th:text="${totalTravelTime}"></span>
+            </p>
+
+            <label>Status:</label>
+            <select name="status" required>
+                <option th:each="st : ${T(com.kmt.pojo.Journey.JourneyStatus).values()}"
+                        th:value="${st}" th:text="${st}"></option>
+            </select><br/>
+
+            <button type="submit">Thêm hành trình</button>
+        </form>
+    </body>
+</html>

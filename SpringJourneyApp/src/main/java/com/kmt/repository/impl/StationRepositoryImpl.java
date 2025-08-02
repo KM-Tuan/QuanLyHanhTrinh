@@ -31,4 +31,12 @@ public class StationRepositoryImpl implements StationRepository {
         Query q = s.createNamedQuery("Station.findAll", Station.class);
         return q.getResultList();
     }
+
+    @Override
+    public Station getStationById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query<Station> q = s.createNamedQuery("Station.findById", Station.class);
+        q.setParameter("id", id);
+        return q.getSingleResult();
+    }
 }

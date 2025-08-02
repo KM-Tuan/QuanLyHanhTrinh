@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface StationRepository {
     List<Station> getStas();
+    Station getStationById(int id);
 }

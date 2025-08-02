@@ -5,6 +5,7 @@
 package com.kmt.service;
 
 import com.kmt.pojo.Journey;
+import com.kmt.pojo.Train;
 import java.util.List;
 
 /**

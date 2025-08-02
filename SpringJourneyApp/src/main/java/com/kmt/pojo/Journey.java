@@ -19,14 +19,10 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -88,9 +84,8 @@ public class Journey implements Serializable {
     private int totalDistance;
     @Basic(optional = false)
     @NotNull
-    @DateTimeFormat(pattern = "HH:mm:ss")
     @Column(name = "total_travel_time")
-    private LocalTime totalTravelTime;
+    private String totalTravelTime;
     @Basic(optional = false)
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -114,7 +109,7 @@ public class Journey implements Serializable {
         this.id = id;
     }
 
-    public Journey(Integer id, String name, Train trainId, Station departureStationId, Station arrivalStationId, LocalDateTime departureTime, LocalDateTime arrivalTime, int totalDistance, LocalTime  totalTravelTime, JourneyStatus status) {
+    public Journey(Integer id, String name, Train trainId, Station departureStationId, Station arrivalStationId, LocalDateTime departureTime, LocalDateTime arrivalTime, int totalDistance, String totalTravelTime, JourneyStatus status) {
         this.id = id;
         this.name = name;
         this.trainId = trainId;
@@ -191,11 +186,11 @@ public class Journey implements Serializable {
         this.totalDistance = totalDistance;
     }
 
-    public LocalTime getTotalTravelTime() {
+    public String getTotalTravelTime() {
         return totalTravelTime;
     }
 
-    public void setTotalTravelTime(LocalTime totalTravelTime) {
+    public void setTotalTravelTime(String totalTravelTime) {
         this.totalTravelTime = totalTravelTime;
     }
 

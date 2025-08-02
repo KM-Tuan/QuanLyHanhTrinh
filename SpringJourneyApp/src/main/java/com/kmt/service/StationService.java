@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface StationService {
     List<Station> getStas();
+    Station getStationById(int id);
 }
