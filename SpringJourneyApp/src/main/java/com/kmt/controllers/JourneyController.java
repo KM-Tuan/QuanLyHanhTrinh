@@ -235,10 +235,6 @@ public class JourneyController {
             RedirectAttributes redirectAttributes) {
 
         Journey journey = jourSer.getJourneyById(id);
-        if (journey == null) {
-            redirectAttributes.addFlashAttribute("error", "Không tìm thấy hành trình để cập nhật!");
-            return "redirect:/journeys";
-        }
 
         LocalDateTime departureTime = LocalDateTime.parse(departureTimeStr);
         LocalDateTime arrivalTime = LocalDateTime.parse(arrivalTimeStr);
@@ -255,5 +251,25 @@ public class JourneyController {
 
         redirectAttributes.addFlashAttribute("success", "Cập nhật hành trình thành công!");
         return "redirect:/journeys";
+    }
+
+    @GetMapping("/journeys/delete/{id}")
+    public String deleteJourney(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+        Journey journey = jourSer.getJourneyById(id);
+
+        if (journey == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Hành trình không tồn tại!");
+        } else if ("RUNNING".equals(journey.getStatus().name())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa hành trình đang chạy!");
+        } else {
+            boolean deleted = jourSer.deleteJourneyById(id);
+            if (deleted) {
+                redirectAttributes.addFlashAttribute("successMessage", "Xóa hành trình thành công!");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Xóa thất bại!");
+            }
+        }
+
+        return "redirect:/journeys"; // Quay về danh sách
     }
 }

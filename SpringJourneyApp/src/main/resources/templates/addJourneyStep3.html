@@ -23,7 +23,8 @@
                 <span th:text="${totalTravelTime}"></span>
             </p>
 
-            <button type="submit">Thêm hành trình</button>
+            <button type="submit" th:if="${id == null}">Thêm hành trình</button>
+            <button type="submit" th:unless="${id == null}">Cập nhật hành trình</button>
         </form>
     </body>
 </html>

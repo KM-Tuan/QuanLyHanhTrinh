@@ -80,9 +80,18 @@ public class JourneyRepositoryImpl implements JourneyRepository {
 
     @Override
     public List<Journey> findByStatusNot(Journey.JourneyStatus status) {
-        Session session = factory.getObject().getCurrentSession();
-        Query<Journey> query = session.createNamedQuery("Journey.findByStatusNot", Journey.class);
-        query.setParameter("status", status);
-        return query.getResultList();
+        Session s = factory.getObject().getCurrentSession();
+        Query<Journey> q = s.createNamedQuery("Journey.findByStatusNot", Journey.class);
+        q.setParameter("status", status);
+        return q.getResultList();
+    }
+
+    @Override
+    public boolean deleteJourneyById(int id) {
+        Session s = factory.getObject().getCurrentSession();
+        int result = s.createNamedQuery("Journey.deleteById")
+                            .setParameter("id", id)
+                            .executeUpdate();
+        return result > 0;
     }
 }

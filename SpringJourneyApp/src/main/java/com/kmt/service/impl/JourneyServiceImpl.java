@@ -70,5 +70,10 @@ public class JourneyServiceImpl implements JourneyService {
     public Journey getJourneyById(int id) {
         return this.jourRepo.getJourneyById(id);
     }
+    
+    @Override
+    public boolean deleteJourneyById(int id) {
+        return this.jourRepo.deleteJourneyById(id);
+    }
 
 }
