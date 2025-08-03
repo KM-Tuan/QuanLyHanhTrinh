@@ -6,6 +6,7 @@ package com.kmt.repository;
 
 import com.kmt.pojo.Journey;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -21,4 +22,5 @@ public interface JourneyRepository {
     Journey getJourneyById(int id);
     List<Journey> findByStatusNot(Journey.JourneyStatus status);
     boolean deleteJourneyById(int id);
+    public List<Journey> searchJourneysByParams(Map<String, String> params);
 }

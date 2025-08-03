@@ -10,6 +10,7 @@ import com.kmt.repository.JourneyRepository;
 import com.kmt.service.JourneyService;
 import com.kmt.service.TrainService;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,6 +75,11 @@ public class JourneyServiceImpl implements JourneyService {
     @Override
     public boolean deleteJourneyById(int id) {
         return this.jourRepo.deleteJourneyById(id);
+    }
+
+    @Override
+    public List<Journey> searchJourneysByParams(Map<String, String> params) {
+        return this.jourRepo.searchJourneysByParams(params);
     }
 
 }

@@ -18,23 +18,23 @@ import org.springframework.transaction.annotation.Transactional;
  * @author kieum
  */
 @Service
-@Transactional
 public class JourneyStatusScheduler {
 
     @Autowired
     private JourneyService journeySer;
 
     private static final int SPEED_MULTIPLIER = 60; // 1 phút thực = 1 giây giả
+    private LocalDateTime simulatedNow = LocalDateTime.now(); // bắt đầu từ thời điểm thực
 
     @Scheduled(fixedRate = 5000)
     public void updateJourneyStatuses() {
-        LocalDateTime now = LocalDateTime.now().plusMinutes(SPEED_MULTIPLIER); // giả lập thời gian trôi nhanh hơn
+        simulatedNow = simulatedNow.plusMinutes(SPEED_MULTIPLIER); // tăng thêm 60 phút mỗi lần
         List<Journey> journeys = journeySer.getAllJourneysNotCompleted();
 
         for (Journey j : journeys) {
-            if (now.isBefore(j.getDepartureTime())) {
+            if (simulatedNow.isBefore(j.getDepartureTime())) {
                 j.setStatus(Journey.JourneyStatus.WAITTING);
-            } else if (now.isAfter(j.getArrivalTime())) {
+            } else if (simulatedNow.isAfter(j.getArrivalTime())) {
                 j.setStatus(Journey.JourneyStatus.COMPLETED);
             } else {
                 j.setStatus(Journey.JourneyStatus.RUNNING);

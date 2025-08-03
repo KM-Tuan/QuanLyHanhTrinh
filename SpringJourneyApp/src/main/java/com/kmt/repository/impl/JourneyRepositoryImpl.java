@@ -8,8 +8,14 @@ import com.kmt.pojo.Journey;
 import com.kmt.pojo.Station;
 import com.kmt.pojo.Train;
 import com.kmt.repository.JourneyRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Map;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,8 +96,46 @@ public class JourneyRepositoryImpl implements JourneyRepository {
     public boolean deleteJourneyById(int id) {
         Session s = factory.getObject().getCurrentSession();
         int result = s.createNamedQuery("Journey.deleteById")
-                            .setParameter("id", id)
-                            .executeUpdate();
+                .setParameter("id", id)
+                .executeUpdate();
         return result > 0;
+    }
+
+    @Override
+    public List<Journey> searchJourneysByParams(Map<String, String> params) {
+        Session s = factory.getObject().getCurrentSession();
+        CriteriaBuilder cb = s.getCriteriaBuilder();
+        CriteriaQuery<Journey> q = cb.createQuery(Journey.class);
+        Root<Journey> journey = q.from(Journey.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        String name = params.get("name");
+        if (name != null && !name.isEmpty()) {
+            predicates.add(cb.like(cb.lower(journey.get("name")), "%" + name.toLowerCase() + "%"));
+        }
+
+        String trainName = params.get("trainName");
+        if (trainName != null && !trainName.isEmpty()) {
+            predicates.add(cb.like(cb.lower(journey.get("trainId").get("name")), "%" + trainName.toLowerCase() + "%"));
+        }
+
+        String departureStationName = params.get("departureStationName");
+        if (departureStationName != null && !departureStationName.isEmpty()) {
+            predicates.add(cb.like(cb.lower(journey.get("departureStationId").get("name")), "%" + departureStationName.toLowerCase() + "%"));
+        }
+
+        String arrivalStationName = params.get("arrivalStationName");
+        if (arrivalStationName != null && !arrivalStationName.isEmpty()) {
+            predicates.add(cb.like(cb.lower(journey.get("arrivalStationId").get("name")), "%" + arrivalStationName.toLowerCase() + "%"));
+        }
+
+        String status = params.get("status");
+        if (status != null && !status.isEmpty()) {
+            predicates.add(cb.equal(cb.lower(journey.get("status").as(String.class)), status.toLowerCase()));
+        }
+
+        q.select(journey).where(predicates.toArray(new Predicate[0]));
+        return s.createQuery(q).getResultList();
     }
 }

@@ -28,12 +28,48 @@
         /* Wrapper căn giữa nội dung chính */
         .content-wrapper {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             padding-top: 100px;      /* tránh header che */
             padding-bottom: 140px;   /* tránh footer che */
             min-height: 100vh;
             box-sizing: border-box;
+        }
+
+        /* Form tìm kiếm (Grid 2 hàng 3 cột) */
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            background-color: rgba(19, 16, 16, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+        }
+
+        .search-form input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background-color: rgba(30,30,30,0.75);
+            color: white;
+        }
+
+        .search-form input::placeholder {
+            color: #bbb;
+        }
+
+        .search-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-buttons .btn {
+            width: 100%;
         }
 
         /* Container bảng journey */
@@ -82,6 +118,47 @@
 
     <!-- Nội dung chính -->
     <div class="content-wrapper">
+
+        <!-- Form tìm kiếm -->
+        <form th:action="@{/journeys}" method="get" class="search-form">
+            <!-- Tên hành trình -->
+            <input type="text" name="name"
+                   placeholder="Tên hành trình"
+                   th:value="${param.name}" />
+
+            <!-- Tên tàu -->
+            <input type="text" name="trainName"
+                   placeholder="Tên tàu"
+                   th:value="${param.trainName}" />
+
+            <!-- Ga đi -->
+            <input type="text" name="departureStationName"
+                   placeholder="Ga đi"
+                   th:value="${param.departureStationName}" />
+
+            <!-- Ga đến -->
+            <input type="text" name="arrivalStationName"
+                   placeholder="Ga đến"
+                   th:value="${param.arrivalStationName}" />
+
+            <!-- Trạng thái -->
+            <select name="status" class="form-control">
+                <option value="">-- Chọn trạng thái --</option>
+                <option th:each="s : ${status}"
+                        th:value="${s}"
+                        th:text="${s}"
+                        th:selected="${param.status == s}">
+                </option>
+            </select>
+
+            <!-- Nút tìm kiếm và reset -->
+            <div class="search-buttons">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                <a th:href="@{/journeys}" class="btn btn-secondary">Reset</a>
+            </div>
+        </form>
+
+        <!-- Danh sách hành trình -->
         <div class="container">
             <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <span th:text="${successMessage}"></span>
@@ -92,6 +169,7 @@
                 <span th:text="${errorMessage}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+
             <h1>DANH SÁCH CÁC HÀNH TRÌNH</h1>
             <table>
                 <thead>
@@ -140,6 +218,7 @@
                     </tr>
                 </tbody>
             </table>
+
             <div style="margin-top: 20px; text-align: right;">
                 <a th:href="@{/journeys/add/step1}"
                    style="background-color: #28a745; color: white; padding: 10px 20px;

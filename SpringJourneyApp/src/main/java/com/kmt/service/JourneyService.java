@@ -7,6 +7,7 @@ package com.kmt.service;
 import com.kmt.pojo.Journey;
 import com.kmt.pojo.Train;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,4 +22,5 @@ public interface JourneyService {
     String generateRandomName();
     List<Journey> getAllJourneysNotCompleted();
     boolean deleteJourneyById(int id);
+    public List<Journey> searchJourneysByParams(Map<String, String> params);
 }
