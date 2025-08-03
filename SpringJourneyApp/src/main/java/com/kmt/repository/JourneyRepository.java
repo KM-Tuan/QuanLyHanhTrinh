@@ -15,8 +15,9 @@ import java.util.List;
 public interface JourneyRepository {
     List<Journey> getJours();
     List<Journey> getJoursCompleted();
-    void saveJourney(Journey journey);
+    void addOrUpdateJourney(Journey journey);
     boolean isNameExists(String name);
     Journey getJourneyByName(String name);
+    Journey getJourneyById(int id);
     List<Journey> findByStatusNot(Journey.JourneyStatus status);
 }

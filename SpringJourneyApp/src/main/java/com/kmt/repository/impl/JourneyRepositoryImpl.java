@@ -43,7 +43,7 @@ public class JourneyRepositoryImpl implements JourneyRepository {
     }
 
     @Override
-    public void saveJourney(Journey journey) {
+    public void addOrUpdateJourney(Journey journey) {
         Session s = this.factory.getObject().getCurrentSession();
 
         if (journey.getId() == null) {
@@ -68,6 +68,14 @@ public class JourneyRepositoryImpl implements JourneyRepository {
         q.setParameter("name", name);
         List<Journey> list = q.getResultList();
         return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public Journey getJourneyById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query<Journey> q = s.createNamedQuery("Journey.findById", Journey.class);
+        q.setParameter("id", id);
+        return q.getSingleResult();
     }
 
     @Override

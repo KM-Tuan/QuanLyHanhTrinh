@@ -51,7 +51,8 @@ public class SpringSecurityConfigs {
                 .authorizeHttpRequests(requests
                         -> requests.requestMatchers("/", "/journeys", "/foods", "/stations", "/trains", "/users",
                         "/journeys/add", "/journeys/add/step1", "/journeys/add/step2", "/journeys/add/step3",
-                        "/journeys/add/submit"
+                        "/journeys/add/submit", "/journeys/add/{id}/step1", "/journeys/add/{id}/step2",
+                        "/journeys/add/{id}/step3", "/journeys/add/{id}/submit"
                 ).hasRole("ADMIN"))
                 .formLogin(form -> form.loginPage("/login")
                 .loginProcessingUrl("/login")

@@ -99,6 +99,7 @@
                         <th>Trạng thái</th>
                         <th>Ngày tạo</th>
                         <th>Người tạo</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -115,6 +116,13 @@
                         <td th:text="${j.status}"></td>
                         <td th:text="${#temporals.format(j.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${j.createdBy.firstName}"></td>
+                        <td>
+                            <a th:if="${j.status.name() == 'WAITTING'}"
+                               th:href="@{/journeys/add/{id}/step1(id=${j.id})}"
+                               class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

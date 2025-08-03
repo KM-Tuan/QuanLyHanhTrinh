@@ -39,7 +39,7 @@ public class JourneyStatusScheduler {
             } else {
                 j.setStatus(Journey.JourneyStatus.RUNNING);
             }
-            journeySer.saveJourney(j);
+            journeySer.addOrUpdateJourney(j);
         }
     }
 }

@@ -40,8 +40,8 @@ public class JourneyServiceImpl implements JourneyService {
     }
 
     @Override
-    public void saveJourney(Journey journey) {
-        this.jourRepo.saveJourney(journey);
+    public void addOrUpdateJourney(Journey journey) {
+        this.jourRepo.addOrUpdateJourney(journey);
     }
 
     @Override
@@ -63,7 +63,12 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Override
     public List<Journey> getAllJourneysNotCompleted() {
-        return jourRepo.findByStatusNot(Journey.JourneyStatus.COMPLETED);
+        return this.jourRepo.findByStatusNot(Journey.JourneyStatus.COMPLETED);
+    }
+
+    @Override
+    public Journey getJourneyById(int id) {
+        return this.jourRepo.getJourneyById(id);
     }
 
 }

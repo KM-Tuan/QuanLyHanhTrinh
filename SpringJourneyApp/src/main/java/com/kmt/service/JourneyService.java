@@ -15,7 +15,8 @@ import java.util.List;
 public interface JourneyService {
     List<Journey> getJours();
     List<Journey> getJoursCompleted();
-    void saveJourney(Journey journey);
+    Journey getJourneyById(int id);
+    void addOrUpdateJourney(Journey journey);
     boolean isNameExists(String name);
     String generateRandomName();
     List<Journey> getAllJourneysNotCompleted();

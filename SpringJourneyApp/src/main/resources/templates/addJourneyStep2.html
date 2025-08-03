@@ -5,19 +5,27 @@
     </head>
     <body>
         <h2>Bước 2: Chọn tàu</h2>
-        <form th:action="@{/journeys/add/step3}" method="post">
+        <form th:action="${id != null} ? @{/journeys/add/{id}/step3(id=${id})} : @{/journeys/add/step3}" method="post">
             <!-- Giữ lại thông tin ga đi và ga đến dưới dạng hidden -->
             <input type="hidden" name="departureStationId" th:value="${departureStationId}" />
             <input type="hidden" name="arrivalStationId" th:value="${arrivalStationId}" />
 
             <label>Train:</label>
             <select name="trainId" required>
-                <option th:each="t : ${trains}" th:value="${t.id}" th:text="${t.name}"></option>
+                <option th:each="t : ${trains}" 
+                        th:value="${t.id}" 
+                        th:text="${t.name}" 
+                        th:selected="${journey != null and journey.trainId != null and t.id == journey.trainId.id}">
+                </option>
             </select>
+
             <label>Departure Time:</label>
-            <input type="datetime-local" name="departureTime" required/>
+            <input type="datetime-local" name="departureTime"
+                   th:value="${journey != null ? #temporals.format(journey.departureTime, 'yyyy-MM-dd''T''HH:mm') : ''}" required />
+
 
             <button type="submit">Next</button>
         </form>
+
     </body>
 </html>
