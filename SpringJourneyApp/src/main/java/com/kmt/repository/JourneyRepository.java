@@ -18,4 +18,5 @@ public interface JourneyRepository {
     void saveJourney(Journey journey);
     boolean isNameExists(String name);
     Journey getJourneyByName(String name);
+    List<Journey> findByStatusNot(Journey.JourneyStatus status);
 }

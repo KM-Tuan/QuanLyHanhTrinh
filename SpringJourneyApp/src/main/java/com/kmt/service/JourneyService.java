@@ -18,4 +18,5 @@ public interface JourneyService {
     void saveJourney(Journey journey);
     boolean isNameExists(String name);
     String generateRandomName();
+    List<Journey> getAllJourneysNotCompleted();
 }

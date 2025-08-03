@@ -13,12 +13,14 @@ import java.util.List;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author kieum
  */
 @Service
+@Transactional
 public class JourneyServiceImpl implements JourneyService {
 
     @Autowired
@@ -56,8 +58,12 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Override
     public boolean isNameExists(String name) {
-        // Dùng repository trực tiếp để check, tối ưu hơn
         return this.jourRepo.isNameExists(name);
+    }
+
+    @Override
+    public List<Journey> getAllJourneysNotCompleted() {
+        return jourRepo.findByStatusNot(Journey.JourneyStatus.COMPLETED);
     }
 
 }

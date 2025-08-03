@@ -108,7 +108,7 @@ public class JourneyController {
         model.addAttribute("arrivalTime", arrivalTime.format(formatter));
         model.addAttribute("totalDistance", totalDistance);
         model.addAttribute("totalTravelTime", formattedTime);  // Dùng String cho hiển thị
-        model.addAttribute("statuses", Journey.JourneyStatus.values());
+//        model.addAttribute("statuses", Journey.JourneyStatus.values());
 
         return "addJourneyStep3";
     }
@@ -122,21 +122,32 @@ public class JourneyController {
             @RequestParam("arrivalTime") String arrivalTimeStr,
             @RequestParam("totalDistance") int totalDistance,
             @RequestParam("totalTravelTime") String totalTravelTimeStr,
-            @RequestParam("status") String statusStr,
+//            @RequestParam("status") String statusStr, // có thể bỏ nếu không nhập từ form
             RedirectAttributes redirectAttributes) {
+
+        LocalDateTime departureTime = LocalDateTime.parse(departureTimeStr);
+        LocalDateTime arrivalTime = LocalDateTime.parse(arrivalTimeStr);
+        LocalDateTime now = LocalDateTime.now();
 
         Journey journey = new Journey();
         journey.setDepartureStationId(staSer.getStationById(departureId));
         journey.setArrivalStationId(staSer.getStationById(arrivalId));
         journey.setTrainId(trainSer.getTrainById(trainId));
-        journey.setDepartureTime(LocalDateTime.parse(departureTimeStr));
-        journey.setArrivalTime(LocalDateTime.parse(arrivalTimeStr));
+        journey.setDepartureTime(departureTime);
+        journey.setArrivalTime(arrivalTime);
         journey.setTotalDistance(totalDistance);
         journey.setTotalTravelTime(totalTravelTimeStr);
-        journey.setStatus(Journey.JourneyStatus.valueOf(statusStr));
         journey.setName(jourSer.generateRandomName());
-        journey.setCreatedAt(LocalDateTime.now());
+        journey.setCreatedAt(now);
         journey.setCreatedBy(userService.getCurrentUser());
+
+        if (now.isBefore(departureTime)) {
+            journey.setStatus(Journey.JourneyStatus.WAITTING);
+        } else if (now.isAfter(arrivalTime)) {
+            journey.setStatus(Journey.JourneyStatus.COMPLETED);
+        } else {
+            journey.setStatus(Journey.JourneyStatus.RUNNING);
+        }
 
         jourSer.saveJourney(journey);
 

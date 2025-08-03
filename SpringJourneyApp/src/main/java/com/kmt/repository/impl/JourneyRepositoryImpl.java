@@ -69,4 +69,12 @@ public class JourneyRepositoryImpl implements JourneyRepository {
         List<Journey> list = q.getResultList();
         return list.isEmpty() ? null : list.get(0);
     }
+
+    @Override
+    public List<Journey> findByStatusNot(Journey.JourneyStatus status) {
+        Session session = factory.getObject().getCurrentSession();
+        Query<Journey> query = session.createNamedQuery("Journey.findByStatusNot", Journey.class);
+        query.setParameter("status", status);
+        return query.getResultList();
+    }
 }
