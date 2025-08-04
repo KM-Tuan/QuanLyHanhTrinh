@@ -21,6 +21,6 @@ public interface JourneyService {
     boolean isNameExists(String name);
     String generateRandomName();
     List<Journey> getAllJourneysNotCompleted();
-    boolean deleteJourneyById(int id);
+    void deleteJourneyById(int id);
     public List<Journey> searchJourneysByParams(Map<String, String> params);
 }

@@ -73,8 +73,8 @@ public class JourneyServiceImpl implements JourneyService {
     }
     
     @Override
-    public boolean deleteJourneyById(int id) {
-        return this.jourRepo.deleteJourneyById(id);
+    public void deleteJourneyById(int id) {
+        this.jourRepo.deleteJourneyById(id);
     }
 
     @Override

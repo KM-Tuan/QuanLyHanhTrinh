@@ -4,14 +4,20 @@
  */
 package com.kmt.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.kmt.pojo.Passenger;
 import com.kmt.pojo.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.kmt.repository.UserRepository;
 import com.kmt.service.UserService;
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Override
     public List<User> getUsers() {
@@ -67,5 +76,20 @@ public class UserServiceImpl implements UserService {
     public User getCurrentUser() {
         String username = getCurrentUsername();
         return username != null ? userRepo.getUserByUsername(username) : null;
+    }
+
+    @Override
+    public void addOrUpdateUser(User user) {
+        if (!user.getFile().isEmpty()) {
+            try {
+                Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto"));
+                user.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        this.userRepo.addOrUpdateUser(user);
     }
 }

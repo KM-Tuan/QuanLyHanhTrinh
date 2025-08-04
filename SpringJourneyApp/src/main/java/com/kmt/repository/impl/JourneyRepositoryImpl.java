@@ -93,12 +93,10 @@ public class JourneyRepositoryImpl implements JourneyRepository {
     }
 
     @Override
-    public boolean deleteJourneyById(int id) {
+    public void deleteJourneyById(int id) {
         Session s = factory.getObject().getCurrentSession();
-        int result = s.createNamedQuery("Journey.deleteById")
-                .setParameter("id", id)
-                .executeUpdate();
-        return result > 0;
+        Journey j = this.getJourneyById(id);
+        s.remove(j);
     }
 
     @Override

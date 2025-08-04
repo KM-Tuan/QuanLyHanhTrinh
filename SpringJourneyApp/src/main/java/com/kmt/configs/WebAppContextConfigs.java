@@ -5,11 +5,13 @@
 package com.kmt.configs;
 
 import com.kmt.formatters.JourneyFormatter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -37,6 +39,11 @@ public class WebAppContextConfigs implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new JourneyFormatter());
+    }
+    
+    @Bean
+    public StandardServletMultipartResolver multipartResolver() { //Cấu hình bean hỗ trợ upload file trong Spring MVC.
+        return new StandardServletMultipartResolver(); //Cho phép controller dùng @RequestParam("file") MultipartFile file
     }
 
 }

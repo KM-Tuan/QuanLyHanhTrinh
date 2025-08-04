@@ -4,6 +4,7 @@
  */
 package com.kmt.repository.impl;
 
+import com.kmt.pojo.Journey;
 import com.kmt.pojo.User;
 import jakarta.persistence.Query;
 import java.util.List;
@@ -38,6 +39,17 @@ public class UserRepositoryImpl implements UserRepository {
         Query q = s.createNamedQuery("User.findByUsername", User.class);
         q.setParameter("username", username);
         return (User) q.getSingleResult();
+    }
+    
+    @Override
+    public void addOrUpdateUser(User user) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        if (user.getId() == null) {
+            s.persist(user);
+        } else {
+            s.merge(user);
+        }
     }
 
 }

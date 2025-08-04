@@ -18,10 +18,12 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -97,6 +99,8 @@ public class User implements Serializable {
     private Phone phone;
     @OneToOne(mappedBy = "userId")
     private Email email;
+    @Transient
+    private MultipartFile file;
 
     public User() {
     }
@@ -299,6 +303,20 @@ public class User implements Serializable {
 
     public enum UserRole {
         ADMIN, STAFF, PASSENGER
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
 }

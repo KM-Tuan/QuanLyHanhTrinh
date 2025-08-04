@@ -21,6 +21,6 @@ public interface JourneyRepository {
     Journey getJourneyByName(String name);
     Journey getJourneyById(int id);
     List<Journey> findByStatusNot(Journey.JourneyStatus status);
-    boolean deleteJourneyById(int id);
+    void deleteJourneyById(int id);
     public List<Journey> searchJourneysByParams(Map<String, String> params);
 }
