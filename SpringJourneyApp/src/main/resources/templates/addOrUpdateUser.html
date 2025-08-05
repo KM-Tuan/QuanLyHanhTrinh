@@ -83,18 +83,29 @@
         <div class="form-container">
             <h2>Thêm / Cập nhật Người Dùng</h2>
             <form th:action="@{/user/add/submit}" th:object="${user}" method="post" enctype="multipart/form-data">
+                <!-- Username -->
                 <label>Username:</label>
                 <input type="text" th:field="*{username}" required />
 
+                <!-- Password -->
                 <label>Password:</label>
                 <input type="password" th:field="*{password}" required />
 
+                <!-- Họ và Tên -->
                 <label>Họ:</label>
                 <input type="text" th:field="*{lastName}" />
-
                 <label>Tên:</label>
                 <input type="text" th:field="*{firstName}" />
 
+                <!-- Email -->
+                <label>Email:</label>
+                <input type="email" name="emailAddress" />
+
+                <!-- Phone -->
+                <label>Số điện thoại:</label>
+                <input type="text" name="phoneNumber" />
+
+                <!-- Vai trò -->
                 <label>Vai trò:</label>
                 <select th:field="*{role}">
                     <option value="ADMIN">ADMIN</option>
@@ -102,12 +113,14 @@
                     <option value="PASSENGER">PASSENGER</option>
                 </select>
 
+                <!-- Trạng thái -->
                 <label>Trạng thái:</label>
                 <select th:field="*{isActive}">
                     <option value="true">Hoạt động</option>
                     <option value="false">Không hoạt động</option>
                 </select>
 
+                <!-- Avatar -->
                 <label>Avatar:</label>
                 <input type="file" th:field="*{file}" />
 

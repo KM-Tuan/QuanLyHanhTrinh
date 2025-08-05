@@ -4,9 +4,8 @@
  */
 package com.kmt.repository.impl;
 
-import com.kmt.pojo.Journey;
 import com.kmt.pojo.User;
-import jakarta.persistence.Query;
+import org.hibernate.query.Query;
 import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +41,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
     
     @Override
+    public User getUserById(int id) {
+    Session s = this.factory.getObject().getCurrentSession();
+    Query<User> q = s.createNamedQuery("User.findById", User.class);
+    q.setParameter("id", id);
+    return q.getSingleResult();
+}
+
+    @Override
     public void addOrUpdateUser(User user) {
         Session s = this.factory.getObject().getCurrentSession();
 
@@ -50,6 +57,13 @@ public class UserRepositoryImpl implements UserRepository {
         } else {
             s.merge(user);
         }
+    }
+
+    @Override
+    public void deleteUserById(int id) {
+        Session s = factory.getObject().getCurrentSession();
+        User u = this.getUserById(id);
+        s.remove(u);
     }
 
 }

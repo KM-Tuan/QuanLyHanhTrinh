@@ -73,6 +73,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(int id) {
+        return this.userRepo.getUserById(id);
+    }
+
+    @Override
     public User getCurrentUser() {
         String username = getCurrentUsername();
         return username != null ? userRepo.getUserByUsername(username) : null;
@@ -91,5 +96,10 @@ public class UserServiceImpl implements UserService {
         }
         
         this.userRepo.addOrUpdateUser(user);
+    }
+
+    @Override
+    public void deleteUserById(int id) {
+        this.userRepo.deleteUserById(id);
     }
 }

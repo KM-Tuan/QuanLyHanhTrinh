@@ -95,9 +95,9 @@ public class User implements Serializable {
     private Set<FoodLike> foodLikeSet;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Passenger passenger;
-    @OneToOne(mappedBy = "userId")
+    @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL)
     private Phone phone;
-    @OneToOne(mappedBy = "userId")
+    @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL)
     private Email email;
     @Transient
     private MultipartFile file;

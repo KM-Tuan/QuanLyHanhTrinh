@@ -5,8 +5,6 @@
 package com.kmt.repository.impl;
 
 import com.kmt.pojo.Journey;
-import com.kmt.pojo.Station;
-import com.kmt.pojo.Train;
 import com.kmt.repository.JourneyRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
