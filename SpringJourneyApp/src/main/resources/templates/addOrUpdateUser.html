@@ -83,13 +83,16 @@
         <div class="form-container">
             <h2>Thêm / Cập nhật Người Dùng</h2>
             <form th:action="@{/user/add/submit}" th:object="${user}" method="post" enctype="multipart/form-data">
-                <!-- Username -->
-                <label>Username:</label>
-                <input type="text" th:field="*{username}" required />
+                <input type="hidden" th:field="*{id}" />
+                <div th:if="${user.password == null}">
+                    <!-- Username -->
+                    <label>Username:</label>
+                    <input type="text" th:field="*{username}" required />
 
-                <!-- Password -->
-                <label>Password:</label>
-                <input type="password" th:field="*{password}" required />
+                    <!-- Password -->
+                    <label>Password:</label>
+                    <input type="password" th:field="*{password}" required />
+                </div>
 
                 <!-- Họ và Tên -->
                 <label>Họ:</label>
@@ -99,11 +102,11 @@
 
                 <!-- Email -->
                 <label>Email:</label>
-                <input type="email" name="emailAddress" />
+                <input type="email" th:field="*{email.email}" />
 
                 <!-- Phone -->
                 <label>Số điện thoại:</label>
-                <input type="text" name="phoneNumber" />
+                <input type="text" th:field="*{phone.phone}" />
 
                 <!-- Vai trò -->
                 <label>Vai trò:</label>
@@ -123,8 +126,12 @@
                 <!-- Avatar -->
                 <label>Avatar:</label>
                 <input type="file" th:field="*{file}" />
+                <div th:if="${user.avatar != null}">
+                    <img th:src="@{${user.avatar}}" alt="Avatar" style="width: 120px; height: auto; margin-top: 10px; border-radius: 8px; display: block;" />
+                </div>
 
-                <button type="submit">Lưu</button>
+                <button type="submit" th:if="${user.id == null}">Lưu</button>
+                <button type="submit" th:unless="${user.id == null}">Cập nhật</button>
             </form>
         </div>
     </div>

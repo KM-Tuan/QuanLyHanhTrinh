@@ -85,17 +85,60 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addOrUpdateUser(User user) {
-        if (!user.getFile().isEmpty()) {
-            try {
-                Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
-                        ObjectUtils.asMap("resource_type", "auto"));
-                user.setAvatar(res.get("secure_url").toString());
-            } catch (IOException ex) {
-                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if (user.getId() != null) { // Trường hợp update
+            User existingUser = this.userRepo.getUserById(user.getId());
+
+            // Nếu có file mới upload -> cập nhật avatar
+            if (user.getFile() != null && !user.getFile().isEmpty()) {
+                try {
+                    Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
+                            ObjectUtils.asMap("resource_type", "auto"));
+                    existingUser.setAvatar(res.get("secure_url").toString());
+                } catch (IOException ex) {
+                    Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+
+            // Cập nhật các trường khác
+            existingUser.setFirstName(user.getFirstName());
+            existingUser.setLastName(user.getLastName());
+            existingUser.setRole(user.getRole());
+            existingUser.setIsActive(user.getIsActive());
+
+            // Xử lý email
+            if (user.getEmail() != null) {
+                if (existingUser.getEmail() == null) {
+                    existingUser.setEmail(user.getEmail());
+                } else {
+                    existingUser.getEmail().setEmail(user.getEmail().getEmail());
+                }
+                existingUser.getEmail().setUserId(existingUser);
+            }
+
+            // Xử lý phone
+            if (user.getPhone() != null) {
+                if (existingUser.getPhone() == null) {
+                    existingUser.setPhone(user.getPhone());
+                } else {
+                    existingUser.getPhone().setPhone(user.getPhone().getPhone());
+                }
+                existingUser.getPhone().setUserId(existingUser);
+            }
+
+            this.userRepo.addOrUpdateUser(existingUser);
+        } else { // Trường hợp thêm mới
+            if (user.getFile() != null && !user.getFile().isEmpty()) {
+                try {
+                    Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
+                            ObjectUtils.asMap("resource_type", "auto"));
+                    user.setAvatar(res.get("secure_url").toString());
+                } catch (IOException ex) {
+                    Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            this.userRepo.addOrUpdateUser(user);
         }
-        
-        this.userRepo.addOrUpdateUser(user);
     }
 
     @Override

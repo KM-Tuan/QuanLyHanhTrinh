@@ -52,7 +52,7 @@ public class UserController {
     @GetMapping("/users/delete/{id}")
     public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         User user = userSer.getUserById(id);
-        
+
         userSer.deleteUserById(id);
         redirectAttributes.addFlashAttribute("successMessage", "Xóa user thành công!");
 
@@ -60,26 +60,55 @@ public class UserController {
     }
 
     @PostMapping("/user/add/submit")
-    public String addOrUpdateUser(@ModelAttribute("user") User user, @RequestParam("emailAddress") String emailAddress, @RequestParam("phoneNumber") String phoneNumber) {
+    public String addOrUpdateUser(@ModelAttribute("user") User user) {
+        if (user.getId() != null) {
+            User u = userSer.getUserById(user.getId());
 
-        // Mã hóa mật khẩu
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+            if (u.getEmail() != null) {
+                // Nếu user có Email rồi, không tạo mới, mà cập nhật email
+                if (user.getEmail() != null) {
+                    u.getEmail().setEmail(user.getEmail().getEmail());
+                    user.setEmail(u.getEmail()); // Gán lại email hiện có để tránh tạo mới
+                }
+            }
 
-        // Gán Email và Phone cho User
-        Email email = new Email();
-        email.setEmail(emailAddress);
-        email.setUserId(user);
+            if (u.getPhone() != null) {
+                if (user.getPhone() != null) {
+                    u.getPhone().setPhone(user.getPhone().getPhone());
+                    user.setPhone(u.getPhone());
+                }
+            }
 
-        Phone phone = new Phone();
-        phone.setPhone(phoneNumber);
-        phone.setUserId(user);
+            // Giữ lại mật khẩu, username cũ
+            user.setPassword(u.getPassword());
+            user.setUsername(u.getUsername());
+        } else {
+            // Mã hóa mật khẩu user mới
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
 
-        user.setEmail(email);
-        user.setPhone(phone);
+        // Set quan hệ 2 chiều
+        if (user.getEmail() != null) {
+            user.getEmail().setUserId(user);
+        }
+        if (user.getPhone() != null) {
+            user.getPhone().setUserId(user);
+        }
 
         userSer.addOrUpdateUser(user);
 
+        userSer.addOrUpdateUser(user);
         return "redirect:/users";
+    }
+
+    @GetMapping("/users/add/{id}")
+    public String updateUser(@PathVariable("id") int id, Model model) {
+        User user = userSer.getUserById(id);
+        if (user == null) {
+            return "redirect:/users"; // Nếu không tìm thấy user, quay về danh sách
+        }
+        model.addAttribute("user", user);
+        return "addOrUpdateUser";
     }
 
 }
