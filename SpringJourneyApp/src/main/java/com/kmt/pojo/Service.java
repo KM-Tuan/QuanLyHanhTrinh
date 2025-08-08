@@ -34,7 +34,8 @@ import java.util.Set;
     @NamedQuery(name = "Service.findById", query = "SELECT s FROM Service s WHERE s.id = :id"),
     @NamedQuery(name = "Service.findByName", query = "SELECT s FROM Service s WHERE s.name = :name"),
     @NamedQuery(name = "Service.findByImage", query = "SELECT s FROM Service s WHERE s.image = :image"),
-    @NamedQuery(name = "Service.findByIsActive", query = "SELECT s FROM Service s WHERE s.isActive = :isActive")})
+    @NamedQuery(name = "Service.findByIsActive", query = "SELECT s FROM Service s WHERE s.isActive = :isActive"),
+    @NamedQuery(name = "Service.findByStationId", query = "SELECT s FROM Service s WHERE s.stationId.id = :stationId")})
 public class Service implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -178,5 +179,5 @@ public class Service implements Serializable {
     public String toString() {
         return "com.kmt.pojo.Service[ id=" + id + " ]";
     }
-    
+
 }

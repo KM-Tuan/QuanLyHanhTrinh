@@ -81,16 +81,21 @@
 
     <div class="content-wrapper">
         <div class="form-container">
-            <h2>Thêm / Cập nhật Người Dùng</h2>
-            <form th:action="@{/user/add/submit}" th:object="${user}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/users/add/submit}" th:object="${user}" method="post" enctype="multipart/form-data">
+                <h2 th:if="${user.id == null}">THÊM USER</h2>
+                <h2 th:unless="${user.id == null}">CẬP NHẬT USER</h2>
                 <input type="hidden" th:field="*{id}" />
                 <div th:if="${user.password == null}">
                     <!-- Username -->
-                    <label>Username:</label>
+                    <label>Tên đăng nhập</label>
                     <input type="text" th:field="*{username}" required />
 
                     <!-- Password -->
-                    <label>Password:</label>
+                    <label>Mật kẩu</label>
+                    <input type="password" th:field="*{password}" required />
+                    
+                    <!-- Confirm Password -->
+                    <label>Xác nhận mật khẩu</label>
                     <input type="password" th:field="*{password}" required />
                 </div>
 
@@ -130,7 +135,7 @@
                     <img th:src="@{${user.avatar}}" alt="Avatar" style="width: 120px; height: auto; margin-top: 10px; border-radius: 8px; display: block;" />
                 </div>
 
-                <button type="submit" th:if="${user.id == null}">Lưu</button>
+                <button type="submit" th:if="${user.id == null}">Thêm</button>
                 <button type="submit" th:unless="${user.id == null}">Cập nhật</button>
             </form>
         </div>

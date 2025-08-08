@@ -4,16 +4,13 @@
  */
 package com.kmt.service;
 
-import com.kmt.pojo.Station;
+import com.kmt.pojo.Service;
 import java.util.List;
 
 /**
  *
  * @author kieum
  */
-public interface StationService {
-    List<Station> getStas();
-    Station getStationById(int id);
-    void addOrUpdateStation(Station s);
-    void deleteStationById(int id);
+public interface ServiceService {
+    List<Service> getServicesByStationId(int stationId);
 }

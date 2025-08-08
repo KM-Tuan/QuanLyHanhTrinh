@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -51,7 +50,6 @@ public class UserController {
 
     @GetMapping("/users/delete/{id}")
     public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
-        User user = userSer.getUserById(id);
 
         userSer.deleteUserById(id);
         redirectAttributes.addFlashAttribute("successMessage", "Xóa user thành công!");
@@ -59,8 +57,8 @@ public class UserController {
         return "redirect:/users"; // Quay về danh sách
     }
 
-    @PostMapping("/user/add/submit")
-    public String addOrUpdateUser(@ModelAttribute("user") User user) {
+    @PostMapping("/users/add/submit")
+    public String addUser(@ModelAttribute("user") User user) {
         if (user.getId() != null) {
             User u = userSer.getUserById(user.getId());
 

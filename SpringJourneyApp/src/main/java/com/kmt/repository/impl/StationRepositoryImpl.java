@@ -39,4 +39,22 @@ public class StationRepositoryImpl implements StationRepository {
         q.setParameter("id", id);
         return q.getSingleResult();
     }
+
+    @Override
+    public void addOrUpdateStation(Station station) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        if (station.getId() == null) {
+            s.persist(station);
+        } else {
+            s.merge(station);
+        }
+    }
+    
+    @Override
+    public void deleteStationById(int id) {
+        Session s = factory.getObject().getCurrentSession();
+        Station station = this.getStationById(id);
+        s.remove(station);
+    }
 }

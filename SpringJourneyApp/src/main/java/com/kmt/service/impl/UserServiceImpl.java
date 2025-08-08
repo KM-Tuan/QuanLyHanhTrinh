@@ -6,7 +6,6 @@ package com.kmt.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.kmt.pojo.Passenger;
 import com.kmt.pojo.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

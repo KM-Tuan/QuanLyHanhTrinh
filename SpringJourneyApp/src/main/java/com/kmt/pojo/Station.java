@@ -15,10 +15,12 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -57,12 +59,15 @@ public class Station implements Serializable {
     private Set<TrainRoute> trainRouteSet1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stationId")
     private Set<Service> serviceSet;
-    
+
     @OneToMany(mappedBy = "departureStationId")
     private Set<Journey> departures;
 
     @OneToMany(mappedBy = "arrivalStationId")
     private Set<Journey> arrivals;
+
+    @Transient
+    private MultipartFile file;
 
     public Station() {
     }
@@ -156,6 +161,20 @@ public class Station implements Serializable {
     @Override
     public String toString() {
         return "com.kmt.pojo.Station[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
 }
