@@ -60,7 +60,8 @@ public class SpringSecurityConfigs {
                         "/journeys/add/submit", "/journeys/add/{id}/step1", "/journeys/add/{id}/step2",
                         "/journeys/add/{id}/step3", "/journeys/add/{id}/submit", "/journeys/delete/{id}",
                         "/users/add", "/users/add/{id}", "/users/add/submit", "/users/delete/{id}",
-                        "/stations/add", "/stations/add/{id}", "/stations/add/submit", "/stations/delete/{id}"
+                        "/stations/add", "/stations/add/{id}", "/stations/add/submit", "/stations/delete/{id}",
+                        "/services/add/{stationId}", "/services/add/submit", "/services/delete/{id}/{stationId}"
                 ).hasRole("ADMIN"))
                 .formLogin(form -> form.loginPage("/login")
                 .loginProcessingUrl("/login")

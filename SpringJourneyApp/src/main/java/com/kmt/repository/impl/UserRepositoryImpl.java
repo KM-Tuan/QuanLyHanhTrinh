@@ -39,14 +39,14 @@ public class UserRepositoryImpl implements UserRepository {
         q.setParameter("username", username);
         return (User) q.getSingleResult();
     }
-    
+
     @Override
     public User getUserById(int id) {
-    Session s = this.factory.getObject().getCurrentSession();
-    Query<User> q = s.createNamedQuery("User.findById", User.class);
-    q.setParameter("id", id);
-    return q.getSingleResult();
-}
+        Session s = this.factory.getObject().getCurrentSession();
+        Query<User> q = s.createNamedQuery("User.findById", User.class);
+        q.setParameter("id", id);
+        return q.getSingleResult();
+    }
 
     @Override
     public void addOrUpdateUser(User user) {

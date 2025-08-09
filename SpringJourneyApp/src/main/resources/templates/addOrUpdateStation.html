@@ -140,8 +140,12 @@
             </form>
         </div>
 
-        <!-- DANH SÁCH DỊCH VỤ -->
+        <!--DANH SÁCH DỊCH VỤ -->
         <div th:if="${station.id != null}" class="services-wrapper">
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <h3 style="text-align:center; margin-top: 40px; color: white;">DANH SÁCH DỊCH VỤ TẠI GA</h3>
             <table class="service-table">
                 <thead>
@@ -162,13 +166,13 @@
                         </td>
                         <td th:text="${s.isActive} ? 'Có' : 'Không'">Trạng thái</td>
                         <td>
-                            <!-- Link chỉnh sửa -->
+                            <!--Link chỉnh sửa--> 
                             <a th:href="@{'/'}"
                                class="btn btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <!-- Link xóa -->
-                            <a th:href="@{'/'}"
+                            <!--Link xóa--> 
+                            <a th:href="@{/services/delete/{id}/{stationId}(id=${s.id}, stationId=${station.id})}"
                                class="btn btn-sm btn-danger"
                                onclick="return confirm('Bạn có chắc chắn muốn xóa dịch vụ này?');">
                                 <i class="fa fa-trash"></i>
@@ -177,6 +181,14 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <a th:href="@{/services/add/{stationId}(stationId=${station.id})}" 
+                   class="btn btn-primary" 
+                   style="padding: 10px 20px; border-radius: 6px; color: white; text-decoration: none;">
+                    Thêm mới dịch vụ
+                </a>
+            </div>
         </div>
     </div>
 

@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Thêm mới dịch vụ</title>
+    </head>
+    <body>
+        <h2>Thêm mới dịch vụ cho ga <span th:text="${station.name}"></span></h2>
+
+        <form th:action="@{/services/add/submit}" method="post" enctype="multipart/form-data" th:object="${service}">
+            <input type="hidden" name="stationIdValue" th:value="${station.id}" />
+
+            <label>Tên dịch vụ:</label>
+            <input type="text" th:field="*{name}" required />
+
+            <label>Mô tả:</label>
+            <input type="text" th:field="*{description}" />
+
+            <label>Ảnh:</label>
+            <input type="file" th:field="*{file}" />
+
+            <label>Trạng thái hoạt động:</label>
+            <select th:field="*{isActive}">
+                <option value="true">Có</option>
+                <option value="false">Không</option>
+            </select>
+
+            <button type="submit">Thêm</button>
+        </form>
+    </body>
+</html>

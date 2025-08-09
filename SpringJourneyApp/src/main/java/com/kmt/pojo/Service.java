@@ -18,10 +18,12 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -56,10 +58,8 @@ public class Service implements Serializable {
     @Size(max = 255)
     @Column(name = "image")
     private String image;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "is_active")
-    private boolean isActive;
+    private Boolean isActive;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serviceId")
     private Set<ServiceComment> serviceCommentSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serviceId")
@@ -69,6 +69,9 @@ public class Service implements Serializable {
     @JoinColumn(name = "station_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Station stationId;
+    
+    @Transient
+    private MultipartFile file;
 
     public Service() {
     }
@@ -115,11 +118,11 @@ public class Service implements Serializable {
         this.image = image;
     }
 
-    public boolean getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(boolean isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 
@@ -178,6 +181,20 @@ public class Service implements Serializable {
     @Override
     public String toString() {
         return "com.kmt.pojo.Service[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
 }

@@ -13,4 +13,7 @@ import java.util.List;
  */
 public interface ServiceService {
     List<Service> getServicesByStationId(int stationId);
+    Service getServiceById(int id);
+    void deleteServiceById(int id);
+    void addOrUpdateService(Service ser, int stationId);
 }

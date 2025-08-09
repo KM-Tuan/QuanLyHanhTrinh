@@ -34,4 +34,30 @@ public class ServiceRepositoryImpl implements ServiceRepository {
         return q.getResultList();
     }
 
+    @Override
+    public Service getServiceById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query<Service> q = s.createNamedQuery("Service.findById", Service.class);
+        q.setParameter("id", id);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public void addOrUpdateService(Service ser) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        if (ser.getId() == null) {
+            s.persist(ser);
+        } else {
+            s.merge(ser);
+        }
+    }
+
+    @Override
+    public void deleteServiceById(int id) {
+        Session s = factory.getObject().getCurrentSession();
+        Service u = this.getServiceById(id);
+        s.remove(u);
+    }
+
 }
