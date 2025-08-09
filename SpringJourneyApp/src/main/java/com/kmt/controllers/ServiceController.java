@@ -39,6 +39,16 @@ public class ServiceController {
         return "addOrUpdateService";
     }
 
+    @GetMapping("/services/add/{id}/{stationId}")
+    public String editServiceForm(@PathVariable("id") int id, @PathVariable("stationId") int stationId, Model model) {
+        Service service = serSer.getServiceById(id);
+        Station station = staSer.getStationById(stationId);
+
+        model.addAttribute("service", service);
+        model.addAttribute("station", station);
+        return "addOrUpdateService";
+    }
+
     @PostMapping("/services/add/submit")
     public String addService(@ModelAttribute Service service, @RequestParam("stationIdValue") int stationId) {
         // Xử lý upload file và lưu service
@@ -47,9 +57,7 @@ public class ServiceController {
     }
 
     @GetMapping("/services/delete/{id}/{stationId}")
-    public String deleteService(@PathVariable("id") int id,
-            @PathVariable("stationId") int stationId,
-            RedirectAttributes redirectAttributes) {
+    public String deleteService(@PathVariable("id") int id, @PathVariable("stationId") int stationId, RedirectAttributes redirectAttributes) {
         serSer.deleteServiceById(id);
         redirectAttributes.addFlashAttribute("successMessage", "Xóa dịch vụ thành công!");
         return "redirect:/stations/add/" + stationId;

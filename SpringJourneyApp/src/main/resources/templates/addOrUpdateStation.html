@@ -167,7 +167,7 @@
                         <td th:text="${s.isActive} ? 'Có' : 'Không'">Trạng thái</td>
                         <td>
                             <!--Link chỉnh sửa--> 
-                            <a th:href="@{'/'}"
+                            <a th:href="@{/services/add/{id}/{stationId}(id=${s.id}, stationId=${station.id})}"
                                class="btn btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>
                             </a>

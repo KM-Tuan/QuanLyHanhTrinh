@@ -4,10 +4,11 @@
         <title>Thêm mới dịch vụ</title>
     </head>
     <body>
-        <h2>Thêm mới dịch vụ cho ga <span th:text="${station.name}"></span></h2>
-
         <form th:action="@{/services/add/submit}" method="post" enctype="multipart/form-data" th:object="${service}">
+            <h2 th:if="${service.id == null}">THÊM DỊCH VỤ</h2>
+            <h2 th:unless="${service.id == null}">CẬP NHẬT DỊCH VỤ</h2>
             <input type="hidden" name="stationIdValue" th:value="${station.id}" />
+            <input type="hidden" th:field="*{id}" />
 
             <label>Tên dịch vụ:</label>
             <input type="text" th:field="*{name}" required />
@@ -18,13 +19,18 @@
             <label>Ảnh:</label>
             <input type="file" th:field="*{file}" />
 
+            <div th:if="${service.image != null}">
+                <img th:src="@{${service.image}}" alt="Hình dịch vụ" style="width: 300px; margin-top: 10px; border-radius: 8px;" />
+            </div>
+
             <label>Trạng thái hoạt động:</label>
             <select th:field="*{isActive}">
                 <option value="true">Có</option>
                 <option value="false">Không</option>
             </select>
 
-            <button type="submit">Thêm</button>
+            <button type="submit" th:if="${service.id == null}">Thêm</button>
+            <button type="submit" th:unless="${service.id == null}">Cập nhật</button>
         </form>
     </body>
 </html>
