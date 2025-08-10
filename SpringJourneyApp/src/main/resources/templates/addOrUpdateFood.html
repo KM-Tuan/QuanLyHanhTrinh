@@ -1,0 +1,139 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    <div th:replace="base :: title"></div>
+    <block th:replace="base :: styles"></block>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px;
+            padding-bottom: 140px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .form-container {
+            background-color: rgba(19, 16, 16, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .btn-submit {
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
+    </video>
+
+    <div th:replace="base :: header"></div>
+    <div th:replace="base :: sidebar"></div>
+
+    <div class="content-wrapper">
+        <div class="form-container">
+
+            <h1 th:text="${food.id == null ? 'THÊM MỚI' : 'CẬP NHẬT'}"></h1>
+
+            <form th:action="@{/foods/add/submit}" th:object="${food}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}"/>
+
+                <label for="name">Tên món ăn</label>
+                <input type="text" th:field="*{name}" placeholder="Nhập tên món ăn" required/>
+
+                <label for="description">Mô tả</label>
+                <textarea th:field="*{description}" placeholder="Nhập mô tả món ăn"></textarea>
+
+                <label for="price">Giá</label>
+                <input type="number" th:field="*{price}" placeholder="Nhập giá" min="0" step="0.01" required/>
+
+                <label for="quantity">Số lượng</label>
+                <input type="number" th:field="*{quantity}" placeholder="Nhập số lượng" min="0" required/>
+
+                <label for="categoryId.id">Danh mục</label>
+                <select th:field="*{categoryId.id}" required>
+                    <option value="">-- Chọn danh mục --</option>
+                    <option th:each="c : ${categories}" 
+                            th:value="${c.id}" 
+                            th:text="${c.name}"></option>
+                </select>
+
+                <label for="file">Ảnh minh họa</label>
+                <input type="file" th:field="*{file}" accept="image/*" />
+
+                <!-- Hiển thị ảnh hiện tại nếu đang ở chế độ cập nhật -->
+                <div th:if="${food.image != null}">
+                    <p>Ảnh hiện tại:</p>
+                    <img th:src="@{${food.image}}" alt="Ảnh món ăn" style="max-width: 100%; border-radius: 8px;"/>
+                </div>
+
+                <button type="submit" class="btn-submit">Lưu</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="base :: footer"></div>
+</body>
+</html>

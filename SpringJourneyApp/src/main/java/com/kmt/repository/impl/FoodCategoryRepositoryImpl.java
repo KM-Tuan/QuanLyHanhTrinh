@@ -4,8 +4,8 @@
  */
 package com.kmt.repository.impl;
 
-import com.kmt.pojo.Food;
-import com.kmt.repository.FoodRepository;
+import com.kmt.pojo.FoodCategory;
+import com.kmt.repository.FoodCategoryRepository;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -20,41 +20,24 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class FoodRepositoryImpl implements FoodRepository {
+public class FoodCategoryRepositoryImpl implements FoodCategoryRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
 
     @Override
-    public void addOrUpdateFood(Food f) {
+    public List<FoodCategory> getCate() {
         Session s = this.factory.getObject().getCurrentSession();
-
-        if (f.getId() == null) {
-            s.persist(f);
-        } else {
-            s.merge(f);
-        }
-    }
-    
-    @Override
-    public Food getFoodById(int id) {
-        Session s = this.factory.getObject().getCurrentSession();
-        Query<Food> q = s.createNamedQuery("Food.findById", Food.class);
-        q.setParameter("id", id);
-        return q.getSingleResult();
-    }
-
-    public List<Food> getFoods() {
-        Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("Food.findAll", Food.class);
+        Query q = s.createNamedQuery("FoodCategory.findAll", FoodCategory.class);
         return q.getResultList();
     }
 
     @Override
-    public void deleteFoodById(int id) {
+    public FoodCategory getCategoryById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        Food f = this.getFoodById(id);
-        s.remove(f);
+        Query<FoodCategory> q = s.createNamedQuery("FoodCategory.findById", FoodCategory.class);
+        q.setParameter("id", id);
+        return q.getSingleResult();
     }
-    
+
 }

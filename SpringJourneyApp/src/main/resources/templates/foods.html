@@ -60,7 +60,7 @@
             flex: 1;
             max-width: 600px;
         }
-        
+
         .single-table h3 {
             text-align: center;
             margin-bottom: 10px;
@@ -102,6 +102,12 @@
 
     <div class="content-wrapper">
         <div class="table-container">
+
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <h1>DANH SÁCH MENU</h1>
             <div class="tables-flex">
                 <div class="single-table">
@@ -109,14 +115,30 @@
                     <table>
                         <thead>
                             <tr>
+                            <tr>
                                 <th>ID</th>
                                 <th>Tên</th>
+                                <th>Hành động</th>
+                            </tr>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="d : ${drinks}">
                                 <td th:text="${d.id}"></td>
                                 <td th:text="${d.name}"></td>
+                                <td>
+                                    <!-- Link chỉnh sửa -->
+                                    <a th:href="@{/foods/add/{id}(id=${d.id})}"
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <!-- Link xóa -->
+                                    <a th:href="@{/foods/delete/{id}(id=${d.id})}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Bạn có chắc chắn muốn xóa món này?');">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -128,15 +150,39 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Tên</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="f : ${foods}">
                                 <td th:text="${f.id}"></td>
                                 <td th:text="${f.name}"></td>
+                                <td>
+                                    <!-- Link chỉnh sửa -->
+                                    <a th:href="@{/foods/add/{id}(id=${f.id})}"
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <!-- Link xóa -->
+                                    <a th:href="@{/foods/delete/{id}(id=${f.id})}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Bạn có chắc chắn muốn xóa món này?');">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <div style="margin-top: 20px; text-align: right;">
+                        <a th:href="@{/foods/add}"
+                           style="background-color: #28a745; color: white; padding: 10px 20px;
+                           text-decoration: none; border-radius: 6px; font-weight: bold;
+                           display: inline-flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-plus-circle"></i> Thêm mới
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>

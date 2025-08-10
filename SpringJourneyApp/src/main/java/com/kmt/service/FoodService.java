@@ -13,4 +13,7 @@ import java.util.List;
  */
 public interface FoodService {
     List<Food> getFoods();
+    Food getFoodById(int id);
+    void addOrUpdateFood(Food food, int categoryId);
+    void deleteFoodById(int id);
 }

@@ -4,16 +4,14 @@
  */
 package com.kmt.repository;
 
-import com.kmt.pojo.Food;
+import com.kmt.pojo.FoodCategory;
 import java.util.List;
 
 /**
  *
  * @author kieum
  */
-public interface FoodRepository {
-    List<Food> getFoods();
-    void addOrUpdateFood(Food f);
-    Food getFoodById(int id);
-    void deleteFoodById(int id);
+public interface FoodCategoryRepository {
+    List<FoodCategory> getCate();
+    FoodCategory getCategoryById(int id);
 }
