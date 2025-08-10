@@ -55,14 +55,15 @@ public class SpringSecurityConfigs {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests
-                        -> requests.requestMatchers("/", "/journeys", "/foods", "/stations", "/trains", "/users",
+                        -> requests.requestMatchers("/", "/journeys", "/foods", "/stations", "/trains", "/users", "/addChoice",
                         "/journeys/add", "/journeys/add/step1", "/journeys/add/step2", "/journeys/add/step3",
                         "/journeys/add/submit", "/journeys/add/{id}/step1", "/journeys/add/{id}/step2",
                         "/journeys/add/{id}/step3", "/journeys/add/{id}/submit", "/journeys/delete/{id}",
                         "/users/add", "/users/add/{id}", "/users/add/submit", "/users/delete/{id}",
                         "/stations/add", "/stations/add/{id}", "/stations/add/submit", "/stations/delete/{id}",
                         "/services/add/{stationId}", "/services/add/{id}/{stationId}", "/services/add/submit", "/services/delete/{id}/{stationId}",
-                        "/foods/add", "/foods/add/{id}", "/foods/add/submit", "/foods/delete/{id}"
+                        "/foods/add", "/foods/add/{id}", "/foods/add/submit", "/foods/delete/{id}",
+                        "/foodcategory/add", "/foodcategory/add/{id}", "/foodcategory/add/submit", "/foodcategory/delete/{id}"
                 ).hasRole("ADMIN"))
                 .formLogin(form -> form.loginPage("/login")
                 .loginProcessingUrl("/login")

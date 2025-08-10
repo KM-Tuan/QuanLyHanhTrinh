@@ -1,0 +1,104 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    <div th:replace="base :: title"></div>
+    <block th:replace="base :: styles"></block>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 100px;
+            padding-bottom: 140px;
+            box-sizing: border-box;
+        }
+
+        .choice-container {
+            background-color: rgba(19, 16, 16, 0.85);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .choice-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 250px;
+            height: 80px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: transform 0.2s ease, color 0.2s ease;
+            background-color: #000000;  /* Nền đen */
+            color: #800080;             /* Chữ tím */
+            border: 2px solid #800080;  /* viền tím cho nổi bật */
+        }
+
+        .choice-btn:hover {
+            transform: scale(1.05);
+            color: #bf40bf;             /* Chữ tím sáng hơn */
+            background-color: #000000;  /* Giữ nền đen khi hover */
+            border-color: #bf40bf;      /* Viền tím sáng hơn */
+            cursor: pointer;
+        }
+
+        .choice-btn i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video nền -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
+    </video>
+
+    <div th:replace="base :: header"></div>
+    <div th:replace="base :: sidebar"></div>
+
+    <div class="content-wrapper">
+        <div class="choice-container">
+            <a th:href="@{/foods/add}" class="choice-btn menu-btn">
+                <i class="fas fa-utensils"></i> Thực đơn
+            </a>
+            <a th:href="@{/foodcategory/add}" class="choice-btn category-btn">
+                <i class="fas fa-burger"></i> Danh mục
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="base :: footer"></div>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>

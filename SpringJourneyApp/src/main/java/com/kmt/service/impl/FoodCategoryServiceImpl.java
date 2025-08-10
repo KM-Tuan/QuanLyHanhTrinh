@@ -33,4 +33,14 @@ public class FoodCategoryServiceImpl implements FoodCategoryService {
         return this.cateRepo.getCategoryById(id);
     }
 
+    @Override
+    public void addOrUpdateCategory(FoodCategory fc) {
+        this.cateRepo.addOrUpdateCategory(fc);
+    }
+
+    @Override
+    public void deleteCategoryById(int id) {
+        this.cateRepo.deleteCategoryById(id);
+    }
+
 }

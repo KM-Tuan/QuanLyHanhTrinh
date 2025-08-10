@@ -40,4 +40,22 @@ public class FoodCategoryRepositoryImpl implements FoodCategoryRepository {
         return q.getSingleResult();
     }
 
+    @Override
+    public void addOrUpdateCategory(FoodCategory fc) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        if (fc.getId() == null) {
+            s.persist(fc);
+        } else {
+            s.merge(fc);
+        }
+    }
+
+    @Override
+    public void deleteCategoryById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        FoodCategory fc = this.getCategoryById(id);
+        s.remove(fc);
+    }
+
 }

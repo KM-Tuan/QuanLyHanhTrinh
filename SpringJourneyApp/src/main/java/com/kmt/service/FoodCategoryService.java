@@ -14,4 +14,6 @@ import java.util.List;
 public interface FoodCategoryService {
     List<FoodCategory> getCate();
     FoodCategory getCategoryById(int id);
+    void addOrUpdateCategory(FoodCategory fc);
+    void deleteCategoryById(int id);
 }

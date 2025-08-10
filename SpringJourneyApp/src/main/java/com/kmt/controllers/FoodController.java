@@ -49,6 +49,11 @@ public class FoodController {
         return "foods";
     }
 
+    @GetMapping("/addChoice")
+    public String showAddChoicePage() {
+        return "addChoice"; // tên file .html trong templates
+    }
+
     @GetMapping("/foods/add")
     public String addFood(Model model) {
         model.addAttribute("food", new Food());
