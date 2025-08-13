@@ -6,7 +6,9 @@ package com.kmt.service;
 
 import com.kmt.pojo.User;
 import java.util.List;
+import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -20,4 +22,5 @@ public interface UserService extends UserDetailsService{
     String getCurrentUsername();
     void addOrUpdateUser(User user);
     void deleteUserById(int id);
+    User register(Map<String, String> params, MultipartFile avatar);
 }

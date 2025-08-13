@@ -4,6 +4,7 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -75,22 +76,29 @@ public class User implements Serializable {
     private UserRole role;
     @Column(name = "is_active")
     private Boolean isActive;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<ServiceComment> serviceCommentSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<FoodOrder> foodOrderSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<FoodComment> foodCommentSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdBy")
     private Set<Journey> journeySet;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Admin admin;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<ServiceOrder> serviceOrderSet;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Staff staff;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<ServiceLike> serviceLikeSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<FoodLike> foodLikeSet;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
@@ -99,6 +107,7 @@ public class User implements Serializable {
     private Phone phone;
     @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL)
     private Email email;
+    @JsonIgnore
     @Transient
     private MultipartFile file;
 

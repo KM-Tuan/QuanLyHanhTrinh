@@ -17,4 +17,5 @@ public interface UserRepository {
     User getUserById(int id);
     void addOrUpdateUser(User user);
     void deleteUserById(int id);
+    User register(User u);
 }

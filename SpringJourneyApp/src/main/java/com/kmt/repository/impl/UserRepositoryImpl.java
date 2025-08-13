@@ -66,4 +66,13 @@ public class UserRepositoryImpl implements UserRepository {
         s.remove(u);
     }
 
+    @Override
+    public User register(User u) {
+        Session s = factory.getObject().getCurrentSession();
+        s.persist(u);
+        
+        s.refresh(u);
+        return u;
+    }
+
 }
