@@ -6,6 +6,7 @@ package com.kmt.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.kmt.filters.JwtFilter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -32,12 +34,16 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @ComponentScan(basePackages = {
     "com.kmt.controllers",
     "com.kmt.repository",
-    "com.kmt.service"
+    "com.kmt.service",
+    "com.kmt.filters"
 })
 public class SpringSecurityConfigs {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
@@ -54,19 +60,22 @@ public class SpringSecurityConfigs {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(requests
-                        -> requests
-                        .requestMatchers("/api/users").permitAll()
-                        .requestMatchers("/", "/journeys", "/foods", "/stations", "/trains", "/users", "/addChoice",
-                                "/journeys/add", "/journeys/add/step1", "/journeys/add/step2", "/journeys/add/step3",
-                                "/journeys/add/submit", "/journeys/add/{id}/step1", "/journeys/add/{id}/step2",
-                                "/journeys/add/{id}/step3", "/journeys/add/{id}/submit", "/journeys/delete/{id}",
-                                "/users/add", "/users/add/{id}", "/users/add/submit", "/users/delete/{id}",
-                                "/stations/add", "/stations/add/{id}", "/stations/add/submit", "/stations/delete/{id}",
-                                "/services/add/{stationId}", "/services/add/{id}/{stationId}", "/services/add/submit", "/services/delete/{id}/{stationId}",
-                                "/foods/add", "/foods/add/{id}", "/foods/add/submit", "/foods/delete/{id}",
-                                "/foodcategory/add", "/foodcategory/add/{id}", "/foodcategory/add/submit", "/foodcategory/delete/{id}"
-                        ).hasRole("ADMIN"))
+                .authorizeHttpRequests(requests -> requests
+                .requestMatchers("/api/users", "/api/login"
+                ).permitAll()
+                .requestMatchers("/api/secure/profile"
+                ).hasAnyRole("ADMIN", "STAFF", "PASSENGER")
+                .requestMatchers("/", "/journeys", "/foods", "/stations", "/trains", "/users", "/addChoice",
+                        "/journeys/add", "/journeys/add/step1", "/journeys/add/step2", "/journeys/add/step3",
+                        "/journeys/add/submit", "/journeys/add/{id}/step1", "/journeys/add/{id}/step2",
+                        "/journeys/add/{id}/step3", "/journeys/add/{id}/submit", "/journeys/delete/{id}",
+                        "/users/add", "/users/add/{id}", "/users/add/submit", "/users/delete/{id}",
+                        "/stations/add", "/stations/add/{id}", "/stations/add/submit", "/stations/delete/{id}",
+                        "/services/add/{stationId}", "/services/add/{id}/{stationId}", "/services/add/submit", "/services/delete/{id}/{stationId}",
+                        "/foods/add", "/foods/add/{id}", "/foods/add/submit", "/foods/delete/{id}",
+                        "/foodcategory/add", "/foodcategory/add/{id}", "/foodcategory/add/submit", "/foodcategory/delete/{id}"
+                ).hasRole("ADMIN"))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form.loginPage("/login")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/", true)

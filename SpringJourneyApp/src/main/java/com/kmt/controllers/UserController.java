@@ -3,9 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.kmt.controllers;
-
-import com.kmt.pojo.Email;
-import com.kmt.pojo.Phone;
 import com.kmt.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,32 +57,32 @@ public class UserController {
     @PostMapping("/users/add/submit")
     public String addUser(@ModelAttribute("user") User user) {
         if (user.getId() != null) {
-            User u = userSer.getUserById(user.getId());
+            // Cập nhật user cũ
+            User existingUser = userSer.getUserById(user.getId());
 
-            if (u.getEmail() != null) {
-                // Nếu user có Email rồi, không tạo mới, mà cập nhật email
-                if (user.getEmail() != null) {
-                    u.getEmail().setEmail(user.getEmail().getEmail());
-                    user.setEmail(u.getEmail()); // Gán lại email hiện có để tránh tạo mới
-                }
+            // Cập nhật email nếu có
+            if (existingUser.getEmail() != null && user.getEmail() != null) {
+                existingUser.getEmail().setEmail(user.getEmail().getEmail());
+                user.setEmail(existingUser.getEmail());
             }
 
-            if (u.getPhone() != null) {
-                if (user.getPhone() != null) {
-                    u.getPhone().setPhone(user.getPhone().getPhone());
-                    user.setPhone(u.getPhone());
-                }
+            // Cập nhật phone nếu có
+            if (existingUser.getPhone() != null && user.getPhone() != null) {
+                existingUser.getPhone().setPhone(user.getPhone().getPhone());
+                user.setPhone(existingUser.getPhone());
             }
 
-            // Giữ lại mật khẩu, username cũ
-            user.setPassword(u.getPassword());
-            user.setUsername(u.getUsername());
+            // Giữ lại mật khẩu và username cũ nếu không đổi
+            user.setPassword(existingUser.getPassword());
+            user.setUsername(existingUser.getUsername());
         } else {
-            // Mã hóa mật khẩu user mới
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            // Thêm mới user: mã hóa mật khẩu
+            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
         }
 
-        // Set quan hệ 2 chiều
+        // Thiết lập quan hệ 2 chiều với Email và Phone
         if (user.getEmail() != null) {
             user.getEmail().setUserId(user);
         }
@@ -93,9 +90,9 @@ public class UserController {
             user.getPhone().setUserId(user);
         }
 
+        // Lưu hoặc cập nhật user
         userSer.addOrUpdateUser(user);
 
-        userSer.addOrUpdateUser(user);
         return "redirect:/users";
     }
 

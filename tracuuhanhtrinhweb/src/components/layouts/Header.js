@@ -1,6 +1,14 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { MyDispatcherContext, MyUserContext } from "../../configs/MyContexts";
+import { Button } from "react-bootstrap";
 
 const Header = () => {
+    const user = useContext(MyUserContext);
+    const dispatch = useContext(MyDispatcherContext);
+
+
+
     return (
         <header
             style={{
@@ -25,33 +33,19 @@ const Header = () => {
 
                 {/* Nút góc phải */}
                 <div className="d-flex gap-2">
-                    <Link
-                        to="/login"
-                        className="btn"
-                        style={{
-                            backgroundColor: "#7C4585",
-                            color: "#131010",
-                            borderRadius: "8px",
-                            boxShadow: "0px 4px 6px rgba(0,0,0,0.2)",
-                            fontWeight: "bold",
-                        }}
-                    >
-                        Đăng nhập
-                    </Link>
-                    <Link
-                        to="/register"
-                        className="btn"
-                        style={{
-                            backgroundColor: "#674188",
-                            color: "#131010",
-                            borderRadius: "8px",
-                            boxShadow: "0px 4px 6px rgba(0,0,0,0.2)",
-                            fontWeight: "bold",
-                            textDecoration: "none", // bỏ gạch chân
-                        }}
-                    >
-                        Đăng ký
-                    </Link>
+                    {user === null ?
+                        <>
+                            <Link to="/login" className="btn" style={{ backgroundColor: "#7C4585", color: "#131010", borderRadius: "8px", boxShadow: "0px 4px 6px rgba(0,0,0,0.2)", fontWeight: "bold" }}>Đăng nhập</Link>
+                            <Link to="/register" className="btn" style={{ backgroundColor: "#674188", color: "#131010", borderRadius: "8px", boxShadow: "0px 4px 6px rgba(0,0,0,0.2)", fontWeight: "bold", textDecoration: "none" }}>Đăng ký</Link>
+                        </>
+                        :
+                        <>
+                            <Link to="/" className="nav-link text-danger">
+                                <img src={user.avatar} width="40" className="rounded-circle"/>
+                                Chào {user.firstName}
+                            </Link>
+                            <Button variant="danger" onClick={() => dispatch({"type": "logout"})}>Đăng xuất</Button>
+                        </>}
                 </div>
             </div>
         </header>

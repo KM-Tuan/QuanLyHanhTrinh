@@ -51,6 +51,7 @@ const Register = () => {
 
             form.append("avatar", avatar.current.files[0]);
             form.append("role", user.role || "PASSENGER");
+            form.append("isActive", true);
 
             try {
                 setLoading(true);

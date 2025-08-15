@@ -13,6 +13,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.kmt.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -24,6 +25,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
+    
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getUsers() {
@@ -73,6 +77,13 @@ public class UserRepositoryImpl implements UserRepository {
         
         s.refresh(u);
         return u;
+    }
+
+    @Override
+    public boolean authenticate(String username, String password) {
+        User u = this.getUserByUsername(username);
+
+        return this.passwordEncoder.matches(password, u.getPassword());
     }
 
 }

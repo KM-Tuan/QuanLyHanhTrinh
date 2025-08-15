@@ -5,6 +5,8 @@
 package com.kmt.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -58,6 +60,7 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password")
     private String password;
     @Size(max = 50)
@@ -89,11 +92,13 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdBy")
     private Set<Journey> journeySet;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private Admin admin;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<ServiceOrder> serviceOrderSet;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private Staff staff;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -102,6 +107,7 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<FoodLike> foodLikeSet;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private Passenger passenger;
     @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL)
     private Phone phone;

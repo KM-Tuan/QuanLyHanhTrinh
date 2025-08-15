@@ -158,6 +158,7 @@ public class UserServiceImpl implements UserService {
         u.setFirstName(params.get("firstName"));
         u.setLastName(params.get("lastName"));
         u.setRole(User.UserRole.valueOf(params.get("role")));
+        u.setIsActive(true); 
 
         if (!avatar.isEmpty()) {
             try {
@@ -170,5 +171,10 @@ public class UserServiceImpl implements UserService {
         }
         
         return this.userRepo.register(u);
+    }
+
+    @Override
+    public boolean authenticate(String username, String password) {
+        return this.userRepo.authenticate(username, password);
     }
 }
