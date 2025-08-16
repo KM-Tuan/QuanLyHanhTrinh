@@ -31,6 +31,14 @@ const Register = () => {
         title: "Họ và tên lót",
         field: "lastName",
         type: "text"
+    }, {
+        title: "Email",
+        field: "email",
+        type: "email"
+    }, {
+        title: "Số điện thoại",
+        field: "phone",
+        type: "text"
     }];
 
     const setState = (value, field) => {

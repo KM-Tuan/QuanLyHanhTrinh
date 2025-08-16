@@ -28,7 +28,7 @@ public class StationServiceImpl implements StationService {
 
     @Autowired
     private StationRepository staRepo;
-    
+
     @Autowired
     private Cloudinary cloudinary;
 
@@ -42,38 +42,63 @@ public class StationServiceImpl implements StationService {
         return this.staRepo.getStationById(id);
     }
 
+//    @Override
+//    public void addOrUpdateStation(Station s) {
+//        if (s.getId() != null) { // Update
+//            Station existingStation = this.staRepo.getStationById(s.getId());
+//
+//            existingStation.setName(s.getName());
+//
+//            // Nếu có file mới upload => upload lên Cloudinary
+//            if (s.getFile() != null && !s.getFile().isEmpty()) {
+//                try {
+//                    Map res = cloudinary.uploader().upload(s.getFile().getBytes(),
+//                            ObjectUtils.asMap("resource_type", "auto"));
+//                    existingStation.setImage(res.get("secure_url").toString());
+//                } catch (IOException ex) {
+//                    Logger.getLogger(StationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//
+//            this.staRepo.addOrUpdateStation(existingStation);
+//        } else { // Thêm mới
+//            if (s.getFile() != null && !s.getFile().isEmpty()) {
+//                try {
+//                    Map res = cloudinary.uploader().upload(s.getFile().getBytes(),
+//                            ObjectUtils.asMap("resource_type", "auto"));
+//                    s.setImage(res.get("secure_url").toString());
+//                } catch (IOException ex) {
+//                    Logger.getLogger(StationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//
+//            this.staRepo.addOrUpdateStation(s);
+//        }
+//    }
+
     @Override
     public void addOrUpdateStation(Station s) {
-        if (s.getId() != null) { // Update
-            Station existingStation = this.staRepo.getStationById(s.getId());
+        Station targetStation = (s.getId() != null)
+                ? staRepo.getStationById(s.getId())
+                : s;
 
-            existingStation.setName(s.getName());
-
-            // Nếu có file mới upload => upload lên Cloudinary
-            if (s.getFile() != null && !s.getFile().isEmpty()) {
-                try {
-                    Map res = cloudinary.uploader().upload(s.getFile().getBytes(),
-                            ObjectUtils.asMap("resource_type", "auto"));
-                    existingStation.setImage(res.get("secure_url").toString());
-                } catch (IOException ex) {
-                    Logger.getLogger(StationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            this.staRepo.addOrUpdateStation(existingStation);
-        } else { // Thêm mới
-            if (s.getFile() != null && !s.getFile().isEmpty()) {
-                try {
-                    Map res = cloudinary.uploader().upload(s.getFile().getBytes(),
-                            ObjectUtils.asMap("resource_type", "auto"));
-                    s.setImage(res.get("secure_url").toString());
-                } catch (IOException ex) {
-                    Logger.getLogger(StationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            this.staRepo.addOrUpdateStation(s);
+        // Nếu update thì set lại các trường cần thay đổi
+        if (s.getId() != null && targetStation != null) {
+            targetStation.setName(s.getName());
         }
+
+        // Upload ảnh nếu có file
+        if (s.getFile() != null && !s.getFile().isEmpty()) {
+            try {
+                Map res = cloudinary.uploader().upload(s.getFile().getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto"));
+                targetStation.setImage(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(StationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        staRepo.addOrUpdateStation(targetStation);
     }
 
     @Override

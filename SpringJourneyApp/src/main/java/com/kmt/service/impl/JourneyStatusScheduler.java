@@ -23,22 +23,38 @@ public class JourneyStatusScheduler {
     @Autowired
     private JourneyService journeySer;
 
-    private static final int SPEED_MULTIPLIER = 60; // 1 phút thực = 1 giây giả
-    private LocalDateTime simulatedNow = LocalDateTime.now(); // bắt đầu từ thời điểm thực
+    private static final int SPEED_MULTIPLIER = 3600; // 1 phút thực = 1 giờ ảo
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 1000)
+    @Transactional
     public void updateJourneyStatuses() {
-        simulatedNow = simulatedNow.plusMinutes(SPEED_MULTIPLIER); // tăng thêm 60 phút mỗi lần
         List<Journey> journeys = journeySer.getAllJourneysNotCompleted();
+        LocalDateTime now = LocalDateTime.now();
 
         for (Journey j : journeys) {
-            if (simulatedNow.isBefore(j.getDepartureTime())) {
+            LocalDateTime dep = j.getDepartureTime();
+            LocalDateTime arr = j.getArrivalTime();
+
+            if (now.isBefore(dep)) {
+                // Chưa tới giờ xuất phát → luôn WAITING
                 j.setStatus(Journey.JourneyStatus.WAITTING);
-            } else if (simulatedNow.isAfter(j.getArrivalTime())) {
+            } else if (now.isAfter(arr)) {
+                // Đã qua giờ kết thúc → COMPLETED
                 j.setStatus(Journey.JourneyStatus.COMPLETED);
             } else {
-                j.setStatus(Journey.JourneyStatus.RUNNING);
+                // Đang chạy → tính thời gian ảo
+                long realMinutesElapsed = java.time.Duration.between(dep, now).toMinutes();
+                long virtualMinutesElapsed = realMinutesElapsed * SPEED_MULTIPLIER;
+
+                LocalDateTime virtualNow = dep.plusMinutes(virtualMinutesElapsed);
+
+                if (virtualNow.isAfter(arr)) {
+                    j.setStatus(Journey.JourneyStatus.COMPLETED);
+                } else {
+                    j.setStatus(Journey.JourneyStatus.RUNNING);
+                }
             }
+
             journeySer.addOrUpdateJourney(j);
         }
     }

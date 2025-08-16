@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.kmt.controllers;
+
 import com.kmt.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,46 +55,64 @@ public class UserController {
         return "redirect:/users"; // Quay về danh sách
     }
 
+//    @PostMapping("/users/add/submit")
+//    public String addUser(@ModelAttribute("user") User user, Model model) {
+//        if (user.getId() != null) {
+//            // Cập nhật user cũ
+//            User existingUser = userSer.getUserById(user.getId());
+//
+//            // Cập nhật email nếu có
+//            if (existingUser.getEmail() != null && user.getEmail() != null) {
+//                existingUser.getEmail().setEmail(user.getEmail().getEmail());
+//                user.setEmail(existingUser.getEmail());
+//            }
+//
+//            // Cập nhật phone nếu có
+//            if (existingUser.getPhone() != null && user.getPhone() != null) {
+//                existingUser.getPhone().setPhone(user.getPhone().getPhone());
+//                user.setPhone(existingUser.getPhone());
+//            }
+//
+//            // Giữ lại mật khẩu và username cũ nếu không đổi
+//            user.setPassword(existingUser.getPassword());
+//            user.setUsername(existingUser.getUsername());
+//        } else {
+//            if (user.getPassword() == null || user.getConfirmPassword() == null
+//                    || !user.getPassword().equals(user.getConfirmPassword())) {
+//                model.addAttribute("errorMessage", "Mật khẩu không trùng khớp!");
+//                model.addAttribute("user", user);
+//                return "addOrUpdateUser"; // tên file Thymeleaf hiển thị form
+//            }
+//
+//            // Thêm mới user: mã hóa mật khẩu
+//            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+//                user.setPassword(passwordEncoder.encode(user.getPassword()));
+//            }
+//        }
+//
+//        // Thiết lập quan hệ 2 chiều với Email và Phone
+//        if (user.getEmail() != null) {
+//            user.getEmail().setUserId(user);
+//        }
+//        if (user.getPhone() != null) {
+//            user.getPhone().setUserId(user);
+//        }
+//
+//        // Lưu hoặc cập nhật user
+//        userSer.addOrUpdateUser(user);
+//
+//        return "redirect:/users";
+//    }
     @PostMapping("/users/add/submit")
-    public String addUser(@ModelAttribute("user") User user) {
-        if (user.getId() != null) {
-            // Cập nhật user cũ
-            User existingUser = userSer.getUserById(user.getId());
-
-            // Cập nhật email nếu có
-            if (existingUser.getEmail() != null && user.getEmail() != null) {
-                existingUser.getEmail().setEmail(user.getEmail().getEmail());
-                user.setEmail(existingUser.getEmail());
-            }
-
-            // Cập nhật phone nếu có
-            if (existingUser.getPhone() != null && user.getPhone() != null) {
-                existingUser.getPhone().setPhone(user.getPhone().getPhone());
-                user.setPhone(existingUser.getPhone());
-            }
-
-            // Giữ lại mật khẩu và username cũ nếu không đổi
-            user.setPassword(existingUser.getPassword());
-            user.setUsername(existingUser.getUsername());
-        } else {
-            // Thêm mới user: mã hóa mật khẩu
-            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-            }
+    public String addUser(@ModelAttribute("user") User user, Model model) {
+        try {
+            userSer.addOrUpdateUser(user); // Gọi service xử lý tất cả
+            return "redirect:/users";
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+            model.addAttribute("user", user);
+            return "addOrUpdateUser"; // trang form
         }
-
-        // Thiết lập quan hệ 2 chiều với Email và Phone
-        if (user.getEmail() != null) {
-            user.getEmail().setUserId(user);
-        }
-        if (user.getPhone() != null) {
-            user.getPhone().setUserId(user);
-        }
-
-        // Lưu hoặc cập nhật user
-        userSer.addOrUpdateUser(user);
-
-        return "redirect:/users";
     }
 
     @GetMapping("/users/add/{id}")

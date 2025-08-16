@@ -63,6 +63,8 @@ public class User implements Serializable {
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password")
     private String password;
+    @Transient
+    private String confirmPassword;
     @Size(max = 50)
     @Column(name = "first_name")
     private String firstName;
@@ -332,6 +334,20 @@ public class User implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    /**
+     * @return the confirmPassword
+     */
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    /**
+     * @param confirmPassword the confirmPassword to set
+     */
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
 }

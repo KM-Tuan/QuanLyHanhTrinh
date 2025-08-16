@@ -82,10 +82,15 @@
     <div class="content-wrapper">
         <div class="form-container">
             <form th:action="@{/users/add/submit}" th:object="${user}" method="post" enctype="multipart/form-data">
+                
+                <div th:if="${errorMessage}" style="color: red; margin-bottom: 10px;">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+                
                 <h2 th:if="${user.id == null}">THÊM USER</h2>
                 <h2 th:unless="${user.id == null}">CẬP NHẬT USER</h2>
                 <input type="hidden" th:field="*{id}" />
-                <div th:if="${user.password == null}">
+                <div th:if="${user.id == null}">
                     <!-- Username -->
                     <label>Tên đăng nhập</label>
                     <input type="text" th:field="*{username}" required />
@@ -93,50 +98,50 @@
                     <!-- Password -->
                     <label>Mật khẩu</label>
                     <input type="password" th:field="*{password}" required />
-                    
-                    <!-- Confirm Password -->
-<!--                    <label>Xác nhận mật khẩu</label>
-                    <input type="password" th:field="*{password}" required />-->
+
+                    <!--Confirm Password-->
+                    <label>Xác nhận mật khẩu</label>
+                    <input type="password" th:field="*{confirmPassword}" required />
                 </div>
 
-                <!-- Họ và Tên -->
-                <label>Họ:</label>
-                <input type="text" th:field="*{lastName}" />
-                <label>Tên:</label>
-                <input type="text" th:field="*{firstName}" />
+                    <!-- Họ và Tên -->
+                    <label>Họ:</label>
+                    <input type="text" th:field="*{lastName}" />
+                    <label>Tên:</label>
+                    <input type="text" th:field="*{firstName}" />
 
-                <!-- Email -->
-                <label>Email:</label>
-                <input type="email" th:field="*{email.email}" />
+                    <!-- Email -->
+                    <label>Email:</label>
+                    <input type="email" th:field="*{email.email}" />
 
-                <!-- Phone -->
-                <label>Số điện thoại:</label>
-                <input type="text" th:field="*{phone.phone}" />
+                    <!-- Phone -->
+                    <label>Số điện thoại:</label>
+                    <input type="text" th:field="*{phone.phone}" />
 
-                <!-- Vai trò -->
-                <label>Vai trò:</label>
-                <select th:field="*{role}">
-                    <option value="ADMIN">ADMIN</option>
-                    <option value="STAFF">STAFF</option>
-                    <option value="PASSENGER">PASSENGER</option>
-                </select>
+                    <!-- Vai trò -->
+                    <label>Vai trò:</label>
+                    <select th:field="*{role}">
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="STAFF">STAFF</option>
+                        <option value="PASSENGER">PASSENGER</option>
+                    </select>
 
-                <!-- Trạng thái -->
-                <label>Trạng thái:</label>
-                <select th:field="*{isActive}">
-                    <option value="true">Hoạt động</option>
-                    <option value="false">Không hoạt động</option>
-                </select>
+                    <!-- Trạng thái -->
+                    <label>Trạng thái:</label>
+                    <select th:field="*{isActive}">
+                        <option value="true">Hoạt động</option>
+                        <option value="false">Không hoạt động</option>
+                    </select>
 
-                <!-- Avatar -->
-                <label>Avatar:</label>
-                <input type="file" th:field="*{file}" />
-                <div th:if="${user.avatar != null}">
-                    <img th:src="@{${user.avatar}}" alt="Avatar" style="width: 120px; height: auto; margin-top: 10px; border-radius: 8px; display: block;" />
-                </div>
+                    <!-- Avatar -->
+                    <label>Avatar:</label>
+                    <input type="file" th:field="*{file}" />
+                    <div th:if="${user.avatar != null}">
+                        <img th:src="@{${user.avatar}}" alt="Avatar" style="width: 120px; height: auto; margin-top: 10px; border-radius: 8px; display: block;" />
+                    </div>
 
-                <button type="submit" th:if="${user.id == null}">Thêm</button>
-                <button type="submit" th:unless="${user.id == null}">Cập nhật</button>
+                    <button type="submit" th:if="${user.id == null}">Thêm</button>
+                    <button type="submit" th:unless="${user.id == null}">Cập nhật</button>
             </form>
         </div>
     </div>

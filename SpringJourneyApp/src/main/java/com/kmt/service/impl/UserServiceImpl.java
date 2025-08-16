@@ -6,6 +6,8 @@ package com.kmt.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.kmt.pojo.Email;
+import com.kmt.pojo.Phone;
 import com.kmt.pojo.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepo;
-    
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -87,62 +89,116 @@ public class UserServiceImpl implements UserService {
         return username != null ? userRepo.getUserByUsername(username) : null;
     }
 
+//    @Override
+//    public void addOrUpdateUser(User user) {
+//        if (user.getId() != null) { // Trường hợp update
+//            User existingUser = this.userRepo.getUserById(user.getId());
+//
+//            // Nếu có file mới upload -> cập nhật avatar
+//            if (user.getFile() != null && !user.getFile().isEmpty()) {
+//                try {
+//                    Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
+//                            ObjectUtils.asMap("resource_type", "auto"));
+//                    existingUser.setAvatar(res.get("secure_url").toString());
+//                } catch (IOException ex) {
+//                    Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//
+//            // Cập nhật các trường khác
+//            existingUser.setFirstName(user.getFirstName());
+//            existingUser.setLastName(user.getLastName());
+//            existingUser.setRole(user.getRole());
+//            existingUser.setIsActive(user.getIsActive());
+//
+//            // Xử lý email
+//            if (user.getEmail() != null) {
+//                if (existingUser.getEmail() == null) {
+//                    existingUser.setEmail(user.getEmail());
+//                } else {
+//                    existingUser.getEmail().setEmail(user.getEmail().getEmail());
+//                }
+//                existingUser.getEmail().setUserId(existingUser);
+//            }
+//
+//            // Xử lý phone
+//            if (user.getPhone() != null) {
+//                if (existingUser.getPhone() == null) {
+//                    existingUser.setPhone(user.getPhone());
+//                } else {
+//                    existingUser.getPhone().setPhone(user.getPhone().getPhone());
+//                }
+//                existingUser.getPhone().setUserId(existingUser);
+//            }
+//
+//            this.userRepo.addOrUpdateUser(existingUser);
+//        } else { // Trường hợp thêm mới
+//            if (user.getFile() != null && !user.getFile().isEmpty()) {
+//                try {
+//                    Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
+//                            ObjectUtils.asMap("resource_type", "auto"));
+//                    user.setAvatar(res.get("secure_url").toString());
+//                } catch (IOException ex) {
+//                    Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//
+//            this.userRepo.addOrUpdateUser(user);
+//        }
+//    }
+
     @Override
     public void addOrUpdateUser(User user) {
-        if (user.getId() != null) { // Trường hợp update
-            User existingUser = this.userRepo.getUserById(user.getId());
+        User targetUser = (user.getId() != null) ? userRepo.getUserById(user.getId()) : user;
 
-            // Nếu có file mới upload -> cập nhật avatar
-            if (user.getFile() != null && !user.getFile().isEmpty()) {
-                try {
-                    Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
-                            ObjectUtils.asMap("resource_type", "auto"));
-                    existingUser.setAvatar(res.get("secure_url").toString());
-                } catch (IOException ex) {
-                    Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (user.getId() != null) { // Update
+            if (targetUser == null) {
+                throw new IllegalArgumentException("Không tìm thấy user để cập nhật");
             }
-
-            // Cập nhật các trường khác
-            existingUser.setFirstName(user.getFirstName());
-            existingUser.setLastName(user.getLastName());
-            existingUser.setRole(user.getRole());
-            existingUser.setIsActive(user.getIsActive());
-
-            // Xử lý email
-            if (user.getEmail() != null) {
-                if (existingUser.getEmail() == null) {
-                    existingUser.setEmail(user.getEmail());
-                } else {
-                    existingUser.getEmail().setEmail(user.getEmail().getEmail());
-                }
-                existingUser.getEmail().setUserId(existingUser);
+            targetUser.setFirstName(user.getFirstName());
+            targetUser.setLastName(user.getLastName());
+            targetUser.setRole(user.getRole());
+            targetUser.setIsActive(user.getIsActive());
+        } else { // Thêm mới
+            if (user.getPassword() == null || user.getConfirmPassword() == null
+                    || !user.getPassword().equals(user.getConfirmPassword())) {
+                throw new IllegalArgumentException("Mật khẩu không trùng khớp!");
             }
-
-            // Xử lý phone
-            if (user.getPhone() != null) {
-                if (existingUser.getPhone() == null) {
-                    existingUser.setPhone(user.getPhone());
-                } else {
-                    existingUser.getPhone().setPhone(user.getPhone().getPhone());
-                }
-                existingUser.getPhone().setUserId(existingUser);
-            }
-
-            this.userRepo.addOrUpdateUser(existingUser);
-        } else { // Trường hợp thêm mới
-            if (user.getFile() != null && !user.getFile().isEmpty()) {
-                try {
-                    Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
-                            ObjectUtils.asMap("resource_type", "auto"));
-                    user.setAvatar(res.get("secure_url").toString());
-                } catch (IOException ex) {
-                    Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            this.userRepo.addOrUpdateUser(user);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+
+        // Email
+        if (user.getEmail() != null) {
+            if (targetUser.getEmail() == null) {
+                targetUser.setEmail(user.getEmail());
+            } else {
+                targetUser.getEmail().setEmail(user.getEmail().getEmail());
+            }
+            targetUser.getEmail().setUserId(targetUser);
+        }
+
+        // Phone
+        if (user.getPhone() != null) {
+            if (targetUser.getPhone() == null) {
+                targetUser.setPhone(user.getPhone());
+            } else {
+                targetUser.getPhone().setPhone(user.getPhone().getPhone());
+            }
+            targetUser.getPhone().setUserId(targetUser);
+        }
+
+        // Avatar
+        if (user.getFile() != null && !user.getFile().isEmpty()) {
+            try {
+                Map res = cloudinary.uploader().upload(user.getFile().getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto"));
+                targetUser.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        userRepo.addOrUpdateUser(targetUser);
     }
 
     @Override
@@ -158,7 +214,17 @@ public class UserServiceImpl implements UserService {
         u.setFirstName(params.get("firstName"));
         u.setLastName(params.get("lastName"));
         u.setRole(User.UserRole.valueOf(params.get("role")));
-        u.setIsActive(true); 
+        u.setIsActive(true);
+        
+        Email e = new Email();
+        e.setEmail(params.get("email"));
+        e.setUserId(u);
+        u.setEmail(e);
+        
+        Phone p = new Phone();
+        p.setPhone(params.get("phone"));
+        p.setUserId(u);
+        u.setPhone(p);
 
         if (!avatar.isEmpty()) {
             try {
@@ -169,7 +235,7 @@ public class UserServiceImpl implements UserService {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return this.userRepo.register(u);
     }
 
