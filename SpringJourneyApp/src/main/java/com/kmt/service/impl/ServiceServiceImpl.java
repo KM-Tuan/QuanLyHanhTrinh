@@ -64,6 +64,7 @@ public class ServiceServiceImpl implements ServiceService {
             targetService.setName(ser.getName());
             targetService.setDescription(ser.getDescription());
             targetService.setStationId(station);
+            targetService.setIsActive(ser.getIsActive());
         } else { // Thêm mới
             targetService = ser;
         }

@@ -9,6 +9,7 @@ import com.kmt.pojo.TrainRoute;
 import com.kmt.repository.TrainRouteRepository;
 import com.kmt.service.TrainRouteService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,4 +35,8 @@ public class TrainRouteServiceImpl implements TrainRouteService {
         return trainRouteRepo.findByTrainAndStations(trainId, departureStationId, arrivalStationId);
     }
 
+    @Override
+    public List<TrainRoute> findRoutesBetweenStations(int trainId, int departureStationId, int arrivalStationId) {
+        return this.trainRouteRepo.findRoutesBetweenStations(trainId, departureStationId, arrivalStationId);
+    }
 }

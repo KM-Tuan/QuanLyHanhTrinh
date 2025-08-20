@@ -17,6 +17,7 @@ public interface JourneyService {
     List<Journey> getJours();
     List<Journey> getJoursCompleted();
     Journey getJourneyById(int id);
+    Journey getJourneyByName(String name);
     void addOrUpdateJourney(Journey journey);
     boolean isNameExists(String name);
     String generateRandomName();

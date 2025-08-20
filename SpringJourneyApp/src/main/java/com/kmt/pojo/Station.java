@@ -4,10 +4,12 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -51,23 +53,29 @@ public class Station implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "image")
     private String image;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stationId")
     private Set<ServiceOrder> serviceOrderSet;
+    @JsonIgnore
     @OneToMany(mappedBy = "departureStationId")
     private Set<TrainRoute> trainRouteSet;
+    @JsonIgnore
     @OneToMany(mappedBy = "arrivalStationId")
     private Set<TrainRoute> trainRouteSet1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "stationId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "stationId", fetch = FetchType.EAGER)
     private Set<Service> serviceSet;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "departureStationId")
     private Set<Journey> departures;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "arrivalStationId")
     private Set<Journey> arrivals;
 
     @Transient
     private MultipartFile file;
+    
+    @Transient
+    private Integer distance;
 
     public Station() {
     }
@@ -175,6 +183,20 @@ public class Station implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    /**
+     * @return the distance
+     */
+    public Integer getDistance() {
+        return distance;
+    }
+
+    /**
+     * @param distance the distance to set
+     */
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 
 }

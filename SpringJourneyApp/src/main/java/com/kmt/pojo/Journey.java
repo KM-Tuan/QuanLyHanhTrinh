@@ -67,7 +67,6 @@ public class Journey implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "departure_station_id", referencedColumnName = "id")
     private Station departureStationId;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "arrival_station_id", referencedColumnName = "id")
     private Station arrivalStationId;

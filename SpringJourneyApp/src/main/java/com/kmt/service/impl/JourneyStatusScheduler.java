@@ -23,36 +23,42 @@ public class JourneyStatusScheduler {
     @Autowired
     private JourneyService journeySer;
 
-    private static final int SPEED_MULTIPLIER = 3600; // 1 phút thực = 1 giờ ảo
+    // 1 phút thực = 1 giờ ảo (1 giây thực = 60 giây ảo)
+    private static final int SPEED_MULTIPLIER = 60;
 
-    @Scheduled(fixedRate = 1000)
+    public int calculateProgress(Journey j, LocalDateTime now) {
+        LocalDateTime dep = j.getDepartureTime();
+        LocalDateTime arr = j.getArrivalTime();
+
+        if (now.isBefore(dep)) {
+            return 0;
+        } else if (now.isAfter(arr)) {
+            return 100;
+        } else {
+            long realSecondsElapsed = java.time.Duration.between(dep, now).getSeconds();
+            long virtualSecondsElapsed = realSecondsElapsed * SPEED_MULTIPLIER;
+            long totalVirtualSeconds = java.time.Duration.between(dep, arr).getSeconds();
+
+            int progress = (int) ((virtualSecondsElapsed * 100) / totalVirtualSeconds);
+            return Math.min(Math.max(progress, 0), 100);
+        }
+    }
+
+    @Scheduled(fixedRate = 500)
     @Transactional
     public void updateJourneyStatuses() {
         List<Journey> journeys = journeySer.getAllJourneysNotCompleted();
         LocalDateTime now = LocalDateTime.now();
 
         for (Journey j : journeys) {
-            LocalDateTime dep = j.getDepartureTime();
-            LocalDateTime arr = j.getArrivalTime();
+            int progress = calculateProgress(j, now);
 
-            if (now.isBefore(dep)) {
-                // Chưa tới giờ xuất phát → luôn WAITING
+            if (progress == 0) {
                 j.setStatus(Journey.JourneyStatus.WAITTING);
-            } else if (now.isAfter(arr)) {
-                // Đã qua giờ kết thúc → COMPLETED
+            } else if (progress >= 100) {
                 j.setStatus(Journey.JourneyStatus.COMPLETED);
             } else {
-                // Đang chạy → tính thời gian ảo
-                long realMinutesElapsed = java.time.Duration.between(dep, now).toMinutes();
-                long virtualMinutesElapsed = realMinutesElapsed * SPEED_MULTIPLIER;
-
-                LocalDateTime virtualNow = dep.plusMinutes(virtualMinutesElapsed);
-
-                if (virtualNow.isAfter(arr)) {
-                    j.setStatus(Journey.JourneyStatus.COMPLETED);
-                } else {
-                    j.setStatus(Journey.JourneyStatus.RUNNING);
-                }
+                j.setStatus(Journey.JourneyStatus.RUNNING);
             }
 
             journeySer.addOrUpdateJourney(j);

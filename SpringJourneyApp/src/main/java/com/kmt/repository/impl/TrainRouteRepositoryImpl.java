@@ -4,13 +4,18 @@
  */
 package com.kmt.repository.impl;
 
+import com.kmt.pojo.Station;
 import com.kmt.pojo.Train;
 import com.kmt.pojo.TrainRoute;
 import com.kmt.repository.TrainRouteRepository;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +67,16 @@ public class TrainRouteRepositoryImpl implements TrainRouteRepository {
         query.setParameter("departureStationId", departureStationId);
         query.setParameter("arrivalStationId", arrivalStationId);
 
+        return query.getResultList();
+    }
+
+    @Override
+    public List<TrainRoute> findRoutesBetweenStations(int trainId, int departureStationId, int arrivalStationId) {
+        Session session = factory.getObject().getCurrentSession();
+        Query<TrainRoute> query = session.createNamedQuery("TrainRoute.findRoutesBetweenStations", TrainRoute.class);
+        query.setParameter("trainId", trainId);
+        query.setParameter("departureStationId", departureStationId);
+        query.setParameter("arrivalStationId", arrivalStationId);
         return query.getResultList();
     }
 

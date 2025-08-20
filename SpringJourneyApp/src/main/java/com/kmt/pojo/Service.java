@@ -4,6 +4,7 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -60,12 +61,16 @@ public class Service implements Serializable {
     private String image;
     @Column(name = "is_active")
     private Boolean isActive;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serviceId")
     private Set<ServiceComment> serviceCommentSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serviceId")
     private Set<ServiceOrder> serviceOrderSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serviceId")
     private Set<ServiceLike> serviceLikeSet;
+    @JsonIgnore
     @JoinColumn(name = "station_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Station stationId;

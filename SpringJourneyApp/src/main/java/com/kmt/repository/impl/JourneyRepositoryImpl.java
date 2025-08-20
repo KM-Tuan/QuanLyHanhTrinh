@@ -70,8 +70,7 @@ public class JourneyRepositoryImpl implements JourneyRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Query<Journey> q = s.createNamedQuery("Journey.findByName", Journey.class);
         q.setParameter("name", name);
-        List<Journey> list = q.getResultList();
-        return list.isEmpty() ? null : list.get(0);
+        return q.getSingleResult();
     }
 
     @Override

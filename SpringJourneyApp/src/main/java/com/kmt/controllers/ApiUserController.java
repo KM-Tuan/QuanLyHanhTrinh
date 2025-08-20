@@ -41,10 +41,10 @@ public class ApiUserController {
         User u = this.userDetailsService.register(params, avatar);
         return new ResponseEntity<>(u, HttpStatus.CREATED);
     }
-    
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User u) {
-        if (u.getUsername()== null || u.getPassword() == null) {
+        if (u.getUsername() == null || u.getPassword() == null) {
             return ResponseEntity.badRequest().body("Username hoặc password không được để trống");
         }
 
@@ -58,7 +58,7 @@ public class ApiUserController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sai thông tin đăng nhập");
     }
-    
+
     @RequestMapping("/secure/profile")
     @ResponseBody
     @CrossOrigin

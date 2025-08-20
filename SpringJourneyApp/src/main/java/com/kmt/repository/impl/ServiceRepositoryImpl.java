@@ -5,6 +5,7 @@
 package com.kmt.repository.impl;
 
 import com.kmt.pojo.Service;
+import com.kmt.pojo.Station;
 import com.kmt.repository.ServiceRepository;
 import java.util.List;
 import org.hibernate.Session;
@@ -55,9 +56,22 @@ public class ServiceRepositoryImpl implements ServiceRepository {
 
     @Override
     public void deleteServiceById(int id) {
-        Session s = factory.getObject().getCurrentSession();
-        Service u = this.getServiceById(id);
-        s.remove(u);
+        Session session = factory.getObject().getCurrentSession();
+
+        // Lấy service
+        Service service = this.getServiceById(id);
+
+        // Nếu service liên kết với station
+        if (service.getStationId() != null) {
+            Station station = service.getStationId();
+
+            // Loại bỏ service khỏi station.serviceSet
+            station.getServiceSet().remove(service);
+            session.saveOrUpdate(station); // cập nhật collection
+        }
+
+        // Xóa service
+        session.remove(service);
     }
 
 }

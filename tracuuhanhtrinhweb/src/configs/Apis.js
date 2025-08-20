@@ -5,9 +5,12 @@ const BASE_URL = 'http://localhost:8080/SpringJourneyApp/api/';
 
 export const endpoints = {
     'foods': '/foods',
+    'journeys': '/journeys',
     'register': '/users',
     'login': '/login',
-    'current-user': '/secure/profile'
+    'current-user': '/secure/profile',
+    'track-journey': '/track-journey',
+    'journey-stations': (journeyName) => `/journeys/${journeyName}/stations`
 }
 
 export const authApis = () => { //Dùng để gọi các api cần chứng thực
