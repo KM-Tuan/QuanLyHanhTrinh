@@ -20,16 +20,27 @@ const Home = () => {
     try {
       const res = await Apis.get(endpoints['track-journey'], { params: { name } });
 
-      // Nếu server trả 200 nhưng không có dữ liệu hợp lệ
       if (!res.data || typeof res.data.status === "undefined") {
-        setError("Hành trình không tồn tại!");
+        setError("Không tìm thấy hành trình!");
         return;
       }
 
-      // Hợp lệ → điều hướng
-      nav("/track-journey", { state: { journeyName: name } });
+      const { status } = res.data;
+
+      switch (status) {
+        case "RUNNING":
+          nav("/track-journey", { state: { journeyName: name } });
+          break;
+        case "WAITTING":
+          setError("Hành trình chưa xuất phát!");
+          break;
+        case "COMPLETED":
+          setError("Hành trình đã kết thúc!");
+          break;
+        default:
+          setError("Không tìm thấy hành trình!");
+      }
     } catch (err) {
-      // Lỗi HTTP (404, 500, ...) sẽ vào đây
       console.error(err);
       setError("Hành trình không tồn tại hoặc lỗi server!");
     }

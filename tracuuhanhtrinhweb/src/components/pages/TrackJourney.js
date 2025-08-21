@@ -1,13 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom"; 
-import Apis, { endpoints, authApis } from "../../configs/Apis";
+import Apis, { endpoints } from "../../configs/Apis";
 import { MyUserContext } from "../../configs/MyContexts";
 
 const TrackJourney = () => {
     const location = useLocation();
     const nav = useNavigate();
     const { journeyName } = location.state || {};
-    const user = useContext(MyUserContext); // Lấy user từ context
+    const user = useContext(MyUserContext);
 
     const [progress, setProgress] = useState(0);
     const [displayProgress, setDisplayProgress] = useState(0);
@@ -64,14 +64,14 @@ const TrackJourney = () => {
         return () => cancelAnimationFrame(rafId);
     }, [progress, displayProgress]);
 
-    // Hàm xử lý click service
-    const handleServiceClick = (serviceId) => {
+    // Click vào trạm để chuyển sang trang ServiceRegistration
+    const handleStationClick = (stationId) => {
         if (!user) {
             alert("Vui lòng đăng nhập trước khi đăng ký dịch vụ!");
-            nav("/login"); // điều hướng tới login nếu chưa đăng nhập
+            nav("/login");
             return;
         }
-        nav(`/service-registration/${serviceId}`);
+        nav(`/service-registration/${stationId}`);
     };
 
     return (
@@ -94,42 +94,23 @@ const TrackJourney = () => {
                                 <div
                                     className="position-absolute p-2 bg-light text-dark border rounded"
                                     style={{
-                                        top: "-220px",
+                                        top: "-180px",
                                         left: "50%",
                                         transform: "translateX(-50%)",
-                                        width: "250px",
+                                        width: "220px",
                                         zIndex: 100,
-                                        textAlign: "center"
+                                        textAlign: "center",
+                                        cursor: "pointer"
                                     }}
+                                    onClick={() => handleStationClick(station.id)}
                                 >
                                     <img
                                         src={station.image}
                                         alt={station.name}
                                         style={{ width: "100%", height: "100px", objectFit: "cover", borderRadius: "6px" }}
                                     />
-                                    <p className="fw-bold mt-1 mb-0">{station.name}</p>
-                                    <p className="mb-1">Khoảng cách tới ga kế tiếp: {station.distance} km</p>
-
-                                    {station.serviceSet?.length > 0 && (
-                                        <div className="mt-2 text-start">
-                                            <p className="fw-bold mb-1">Dịch vụ:</p>
-                                            {station.serviceSet.map(service => (
-                                                <div
-                                                    key={service.id}
-                                                    onClick={() => handleServiceClick(service.id)}
-                                                    className="px-2 py-1 rounded mb-1 text-center"
-                                                    style={{
-                                                        backgroundColor: service.isActive ? "#28a745" : "#d6d6d6",
-                                                        color: service.isActive ? "white" : "#666",
-                                                        fontSize: "0.9rem",
-                                                        cursor: "pointer"
-                                                    }}
-                                                >
-                                                    {service.name}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+                                    <p className="fw-bold mt-2 mb-1">{station.name}</p>
+                                    <p className="mb-0">Khoảng cách tới ga kế tiếp: {station.distance} km</p>
                                 </div>
                             )}
                         </div>

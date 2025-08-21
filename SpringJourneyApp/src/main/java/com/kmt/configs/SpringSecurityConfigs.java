@@ -63,7 +63,7 @@ public class SpringSecurityConfigs {
                 .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/api/users", "/api/login", "/api/track-journey", "/api/train-route", "/api/journeys/{journeyName}/stations"
                 ).permitAll()
-                .requestMatchers("/api/secure/profile"
+                .requestMatchers("/api/secure/profile", "/api/stations/{stationId}", "/api/stations/{stationId}/services"
                 ).hasAnyRole("ADMIN", "STAFF", "PASSENGER")
                 .requestMatchers("/", "/journeys", "/foods", "/stations", "/trains", "/users", "/addChoice",
                         "/journeys/add", "/journeys/add/step1", "/journeys/add/step2", "/journeys/add/step3",

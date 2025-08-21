@@ -10,7 +10,9 @@ export const endpoints = {
     'login': '/login',
     'current-user': '/secure/profile',
     'track-journey': '/track-journey',
-    'journey-stations': (journeyName) => `/journeys/${journeyName}/stations`
+    'station': (stationId) => `/stations/${stationId}`,
+    'journey-stations': (journeyName) => `/journeys/${journeyName}/stations`,
+    'station-services': (stationId) => `/stations/${stationId}/services`
 }
 
 export const authApis = () => { //Dùng để gọi các api cần chứng thực
