@@ -10,9 +10,11 @@ import TrackJourney from "./components/pages/TrackJourney";
 import { MyDispatcherContext, MyUserContext } from "./configs/MyContexts";
 import { useEffect, useReducer } from "react";
 import MyUserReducer from "./reducers/MyUserReducer";
-import ServiceRegistration from "./components/Passengers/ServiceRegistration";
+import ServiceRegistration from "./components/pages/ServiceRegistration";
 import cookie from "react-cookies";
 import { authApis, endpoints } from "./configs/Apis";
+import SubHome from "./components/pages/SubHome";
+import MyServiceOrders from "./components/pages/MyServiceOrders";
 
 
 const App = () => {
@@ -45,6 +47,8 @@ const App = () => {
             <Route path="/menu" element={<Menu />} />
             <Route path="/track-journey" element={<TrackJourney />} />
             <Route path="/service-registration/:stationId" element={<ServiceRegistration />} />
+            <Route path="/sub-home" element={<SubHome />} />
+            <Route path="/my-service/:userId" element={<MyServiceOrders />} />
           </Routes>
 
           <Footer />

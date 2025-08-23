@@ -1,12 +1,21 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { authApis, endpoints } from "../../configs/Apis";
+import { MyUserContext } from "../../configs/MyContexts";
 
 const ServiceRegistration = () => {
     const { stationId } = useParams();
     const [station, setStation] = useState(null);
     const [services, setServices] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState(null);
+    const user = useContext(MyUserContext);
+
+    // giả sử journeyName truyền qua localStorage hoặc props
+    const location = useLocation();
+    const { journeyName } = location.state || {};
+    
 
     useEffect(() => {
         const fetchStationAndServices = async () => {
@@ -22,6 +31,30 @@ const ServiceRegistration = () => {
         };
         fetchStationAndServices();
     }, [stationId]);
+
+    const handleRegisterService = async () => {
+        setLoading(true);
+        setMessage(null);
+
+        try {
+            let res = await authApis().post(endpoints["service-register"], null, {
+                params: {
+                    userId: user.id,
+                    serviceId: selectedService.id,
+                    stationId: stationId,
+                    journeyName: journeyName
+                }
+            });
+
+            setMessage("Đăng ký thành công!");
+            console.log("Service order created:", res.data);
+        } catch (err) {
+            console.error("Register service error:", err);
+            setMessage((err.response?.data || err.message));
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="container mt-3 d-flex flex-column align-items-center">
@@ -42,9 +75,8 @@ const ServiceRegistration = () => {
                 {services.map((service) => (
                     <div
                         key={service.id}
-                        className={`d-flex align-items-center p-2 border rounded text-center ${
-                            selectedService?.id === service.id ? "border-primary" : "border-secondary"
-                        }`}
+                        className={`d-flex align-items-center p-2 border rounded text-center ${selectedService?.id === service.id ? "border-primary" : "border-secondary"
+                            }`}
                         style={{
                             cursor: service.isActive ? "pointer" : "not-allowed",
                             minWidth: "150px",
@@ -80,10 +112,18 @@ const ServiceRegistration = () => {
                     </p>
                     <button
                         className="btn btn-primary"
-                        disabled={!selectedService.isActive}
+                        disabled={!selectedService.isActive || loading}
+                        onClick={handleRegisterService}
                     >
-                        Đăng ký dịch vụ
+                        {loading ? "Đang xử lý..." : "Đăng ký dịch vụ"}
                     </button>
+                </div>
+            )}
+
+            {/* Thông báo */}
+            {message && (
+                <div className="alert alert-info mt-3" style={{ maxWidth: "600px" }}>
+                    {message}
                 </div>
             )}
         </div>

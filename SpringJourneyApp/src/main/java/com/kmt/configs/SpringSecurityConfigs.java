@@ -61,9 +61,11 @@ public class SpringSecurityConfigs {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/api/users", "/api/login", "/api/track-journey", "/api/train-route", "/api/journeys/{journeyName}/stations"
+                .requestMatchers("/api/users", "/api/login", "/api/track-journey", "/api/journeys/{journeyName}/stations"
                 ).permitAll()
-                .requestMatchers("/api/secure/profile", "/api/stations/{stationId}", "/api/stations/{stationId}/services"
+                .requestMatchers("/api/secure/profile", 
+                        "/api/stations/{stationId}", "/api/stations/{stationId}/services", 
+                        "/api/service-register" , "/api/service-register/user/{userId}"
                 ).hasAnyRole("ADMIN", "STAFF", "PASSENGER")
                 .requestMatchers("/", "/journeys", "/foods", "/stations", "/trains", "/users", "/addChoice",
                         "/journeys/add", "/journeys/add/step1", "/journeys/add/step2", "/journeys/add/step3",

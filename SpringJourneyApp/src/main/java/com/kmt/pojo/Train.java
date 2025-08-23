@@ -4,6 +4,7 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,6 +45,7 @@ public class Train implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainId")
+    @JsonIgnore
     private Set<TrainRoute> trainRouteSet;
 
     public Train() {

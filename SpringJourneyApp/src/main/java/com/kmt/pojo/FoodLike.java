@@ -4,6 +4,7 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,8 +19,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 /**
  *
  * @author kieum
@@ -39,8 +39,8 @@ public class FoodLike implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
     @JoinColumn(name = "food_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Food foodId;
@@ -63,11 +63,11 @@ public class FoodLike implements Serializable {
         this.id = id;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

@@ -4,9 +4,13 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,11 +19,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -32,7 +35,10 @@ import java.util.Date;
     @NamedQuery(name = "ServiceOrder.findAll", query = "SELECT s FROM ServiceOrder s"),
     @NamedQuery(name = "ServiceOrder.findById", query = "SELECT s FROM ServiceOrder s WHERE s.id = :id"),
     @NamedQuery(name = "ServiceOrder.findByName", query = "SELECT s FROM ServiceOrder s WHERE s.name = :name"),
-    @NamedQuery(name = "ServiceOrder.findByCreatedAt", query = "SELECT s FROM ServiceOrder s WHERE s.createdAt = :createdAt")})
+    @NamedQuery(name = "ServiceOrder.findByCreatedAt", query = "SELECT s FROM ServiceOrder s WHERE s.createdAt = :createdAt"),
+//    @NamedQuery(name = "ServiceOrder.findByUserId", query = "SELECT s FROM ServiceOrder s WHERE s.userId.id = :userId"),
+    @NamedQuery(name = "ServiceOrder.findByUserId", query = "SELECT s FROM ServiceOrder s " + "JOIN FETCH s.journeyName " + "JOIN FETCH s.stationId " + "WHERE s.userId.id = :userId"),
+    @NamedQuery(name = "ServiceOrder.existServiceOrder", query = "SELECT s FROM ServiceOrder s WHERE s.userId.id = :userId AND s.stationId.id = :stationId AND s.journeyName.name = :journeyName AND s.serviceId.id = :serviceId")})
 public class ServiceOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,17 +53,22 @@ public class ServiceOrder implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @JoinColumn(name = "journey_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Journey journeyId;
+    @JoinColumn(name = "journey_name", referencedColumnName = "name")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"id", "trainId", "departureStationId", "arrivalStationId", 
+                       "departureTime", "arrivalTime", "totalDistance", "totalTravelTime", 
+                       "status", "createdAt", "createdBy", "foodOrderSet", "serviceOrderSet"})
+    private Journey journeyName;
+    @JsonIgnore
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Service serviceId;
     @JoinColumn(name = "station_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"id", "image", "serviceSet", "file", "distance"})
     private Station stationId;
+    @JsonIgnore
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
@@ -98,12 +109,12 @@ public class ServiceOrder implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Journey getJourneyId() {
-        return journeyId;
+    public Journey getJourneyName() {
+        return journeyName;
     }
 
-    public void setJourneyId(Journey journeyId) {
-        this.journeyId = journeyId;
+    public void setJourneyName(Journey journeyName) {
+        this.journeyName = journeyName;
     }
 
     public Service getServiceId() {
@@ -154,5 +165,5 @@ public class ServiceOrder implements Serializable {
     public String toString() {
         return "com.kmt.pojo.ServiceOrder[ id=" + id + " ]";
     }
-    
+
 }

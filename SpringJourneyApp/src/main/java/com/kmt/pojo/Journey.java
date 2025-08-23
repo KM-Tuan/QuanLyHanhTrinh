@@ -4,6 +4,7 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -96,11 +97,13 @@ public class Journey implements Serializable {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "journeyId")
+    @JsonIgnore
     private Set<FoodOrder> foodOrderSet;
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User createdBy;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journeyId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journeyName")
+    @JsonIgnore
     private Set<ServiceOrder> serviceOrderSet;
 
     public Journey() {

@@ -12,7 +12,9 @@ export const endpoints = {
     'track-journey': '/track-journey',
     'station': (stationId) => `/stations/${stationId}`,
     'journey-stations': (journeyName) => `/journeys/${journeyName}/stations`,
-    'station-services': (stationId) => `/stations/${stationId}/services`
+    'station-services': (stationId) => `/stations/${stationId}/services`,
+    'service-register': '/service-register',
+    'my-service': (userId) => `/service-register/user/${userId}`
 }
 
 export const authApis = () => { //Dùng để gọi các api cần chứng thực

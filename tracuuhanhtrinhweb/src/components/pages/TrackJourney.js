@@ -71,7 +71,7 @@ const TrackJourney = () => {
             nav("/login");
             return;
         }
-        nav(`/service-registration/${stationId}`);
+        nav(`/service-registration/${stationId}`, { state: { journeyName } });
     };
 
     return (
