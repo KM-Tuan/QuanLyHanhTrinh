@@ -4,18 +4,14 @@
  */
 package com.kmt.service;
 
-import com.kmt.pojo.Food;
+import com.kmt.pojo.FoodOrder;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author kieum
  */
-public interface FoodService {
-    List<Food> getFoods();
-    List<Food> getFoodsPaginated(int page, int size);
-    long countFoods();
-    Food getFoodById(int id);
-    void addOrUpdateFood(Food food, int categoryId);
-    void deleteFoodById(int id);
+public interface FoodOrderService {
+    FoodOrder createOrder(List<Map<String, Object>> items, Integer userId, String journeyName);
 }

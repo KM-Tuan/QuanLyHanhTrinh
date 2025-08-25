@@ -4,6 +4,7 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,6 +51,7 @@ public class FoodOrderItem implements Serializable {
     private Food foodId;
     @JoinColumn(name = "food_order_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonBackReference
     private FoodOrder foodOrderId;
 
     public FoodOrderItem() {

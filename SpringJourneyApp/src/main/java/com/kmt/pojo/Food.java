@@ -4,6 +4,7 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,6 +38,8 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Food.findByName", query = "SELECT f FROM Food f WHERE f.name = :name"),
     @NamedQuery(name = "Food.findByImage", query = "SELECT f FROM Food f WHERE f.image = :image"),
     @NamedQuery(name = "Food.findByPrice", query = "SELECT f FROM Food f WHERE f.price = :price"),
+    @NamedQuery(name = "Food.findAllPaginated", query = "SELECT f FROM Food f ORDER BY f.id"),
+    @NamedQuery(name = "Food.countAll", query = "SELECT COUNT(f) FROM Food f"),
     @NamedQuery(name = "Food.findByQuantity", query = "SELECT f FROM Food f WHERE f.quantity = :quantity")})
 public class Food implements Serializable {
 
@@ -61,19 +64,23 @@ public class Food implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "price")
-    private double price;
+    private int price;
     @Basic(optional = false)
     @NotNull
     @Column(name = "quantity")
     private int quantity;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "foodId")
+    @JsonIgnore
     private Set<FoodComment> foodCommentSet;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private FoodCategory categoryId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "foodId")
+    @JsonIgnore
     private Set<FoodLike> foodLikeSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "foodId")
+    @JsonIgnore
     private Set<FoodOrderItem> foodOrderItemSet;
     @Transient
     private MultipartFile file;
@@ -85,7 +92,7 @@ public class Food implements Serializable {
         this.id = id;
     }
 
-    public Food(Integer id, String name, double price, int quantity) {
+    public Food(Integer id, String name, int price, int quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -124,11 +131,11 @@ public class Food implements Serializable {
         this.image = image;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -23,7 +23,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  *
@@ -53,7 +52,8 @@ public class ServiceOrder implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "created_at")
-    private Date createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
     @JoinColumn(name = "journey_name", referencedColumnName = "name")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"id", "trainId", "departureStationId", "arrivalStationId", 
@@ -101,11 +101,11 @@ public class ServiceOrder implements Serializable {
         this.name = name;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

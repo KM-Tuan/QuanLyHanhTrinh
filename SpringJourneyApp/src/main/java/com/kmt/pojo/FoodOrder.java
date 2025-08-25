@@ -5,6 +5,8 @@
 package com.kmt.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,7 +24,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -35,7 +38,6 @@ import java.util.Set;
     @NamedQuery(name = "FoodOrder.findById", query = "SELECT f FROM FoodOrder f WHERE f.id = :id"),
     @NamedQuery(name = "FoodOrder.findByName", query = "SELECT f FROM FoodOrder f WHERE f.name = :name"),
     @NamedQuery(name = "FoodOrder.findByTotalAmount", query = "SELECT f FROM FoodOrder f WHERE f.totalAmount = :totalAmount"),
-    @NamedQuery(name = "FoodOrder.findByPaymentStatus", query = "SELECT f FROM FoodOrder f WHERE f.paymentStatus = :paymentStatus"),
     @NamedQuery(name = "FoodOrder.findByCreatedAt", query = "SELECT f FROM FoodOrder f WHERE f.createdAt = :createdAt")})
 public class FoodOrder implements Serializable {
 
@@ -54,22 +56,21 @@ public class FoodOrder implements Serializable {
     @NotNull
     @Column(name = "total_amount")
     private double totalAmount;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 7)
-    @Column(name = "payment_status")
-    private String paymentStatus;
     @Column(name = "created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-    @JoinColumn(name = "journey_id", referencedColumnName = "id")
+    @JoinColumn(name = "journey_name", referencedColumnName = "name")
+    @JsonIgnoreProperties({"id", "trainId", "departureStationId", "arrivalStationId",
+        "departureTime", "arrivalTime", "totalDistance", "totalTravelTime",
+        "status", "createdAt", "createdBy", "foodOrderSet", "serviceOrderSet"})
     @ManyToOne(optional = false)
-    private Journey journeyId;
+    private Journey journeyName;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "foodOrderId")
-    private Set<FoodOrderItem> foodOrderItemSet;
+    @JsonManagedReference
+    private List<FoodOrderItem> foodOrderItemList = new ArrayList<>();
 
     public FoodOrder() {
     }
@@ -78,11 +79,10 @@ public class FoodOrder implements Serializable {
         this.id = id;
     }
 
-    public FoodOrder(Integer id, String name, double totalAmount, String paymentStatus) {
+    public FoodOrder(Integer id, String name, double totalAmount) {
         this.id = id;
         this.name = name;
         this.totalAmount = totalAmount;
-        this.paymentStatus = paymentStatus;
     }
 
     public Integer getId() {
@@ -109,14 +109,6 @@ public class FoodOrder implements Serializable {
         this.totalAmount = totalAmount;
     }
 
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -125,12 +117,12 @@ public class FoodOrder implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Journey getJourneyId() {
-        return journeyId;
+    public Journey getJourneyName() {
+        return journeyName;
     }
 
-    public void setJourneyId(Journey journeyId) {
-        this.journeyId = journeyId;
+    public void setJourneyName(Journey journeyName) {
+        this.journeyName = journeyName;
     }
 
     public User getUserId() {
@@ -141,12 +133,12 @@ public class FoodOrder implements Serializable {
         this.userId = userId;
     }
 
-    public Set<FoodOrderItem> getFoodOrderItemSet() {
-        return foodOrderItemSet;
+    public List<FoodOrderItem> getFoodOrderItemList() {
+        return foodOrderItemList;
     }
 
-    public void setFoodOrderItemSet(Set<FoodOrderItem> foodOrderItemSet) {
-        this.foodOrderItemSet = foodOrderItemSet;
+    public void setFoodOrderItemList(List<FoodOrderItem> foodOrderItemList) {
+        this.foodOrderItemList = foodOrderItemList;
     }
 
     @Override
@@ -173,5 +165,5 @@ public class FoodOrder implements Serializable {
     public String toString() {
         return "com.kmt.pojo.FoodOrder[ id=" + id + " ]";
     }
-    
+
 }

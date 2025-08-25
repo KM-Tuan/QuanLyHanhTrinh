@@ -3,192 +3,131 @@
     <head>
     <div th:replace="base :: title"></div>
     <block th:replace="base :: styles"></block>
-
     <style>
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: Arial, sans-serif;
-            color: white;
-            overflow-x: hidden;
+            margin:0;
+            padding:0;
+            font-family: Arial;
+            background:#1c1c1c;
+            color:white;
         }
-
-        #bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-
-        .content-wrapper {
-            padding: 100px 20px 140px 20px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-
-        /* Container chứa tiêu đề và cả 2 bảng */
         .table-container {
-            background-color: rgba(19, 16, 16, 0.85);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
-            width: 100%;
-            max-width: 1300px;
+            margin:50px auto;
+            padding:30px;
+            background:rgba(19,16,16,0.85);
+            border-radius:12px;
+            width:80%;
         }
-
-        .table-container h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        .tables-flex {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .single-table {
-            flex: 1;
-            max-width: 600px;
-        }
-
-        .single-table h3 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
         table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: transparent;
+            width:100%;
+            border-collapse:collapse;
         }
-
         th, td {
-            border: 1px solid #444;
-            padding: 12px;
-            text-align: center;
-            background-color: rgba(30, 30, 30, 0.75);
-            color: #fff;
+            padding:12px;
+            text-align:center;
+            border:1px solid #444;
         }
-
         th {
-            background-color: rgba(42, 42, 42, 0.85);
+            background-color: rgba(42,42,42,0.85);
+        }
+        tr:hover {
+            background-color: rgba(51,51,51,0.85);
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center; /* căn giữa container */
+            display: flex;
+            justify-content: center; /* căn giữa tất cả các link */
+            flex-wrap: wrap; /* nếu quá nhiều trang, xuống hàng */
+            gap: 5px; /* khoảng cách giữa các số */
         }
 
-        tr:hover {
-            background-color: rgba(51, 51, 51, 0.85);
+        .pagination a {
+            padding: 6px 12px;
+            background: #28a745;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block; /* đảm bảo các link hiển thị ngang hàng */
+        }
+
+        .pagination a.active {
+            background: #007bff;
+        }
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Video nền -->
-    <video id="bg-video" autoplay muted loop playsinline>
-        <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-    </video>
-
     <div th:replace="base :: header"></div>
-
-    <div th:replace="base :: sidebar"></div>
 
     <div class="content-wrapper">
         <div class="table-container">
+            <h1 style="text-align:center;">DANH SÁCH MÓN ĂN</h1>
 
-            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
-                <span th:text="${successMessage}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <!-- Nút thêm mới -->
+            <div style="text-align:right;">
+                <a th:href="@{/addChoice}" class="btn-add">
+                    <i class="fas fa-plus-circle"></i> Thêm mới
+                </a>
             </div>
 
-            <h1>DANH SÁCH MENU</h1>
-            <div class="tables-flex">
-                <div class="single-table">
-                    <h3>NƯỚC UỐNG</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên</th>
-                                <th>Hành động</th>
-                            </tr>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="d : ${drinks}">
-                                <td th:text="${d.id}"></td>
-                                <td th:text="${d.name}"></td>
-                                <td>
-                                    <!-- Link chỉnh sửa -->
-                                    <a th:href="@{/foods/add/{id}(id=${d.id})}"
-                                       class="btn btn-sm btn-primary">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <!-- Link xóa -->
-                                    <a th:href="@{/foods/delete/{id}(id=${d.id})}"
-                                       class="btn btn-sm btn-danger"
-                                       onclick="return confirm('Bạn có chắc chắn muốn xóa món này?');">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="single-table">
-                    <h3>MÓN ĂN</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="f : ${foods}">
-                                <td th:text="${f.id}"></td>
-                                <td th:text="${f.name}"></td>
-                                <td>
-                                    <!-- Link chỉnh sửa -->
-                                    <a th:href="@{/foods/add/{id}(id=${f.id})}"
-                                       class="btn btn-sm btn-primary">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <!-- Link xóa -->
-                                    <a th:href="@{/foods/delete/{id}(id=${f.id})}"
-                                       class="btn btn-sm btn-danger"
-                                       onclick="return confirm('Bạn có chắc chắn muốn xóa món này?');">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Giá</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="f : ${foods}">
+                        <td th:text="${f.id}"></td>
+                        <td th:text="${f.name}"></td>
+                        <td th:text="${f.price} + ' VNĐ'"></td>
+                        <td>
+                            <a th:href="@{/foods/add/{id}(id=${f.id})}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a th:href="@{/foods/delete/{id}(id=${f.id})}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa món này?');">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                    <div style="margin-top: 20px; text-align: right;">
-                        <a th:href="@{/addChoice}"
-                           style="background-color: #28a745; color: white; padding: 10px 20px;
-                           text-decoration: none; border-radius: 6px; font-weight: bold;
-                           display: inline-flex; align-items: center; gap: 8px;">
-                            <i class="fas fa-plus-circle"></i> Thêm mới
-                        </a>
-                    </div>
+            <!-- Pagination -->
+            <div class="pagination">
+                <a th:if="${currentPage > 0}"
+                   th:href="@{/foods(page=${currentPage - 1}, size=${size})}">« Trước</a>
 
-                </div>
+                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{/foods(page=${i}, size=${size})}"
+                       th:text="${i + 1}"
+                       th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                </span>
+
+                <a th:if="${currentPage + 1 < totalPages}"
+                   th:href="@{/foods(page=${currentPage + 1}, size=${size})}">Sau »</a>
             </div>
+
         </div>
     </div>
 
     <div th:replace="base :: footer"></div>
 </body>
 </html>
-

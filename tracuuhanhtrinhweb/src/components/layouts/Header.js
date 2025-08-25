@@ -1,13 +1,21 @@
 import { useContext, useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { MyDispatcherContext, MyUserContext } from "../../configs/MyContexts";
+import { Link, useNavigate } from "react-router-dom";
+import { MyCartContext, MyDispatcherContext, MyUserContext } from "../../configs/MyContexts";
 import { Button } from "react-bootstrap";
+import cookie from "react-cookies";
 
 const Header = () => {
     const user = useContext(MyUserContext);
     const dispatch = useContext(MyDispatcherContext);
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
+    const [cart,] = useContext(MyCartContext);
+    const [total, setTotal] = useState(0);
+    const nav = useNavigate();
+
+    useEffect(() => {
+        setShowDropdown(false);
+    }, [user]);
 
     // Đóng dropdown khi click ra ngoài
     useEffect(() => {
@@ -19,6 +27,14 @@ const Header = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    const handleCartClick = () => {
+        if (cart === 0) {
+            nav("/menu");
+        } else {
+            nav("/cart");
+        }
+    };
 
     return (
         <header
@@ -44,6 +60,21 @@ const Header = () => {
 
                 {/* Nút góc phải */}
                 <div className="d-flex gap-2 align-items-center">
+                    {/* Nút mua sắm */}
+                    <Button
+                        onClick={handleCartClick}
+                        style={{
+                            backgroundColor: "#28a745",
+                            color: "#fff",
+                            borderRadius: "8px",
+                            boxShadow: "0px 4px 6px rgba(0,0,0,0.2)",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        {cart === 0 ? "Mua sắm" : "Thanh toán"}
+                        <span className="badge bg-danger ms-2">{cart}</span>
+                    </Button>
+
                     {user === null ? (
                         <>
                             <Link
@@ -89,6 +120,7 @@ const Header = () => {
                                 <img
                                     src={user.avatar}
                                     width="40"
+                                    height="40"
                                     className="rounded-circle me-2"
                                 />
                                 <span style={{ color: "#fff", fontWeight: "bold" }}>
@@ -106,13 +138,15 @@ const Header = () => {
                                         to="/sub-home"
                                         className="dropdown-item"
                                         style={{ color: "#131010" }}
+                                        onClick={() => setShowDropdown(false)}
                                     >
                                         Lịch sử
                                     </Link>
                                     <Link
-                                        to="/profile"
+                                        to="/my-profile"
                                         className="dropdown-item"
                                         style={{ color: "#131010" }}
+                                        onClick={() => setShowDropdown(false)}
                                     >
                                         Thông tin
                                     </Link>

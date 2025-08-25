@@ -41,7 +41,7 @@ public class ApiJourneyController {
         }
 
         int progress = scheduler.calculateProgress(j, LocalDateTime.now());
-        
+
         int traveled = (int) ((j.getTotalDistance() * progress) / 100.0);
         int remaining = j.getTotalDistance() - traveled;
 
@@ -52,6 +52,12 @@ public class ApiJourneyController {
         result.put("remainingDistance", remaining);
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/journey")
+    public ResponseEntity<?> getJourneyByName(@RequestParam("journeyName") String journeyName) {
+        Journey j = jourSer.getJourneyByName(journeyName);
+        return ResponseEntity.ok(j);
     }
 
 }

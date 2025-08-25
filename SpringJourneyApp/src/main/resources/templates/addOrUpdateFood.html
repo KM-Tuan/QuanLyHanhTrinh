@@ -107,7 +107,7 @@
                 <textarea th:field="*{description}" placeholder="Nhập mô tả món ăn"></textarea>
 
                 <label for="price">Giá</label>
-                <input type="number" th:field="*{price}" placeholder="Nhập giá" min="0" step="0.01" required/>
+                <input type="number" th:field="*{price}" placeholder="Nhập giá" min="0" required/>
 
                 <label for="quantity">Số lượng</label>
                 <input type="number" th:field="*{quantity}" placeholder="Nhập số lượng" min="0" required/>
@@ -126,7 +126,8 @@
                 <!-- Hiển thị ảnh hiện tại nếu đang ở chế độ cập nhật -->
                 <div th:if="${food.image != null}">
                     <p>Ảnh hiện tại:</p>
-                    <img th:src="@{${food.image}}" alt="Ảnh món ăn" style="max-width: 100%; border-radius: 8px;"/>
+                    <img th:src="@{${food.image}}" alt="Ảnh món ăn" 
+                         style="width: 200px; height: 200px; object-fit: cover; border-radius: 8px; display: block; margin-top: 10px;"/>
                 </div>
 
                 <button type="submit" class="btn-submit">Lưu</button>

@@ -7,7 +7,7 @@ import Register from "./components/pages/Register";
 import Login from "./components/pages/Login";
 import Menu from "./components/pages/Menu";
 import TrackJourney from "./components/pages/TrackJourney";
-import { MyDispatcherContext, MyUserContext } from "./configs/MyContexts";
+import { MyCartContext, MyDispatcherContext, MyUserContext } from "./configs/MyContexts";
 import { useEffect, useReducer } from "react";
 import MyUserReducer from "./reducers/MyUserReducer";
 import ServiceRegistration from "./components/pages/ServiceRegistration";
@@ -15,10 +15,18 @@ import cookie from "react-cookies";
 import { authApis, endpoints } from "./configs/Apis";
 import SubHome from "./components/pages/SubHome";
 import MyServiceOrders from "./components/pages/MyServiceOrders";
+import MyProfile from "./components/pages/MyProfile";
+import MyCartReducer from "./reducers/MyCartReducer";
+import Cart from "./components/pages/Cart";
 
+const getCartTotalFromCookie = () => {
+    const cartCookie = cookie.load('cart') || {};
+    return Object.values(cartCookie).reduce((sum, c) => sum + c.quantity, 0);
+  };
 
 const App = () => {
   const [user, dispatch] = useReducer(MyUserReducer, null);
+  const [cart, cartDispatch] = useReducer(MyCartReducer, getCartTotalFromCookie());
 
   useEffect(() => {
     const token = cookie.load('token');
@@ -37,22 +45,26 @@ const App = () => {
   return (
     <MyUserContext.Provider value={user}>
       <MyDispatcherContext.Provider value={dispatch}>
-        <BrowserRouter>
-          <Header />
+        <MyCartContext.Provider value={[cart, cartDispatch]}>
+          <BrowserRouter>
+            <Header />
 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/track-journey" element={<TrackJourney />} />
-            <Route path="/service-registration/:stationId" element={<ServiceRegistration />} />
-            <Route path="/sub-home" element={<SubHome />} />
-            <Route path="/my-service/:userId" element={<MyServiceOrders />} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/track-journey" element={<TrackJourney />} />
+              <Route path="/service-registration/:stationId" element={<ServiceRegistration />} />
+              <Route path="/sub-home" element={<SubHome />} />
+              <Route path="/my-service/:userId" element={<MyServiceOrders />} />
+              <Route path="/my-profile" element={<MyProfile />} />
+              <Route path="/cart" element={<Cart />} />
+            </Routes>
 
-          <Footer />
-        </BrowserRouter>
+            <Footer />
+          </BrowserRouter>
+        </MyCartContext.Provider>
       </MyDispatcherContext.Provider>
     </MyUserContext.Provider>
   );

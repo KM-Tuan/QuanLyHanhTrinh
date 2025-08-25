@@ -13,6 +13,8 @@ import java.util.List;
  */
 public interface FoodRepository {
     List<Food> getFoods();
+    List<Food> getFoodsPaginated(int page, int size);
+    long countFoods();
     void addOrUpdateFood(Food f);
     Food getFoodById(int id);
     void deleteFoodById(int id);

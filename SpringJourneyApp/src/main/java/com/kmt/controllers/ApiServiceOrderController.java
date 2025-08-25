@@ -73,7 +73,7 @@ public class ApiServiceOrderController {
         order.setJourneyName(journey);
         order.setUserId(user);
         order.setName(service.getName());
-        order.setCreatedAt(new Date());
+        order.setCreatedAt(LocalDateTime.now());
 
         serviceOrderSer.createServiceOrder(order);
         return ResponseEntity.ok(order);

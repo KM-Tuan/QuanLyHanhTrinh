@@ -96,7 +96,7 @@ public class Journey implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journeyId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journeyName")
     @JsonIgnore
     private Set<FoodOrder> foodOrderSet;
     @JoinColumn(name = "created_by", referencedColumnName = "id")

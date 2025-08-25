@@ -85,4 +85,14 @@ public class FoodServiceImpl implements FoodService {
         this.foodRepo.deleteFoodById(id);
     }
 
+    @Override
+    public List<Food> getFoodsPaginated(int page, int size) {
+        return this.foodRepo.getFoodsPaginated(page, size);
+    }
+
+    @Override
+    public long countFoods() {
+        return this.foodRepo.countFoods();
+    }
+
 }

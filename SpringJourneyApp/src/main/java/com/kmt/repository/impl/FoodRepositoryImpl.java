@@ -49,6 +49,24 @@ public class FoodRepositoryImpl implements FoodRepository {
         Query q = s.createNamedQuery("Food.findAll", Food.class);
         return q.getResultList();
     }
+    
+    @Override
+    public List<Food> getFoodsPaginated(int page, int size) {
+        Session session = factory.getObject().getCurrentSession();
+        Query<Food> q = session.createNamedQuery("Food.findAllPaginated", Food.class);
+
+        q.setFirstResult(page * size);
+        q.setMaxResults(size);
+
+        return q.getResultList();
+    }
+
+    @Override
+    public long countFoods() {
+        Session session = factory.getObject().getCurrentSession();
+        Query<Long> q = session.createNamedQuery("Food.countAll", Long.class);
+        return q.getSingleResult();
+    }
 
     @Override
     public void deleteFoodById(int id) {

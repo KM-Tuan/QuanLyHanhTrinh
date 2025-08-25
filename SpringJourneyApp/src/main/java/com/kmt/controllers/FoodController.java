@@ -34,18 +34,18 @@ public class FoodController {
     private FoodCategoryService cateSer;
 
     @GetMapping("/foods")
-    public String addFoodForm(Model model) {
-        List<Food> allFoods = foodSer.getFoods();
-        List<Food> drinks = allFoods.stream()
-                .filter(f -> f.getCategoryId().getId() == 1)
-                .collect(Collectors.toList());
+    public String listFoods(Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size) {
+        List<Food> foods = foodSer.getFoodsPaginated(page, size);
+        long totalFoods = foodSer.countFoods();
+        int totalPages = (int) Math.ceil((double) totalFoods / size);
 
-        List<Food> foods = allFoods.stream()
-                .filter(f -> f.getCategoryId().getId() == 2)
-                .collect(Collectors.toList());
-
-        model.addAttribute("drinks", drinks);
         model.addAttribute("foods", foods);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("size", size);
+
         return "foods";
     }
 
