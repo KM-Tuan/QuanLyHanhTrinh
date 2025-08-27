@@ -55,8 +55,8 @@ public class ServiceOrderRepositoryImpl implements ServiceOrderRepository {
     
     @Override
     public List<ServiceOrder> getServiceOrdersByUserId(int userId) {
-        Session session = factory.getObject().getCurrentSession();
-        Query<ServiceOrder> query = session.createNamedQuery("ServiceOrder.findByUserId", ServiceOrder.class);
+        Session s = factory.getObject().getCurrentSession();
+        Query<ServiceOrder> query = s.createNamedQuery("ServiceOrder.findByUserId", ServiceOrder.class);
         query.setParameter("userId", userId);
         return query.getResultList();
     }

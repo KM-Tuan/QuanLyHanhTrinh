@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { MyUserContext } from "../../configs/MyContexts";
 
-const SubHome = () => {
-    const user = useContext(MyUserContext);
-
+const Statistic = () => {
     const squareStyle = {
         width: "200px",
         height: "200px",
-        backgroundColor: "#674188",
+        backgroundColor: "#4CAF50",
         color: "#fff",
         display: "flex",
         justifyContent: "center",
@@ -25,42 +22,43 @@ const SubHome = () => {
         boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
     };
 
-    const [hoverLeft, setHoverLeft] = React.useState(false);
-    const [hoverRight, setHoverRight] = React.useState(false);
+    const [hoverFood, setHoverFood] = useState(false);
+    const [hoverCredit, setHoverCredit] = useState(false);
 
     return (
         <div
             className="d-flex justify-content-center align-items-center"
             style={{ height: "80vh", gap: "50px" }}
         >
-            {/* Div bên trái */}
+            {/* Div icon đồ ăn */}
             <Link
-                to={`/my-service/${user.id}`} 
+                to="/most-ordered-statistic"
                 style={{
                     ...squareStyle,
-                    ...(hoverLeft ? hoverStyle : {}),
+                    backgroundColor: "#FF6F61",
+                    ...(hoverFood ? hoverStyle : {}),
                 }}
-                onMouseEnter={() => setHoverLeft(true)}
-                onMouseLeave={() => setHoverLeft(false)}
+                onMouseEnter={() => setHoverFood(true)}
+                onMouseLeave={() => setHoverFood(false)}
             >
-                <i className="bi bi-tools"></i>
+                <i className="bi bi-basket"></i>
             </Link>
 
-            {/* Div bên phải */}
+            {/* Div icon tín dụng */}
             <Link
-                to="/menu"
+                to="/total-amount-statistic"
                 style={{
                     ...squareStyle,
-                    backgroundColor: "#C95792",
-                    ...(hoverRight ? hoverStyle : {}),
+                    backgroundColor: "#3F51B5",
+                    ...(hoverCredit ? hoverStyle : {}),
                 }}
-                onMouseEnter={() => setHoverRight(true)}
-                onMouseLeave={() => setHoverRight(false)}
+                onMouseEnter={() => setHoverCredit(true)}
+                onMouseLeave={() => setHoverCredit(false)}
             >
-                <i className="bi bi-list"></i>
+                <i className="bi bi-currency-dollar"></i>
             </Link>
         </div>
     );
 };
 
-export default SubHome;
+export default Statistic;

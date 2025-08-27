@@ -5,6 +5,7 @@
 package com.kmt.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Basic;
@@ -37,8 +38,24 @@ import java.util.List;
     @NamedQuery(name = "FoodOrder.findAll", query = "SELECT f FROM FoodOrder f"),
     @NamedQuery(name = "FoodOrder.findById", query = "SELECT f FROM FoodOrder f WHERE f.id = :id"),
     @NamedQuery(name = "FoodOrder.findByName", query = "SELECT f FROM FoodOrder f WHERE f.name = :name"),
+    @NamedQuery(name = "FoodOrder.findByUserId", query = "SELECT f FROM FoodOrder f WHERE f.userId.id = :userId"),
     @NamedQuery(name = "FoodOrder.findByTotalAmount", query = "SELECT f FROM FoodOrder f WHERE f.totalAmount = :totalAmount"),
-    @NamedQuery(name = "FoodOrder.findByCreatedAt", query = "SELECT f FROM FoodOrder f WHERE f.createdAt = :createdAt")})
+    @NamedQuery(name = "FoodOrder.findByCreatedAt", query = "SELECT f FROM FoodOrder f WHERE f.createdAt = :createdAt"),
+    @NamedQuery(name = "FoodOrder.totalRevenueByDay", query = "SELECT FUNCTION('DATE', fo.createdAt) AS day, SUM(fo.totalAmount) AS totalRevenue "
+            + "FROM FoodOrder fo "
+            + "GROUP BY FUNCTION('DATE', fo.createdAt) "
+            + "ORDER BY day"),
+    @NamedQuery(name = "FoodOrder.totalRevenueByMonth", query = "SELECT FUNCTION('YEAR', fo.createdAt) AS year, FUNCTION('MONTH', fo.createdAt) AS month, SUM(fo.totalAmount) AS totalRevenue "
+            + "FROM FoodOrder fo "
+            + "GROUP BY FUNCTION('YEAR', fo.createdAt), FUNCTION('MONTH', fo.createdAt) "
+            + "ORDER BY year, month"),
+    @NamedQuery(
+            name = "FoodOrder.totalRevenueByYear",
+            query = "SELECT FUNCTION('YEAR', fo.createdAt) AS year, SUM(fo.totalAmount) AS totalRevenue "
+            + "FROM FoodOrder fo "
+            + "GROUP BY FUNCTION('YEAR', fo.createdAt) "
+            + "ORDER BY year"
+    )})
 public class FoodOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,9 +84,11 @@ public class FoodOrder implements Serializable {
     private Journey journeyName;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnoreProperties(value = {"username", "firstName", "lastName", "avatar", "role", "isActive", "phone", "email"})
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "foodOrderId")
     @JsonManagedReference
+    @JsonIgnore
     private List<FoodOrderItem> foodOrderItemList = new ArrayList<>();
 
     public FoodOrder() {

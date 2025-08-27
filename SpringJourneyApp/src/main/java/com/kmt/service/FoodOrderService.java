@@ -14,4 +14,8 @@ import java.util.Map;
  */
 public interface FoodOrderService {
     FoodOrder createOrder(List<Map<String, Object>> items, Integer userId, String journeyName);
+    List<FoodOrder> getOrderByUserId(int userId);
+    List<Object[]> getTotalRevenueByDay();
+    List<Object[]> getTotalRevenueByMonth();
+    List<Object[]> getTotalRevenueByYear();
 }

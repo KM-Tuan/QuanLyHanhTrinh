@@ -2,7 +2,6 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MyCartContext, MyDispatcherContext, MyUserContext } from "../../configs/MyContexts";
 import { Button } from "react-bootstrap";
-import cookie from "react-cookies";
 
 const Header = () => {
     const user = useContext(MyUserContext);
@@ -10,7 +9,6 @@ const Header = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
     const [cart,] = useContext(MyCartContext);
-    const [total, setTotal] = useState(0);
     const nav = useNavigate();
 
     useEffect(() => {
@@ -134,14 +132,29 @@ const Header = () => {
                                     className="position-absolute mt-2 py-2 bg-white rounded shadow"
                                     style={{ right: 0, minWidth: "150px", zIndex: 1000 }}
                                 >
-                                    <Link
-                                        to="/sub-home"
-                                        className="dropdown-item"
-                                        style={{ color: "#131010" }}
-                                        onClick={() => setShowDropdown(false)}
-                                    >
-                                        Lịch sử
-                                    </Link>
+                                    {/* Nếu là STAFF thì hiển thị thêm */}
+                                    {user.role === "STAFF" && (
+                                        <Link
+                                            to="/statistic"
+                                            className="dropdown-item"
+                                            style={{ color: "#131010" }}
+                                            onClick={() => setShowDropdown(false)}
+                                        >
+                                            Thống kê
+                                        </Link>
+                                    )}
+
+                                    {user.role === "PASSENGER" && (
+                                        <Link
+                                            to="/history"
+                                            className="dropdown-item"
+                                            style={{ color: "#131010" }}
+                                            onClick={() => setShowDropdown(false)}
+                                        >
+                                            Lịch sử
+                                        </Link>
+                                    )}
+
                                     <Link
                                         to="/my-profile"
                                         className="dropdown-item"

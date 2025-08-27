@@ -71,4 +71,24 @@ public class FoodOrderServiceImpl implements FoodOrderService {
         return orderRepo.saveOrder(order);
     }
 
+    @Override
+    public List<Object[]> getTotalRevenueByDay() {
+        return this.orderRepo.getTotalRevenueByDay();
+    }
+
+    @Override
+    public List<Object[]> getTotalRevenueByMonth() {
+        return this.orderRepo.getTotalRevenueByMonth();
+    }
+
+    @Override
+    public List<Object[]> getTotalRevenueByYear() {
+        return this.orderRepo.getTotalRevenueByYear();
+    }
+
+    @Override
+    public List<FoodOrder> getOrderByUserId(int userId) {
+        return this.orderRepo.getOrderByUserId(userId);
+    }
+
 }

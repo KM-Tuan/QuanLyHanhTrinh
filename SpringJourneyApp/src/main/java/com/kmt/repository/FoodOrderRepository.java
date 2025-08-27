@@ -5,6 +5,7 @@
 package com.kmt.repository;
 
 import com.kmt.pojo.FoodOrder;
+import java.util.List;
 
 /**
  *
@@ -12,4 +13,8 @@ import com.kmt.pojo.FoodOrder;
  */
 public interface FoodOrderRepository {
     FoodOrder saveOrder(FoodOrder order);
+    List<FoodOrder> getOrderByUserId(int userId);
+    List<Object[]> getTotalRevenueByDay();
+    List<Object[]> getTotalRevenueByMonth();
+    List<Object[]> getTotalRevenueByYear();
 }

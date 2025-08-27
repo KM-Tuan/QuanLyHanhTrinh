@@ -16,7 +16,22 @@ export const endpoints = {
     'station-services': (stationId) => `/stations/${stationId}/services`,
     'service-register': '/service-register',
     'my-service': (userId) => `/service-register/user/${userId}`,
-    'cart': '/cart'
+    'my-food': (userId) => `/cart/user/${userId}`,
+    'cart': '/cart',
+
+    // Thống kê
+    'ordered-json': '/statistics/most-ordered',
+    'ordered-csv': '/statistics/most-ordered/csv',
+    'ordered-pdf': '/statistics/most-ordered/pdf',
+    'total-day-json': '/statistics/day',
+    'total-month-json': '/statistics/month',
+    'total-year-json': '/statistics/year',
+    'total-day-csv': '/statistics/day/csv',
+    'total-month-csv': '/statistics/month/csv',
+    'total-year-csv': '/statistics/year/csv',
+    'total-day-pdf': '/statistics/day/pdf',
+    'total-month-pdf': '/statistics/month/pdf',
+    'total-year-pdf': '/statistics/year/pdf',
 }
 
 export const authApis = () => { //Dùng để gọi các api cần chứng thực

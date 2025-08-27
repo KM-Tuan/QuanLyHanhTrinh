@@ -63,12 +63,21 @@ public class SpringSecurityConfigs {
                 .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/api/users", "/api/login", "/api/track-journey", "/api/journeys/{journeyName}/stations", "/api/foods"
                 ).permitAll()
-                .requestMatchers("/api/secure/profile", 
-                        "/api/stations/{stationId}", "/api/stations/{stationId}/services", 
-                        "/api/service-register" , "/api/service-register/user/{userId}",
-                        "/api/cart", "/api/journey"
-                ).hasAnyRole("STAFF", "PASSENGER")
-                .requestMatchers("/", "/journeys", "/foods", "/stations", "/trains", "/users", "/addChoice",
+                .requestMatchers(
+                        "/api/secure/profile",
+                        "/api/stations/{stationId}", "/api/stations/{stationId}/services"
+                ).hasAnyRole("ADMIN", "STAFF", "PASSENGER")
+                .requestMatchers(
+                        "/api/service-register", "/api/service-register/user/{userId}",
+                        "/api/cart", "/api/cart/user/{userId}", "/api/journey"
+                ).hasAnyRole("PASSENGER")
+                .requestMatchers(
+                        "/api/statistics/most-ordered", "/api/statistics/most-ordered/csv", "/api/statistics/most-ordered/pdf",
+                        "/api/statistics/day", "/api/statistics/month", "/api/statistics/year",
+                        "/api/statistics/day/csv", "/api/statistics/month/csv", "/api/statistics/year/csv", "/api/statistics/day/pdf", "/api/statistics/month/pdf", "/api/statistics/year/pdf"
+                ).hasAnyRole("STAFF")
+                .requestMatchers(
+                        "/", "/journeys", "/foods", "/stations", "/trains", "/users", "/addChoice",
                         "/journeys/add", "/journeys/add/step1", "/journeys/add/step2", "/journeys/add/step3",
                         "/journeys/add/submit", "/journeys/add/{id}/step1", "/journeys/add/{id}/step2",
                         "/journeys/add/{id}/step3", "/journeys/add/{id}/submit", "/journeys/delete/{id}",

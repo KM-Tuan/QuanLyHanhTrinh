@@ -29,7 +29,13 @@ import java.io.Serializable;
     @NamedQuery(name = "FoodOrderItem.findAll", query = "SELECT f FROM FoodOrderItem f"),
     @NamedQuery(name = "FoodOrderItem.findById", query = "SELECT f FROM FoodOrderItem f WHERE f.id = :id"),
     @NamedQuery(name = "FoodOrderItem.findByQuantity", query = "SELECT f FROM FoodOrderItem f WHERE f.quantity = :quantity"),
-    @NamedQuery(name = "FoodOrderItem.findByPrice", query = "SELECT f FROM FoodOrderItem f WHERE f.price = :price")})
+    @NamedQuery(name = "FoodOrderItem.findByPrice", query = "SELECT f FROM FoodOrderItem f WHERE f.price = :price"),
+    @NamedQuery(name = "FoodOrderItem.findMostOrderedByJourney", query = "SELECT fo.journeyName.name AS journeyName, i.foodId.name AS foodName, SUM(i.quantity) AS totalOrdered "
+            + "FROM FoodOrderItem i "
+            + "JOIN i.foodOrderId fo "
+            + "GROUP BY fo.journeyName.name, i.foodId.name "
+            + "ORDER BY totalOrdered DESC"
+    )})
 public class FoodOrderItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -131,5 +137,5 @@ public class FoodOrderItem implements Serializable {
     public String toString() {
         return "com.kmt.pojo.FoodOrderItem[ id=" + id + " ]";
     }
-    
+
 }

@@ -13,16 +13,20 @@ import MyUserReducer from "./reducers/MyUserReducer";
 import ServiceRegistration from "./components/pages/ServiceRegistration";
 import cookie from "react-cookies";
 import { authApis, endpoints } from "./configs/Apis";
-import SubHome from "./components/pages/SubHome";
-import MyServiceOrders from "./components/pages/MyServiceOrders";
+import History from "./components/Passenger/History";
+import MyServiceOrders from "./components/Passenger/MyServiceOrders";
+import MostOrderedStatistic from "./components/Staff/MostOrderedStatistic";
+import Statistic from "./components/Staff/Statistic";
 import MyProfile from "./components/pages/MyProfile";
 import MyCartReducer from "./reducers/MyCartReducer";
 import Cart from "./components/pages/Cart";
+import TotalAmountStatistic from "./components/Staff/TotalAmountStatistic";
+import MyFoodOrders from "./components/Passenger/MyFoodOrders";
 
 const getCartTotalFromCookie = () => {
-    const cartCookie = cookie.load('cart') || {};
-    return Object.values(cartCookie).reduce((sum, c) => sum + c.quantity, 0);
-  };
+  const cartCookie = cookie.load('cart') || {};
+  return Object.values(cartCookie).reduce((sum, c) => sum + c.quantity, 0);
+};
 
 const App = () => {
   const [user, dispatch] = useReducer(MyUserReducer, null);
@@ -56,10 +60,16 @@ const App = () => {
               <Route path="/menu" element={<Menu />} />
               <Route path="/track-journey" element={<TrackJourney />} />
               <Route path="/service-registration/:stationId" element={<ServiceRegistration />} />
-              <Route path="/sub-home" element={<SubHome />} />
+              <Route path="/history" element={<History />} />
               <Route path="/my-service/:userId" element={<MyServiceOrders />} />
+              <Route path="/my-food/:userId" element={<MyFoodOrders />} />
               <Route path="/my-profile" element={<MyProfile />} />
               <Route path="/cart" element={<Cart />} />
+
+              {/* Thống kê */}
+              <Route path="/statistic" element={<Statistic />} />
+              <Route path="/most-ordered-statistic" element={<MostOrderedStatistic />} />
+              <Route path="/total-amount-statistic" element={<TotalAmountStatistic />} />
             </Routes>
 
             <Footer />
