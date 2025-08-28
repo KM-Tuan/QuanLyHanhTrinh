@@ -5,6 +5,7 @@ const BASE_URL = 'http://localhost:8080/SpringJourneyApp/api/';
 
 export const endpoints = {
     'foods': '/foods',
+    'food-categories': '/food-categories',
     'journeys': '/journeys',
     'journey': '/journey',
     'register': '/users',
@@ -17,6 +18,8 @@ export const endpoints = {
     'service-register': '/service-register',
     'my-service': (userId) => `/service-register/user/${userId}`,
     'my-food': (userId) => `/cart/user/${userId}`,
+    'food-detail': (foodId) => `/foods/${foodId}`,
+    'update-food': (foodId) => `/foods/update/${foodId}`,
     'cart': '/cart',
 
     // Thống kê

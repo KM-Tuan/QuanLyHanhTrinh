@@ -22,6 +22,8 @@ import MyCartReducer from "./reducers/MyCartReducer";
 import Cart from "./components/pages/Cart";
 import TotalAmountStatistic from "./components/Staff/TotalAmountStatistic";
 import MyFoodOrders from "./components/Passenger/MyFoodOrders";
+import FoodDetail from "./components/pages/FoodDetail";
+import FoodUpdate from "./components/Staff/FoodUpdate";
 
 const getCartTotalFromCookie = () => {
   const cartCookie = cookie.load('cart') || {};
@@ -63,6 +65,8 @@ const App = () => {
               <Route path="/history" element={<History />} />
               <Route path="/my-service/:userId" element={<MyServiceOrders />} />
               <Route path="/my-food/:userId" element={<MyFoodOrders />} />
+              <Route path="/food-detail/:foodId" element={<FoodDetail />} />
+              <Route path="/update-food/:foodId" element={<FoodUpdate />} />
               <Route path="/my-profile" element={<MyProfile />} />
               <Route path="/cart" element={<Cart />} />
 

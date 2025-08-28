@@ -74,7 +74,6 @@ public class Food implements Serializable {
     private Set<FoodComment> foodCommentSet;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
     private FoodCategory categoryId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "foodId")
     @JsonIgnore
@@ -83,6 +82,7 @@ public class Food implements Serializable {
     @JsonIgnore
     private Set<FoodOrderItem> foodOrderItemSet;
     @Transient
+    @JsonIgnore
     private MultipartFile file;
 
     public Food() {
@@ -217,5 +217,5 @@ public class Food implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
+
 }

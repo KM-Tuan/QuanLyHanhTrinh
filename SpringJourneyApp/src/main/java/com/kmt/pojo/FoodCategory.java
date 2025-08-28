@@ -4,6 +4,7 @@
  */
 package com.kmt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,6 +44,7 @@ public class FoodCategory implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "categoryId")
+    @JsonIgnore
     private Set<Food> foodSet;
 
     public FoodCategory() {
@@ -105,5 +107,5 @@ public class FoodCategory implements Serializable {
     public String toString() {
         return "com.kmt.pojo.FoodCategory[ id=" + id + " ]";
     }
-    
+
 }

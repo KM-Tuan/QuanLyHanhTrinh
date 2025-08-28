@@ -62,7 +62,7 @@ const Menu = () => {
 
   const addToCart = (f) => {
     let cart = cookie.load("cart") || {};
-    
+
     if (f.id in cart) {
       cart[f.id]['quantity']++;
     } else {
@@ -77,7 +77,7 @@ const Menu = () => {
     cookie.save('cart', cart);
     console.info(cart);
 
-    cartDispatch({"type": "update"})
+    cartDispatch({ "type": "update" })
   }
 
   return (
@@ -124,7 +124,7 @@ const Menu = () => {
                 {/* Hai nút luôn cố định phía dưới */}
                 <div className="d-flex gap-2 mt-auto">
                   <Button onClick={() => addToCart(f)} className="btn btn-success flex-fill">Thêm</Button>
-                  <Link className="btn btn-primary flex-fill">Chi tiết</Link>
+                  <Link to={`/food-detail/${f.id}`} className="btn btn-primary flex-fill">Chi tiết</Link>
                 </div>
               </div>
             </div>
