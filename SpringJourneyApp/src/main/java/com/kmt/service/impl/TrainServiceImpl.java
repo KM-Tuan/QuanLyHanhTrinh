@@ -33,4 +33,31 @@ public class TrainServiceImpl implements TrainService {
         return trainRepo.getTrainById(id);
     }
 
+    @Override
+    public List<Train> getTrainsPaginated(int page, int size) {
+        return this.trainRepo.getTrainsPaginated(page, size);
+    }
+
+    @Override
+    public long countTrains() {
+        return this.trainRepo.countTrains();
+    }
+    
+    @Override
+    public void addOrUpdateTrain(Train t) {
+        Train targetTrain = (t.getId() != null) ? trainRepo.getTrainById(t.getId()) : t;
+
+        // Nếu update thì set lại các trường cần thay đổi
+        if (t.getId() != null && targetTrain != null) {
+            targetTrain.setName(t.getName());
+        }
+
+        trainRepo.addOrUpdateTrain(targetTrain);
+    }
+
+    @Override
+    public void deleteTrainById(int id) {
+        this.trainRepo.deleteTrainById(id);
+    }
+
 }

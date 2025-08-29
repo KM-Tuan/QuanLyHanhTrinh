@@ -44,9 +44,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public void addOrUpdateStation(Station s) {
-        Station targetStation = (s.getId() != null)
-                ? staRepo.getStationById(s.getId())
-                : s;
+        Station targetStation = (s.getId() != null) ? staRepo.getStationById(s.getId()) : s;
 
         // Nếu update thì set lại các trường cần thay đổi
         if (s.getId() != null && targetStation != null) {

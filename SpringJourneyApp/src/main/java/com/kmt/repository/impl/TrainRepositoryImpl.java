@@ -39,5 +39,41 @@ public class TrainRepositoryImpl implements TrainRepository {
         q.setParameter("id", id);
         return q.getSingleResult();
     }
+    
+    @Override
+    public List<Train> getTrainsPaginated(int page, int size) {
+        Session session = factory.getObject().getCurrentSession();
+        Query<Train> q = session.createNamedQuery("Train.findAllPaginated", Train.class);
+
+        q.setFirstResult(page * size);
+        q.setMaxResults(size);
+
+        return q.getResultList();
+    }
+
+    @Override
+    public long countTrains() {
+        Session session = factory.getObject().getCurrentSession();
+        Query<Long> q = session.createNamedQuery("Train.countAll", Long.class);
+        return q.getSingleResult();
+    }
+    
+    @Override
+    public void addOrUpdateTrain(Train train) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        if (train.getId() == null) {
+            s.persist(train);
+        } else {
+            s.merge(train);
+        }
+    }
+    
+    @Override
+    public void deleteTrainById(int id) {
+        Session s = factory.getObject().getCurrentSession();
+        Train train = this.getTrainById(id);
+        s.remove(train);
+    }
 
 }

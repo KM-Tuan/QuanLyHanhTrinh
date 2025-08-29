@@ -4,18 +4,13 @@
  */
 package com.kmt.repository.impl;
 
-import com.kmt.pojo.Station;
 import com.kmt.pojo.Train;
 import com.kmt.pojo.TrainRoute;
 import com.kmt.repository.TrainRouteRepository;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,4 +75,46 @@ public class TrainRouteRepositoryImpl implements TrainRouteRepository {
         return query.getResultList();
     }
 
+    @Override
+    public List<TrainRoute> findRoutesByTrainId(int trainId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Query<TrainRoute> q = session.createNamedQuery("TrainRoute.findByTrainId", TrainRoute.class);
+        q.setParameter("trainId", trainId);
+        return q.getResultList();
+    }
+
+    @Override
+    public TrainRoute findRouteById(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Query<TrainRoute> q = session.createNamedQuery("TrainRoute.findById", TrainRoute.class);
+        q.setParameter("id", id);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public void deleteRouteById(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        TrainRoute t = this.findRouteById(id);
+        session.remove(t);
+    }
+
+    @Override
+    public void addOrUpdateRoute(TrainRoute rou) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        if (rou.getId() == null) {
+            s.persist(rou);
+        } else {
+            s.merge(rou);
+        }
+    }
+
+    @Override
+    public List<TrainRoute> findLastRouteByTrainId(int trainId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Query<TrainRoute> q = session.createNamedQuery("TrainRoute.findLastByTrainId", TrainRoute.class);
+        q.setParameter("trainId", trainId);
+        q.setMaxResults(1);
+        return q.getResultList();
+    }
 }

@@ -51,7 +51,8 @@
             font-weight: bold;
         }
 
-        .form-container input {
+        .form-container input,
+        .form-container select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -75,7 +76,7 @@
             background: #0056b3;
         }
 
-        .services-wrapper {
+        .routes-wrapper {
             max-width: 95%;
             margin-top: 40px;
             background-color: rgba(30, 30, 30, 0.9);
@@ -84,25 +85,25 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.6);
         }
 
-        .service-table {
+        .routes-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             color: white;
         }
 
-        .service-table th,
-        .service-table td {
+        .routes-table th,
+        .routes-table td {
             padding: 12px;
             border: 1px solid rgba(255,255,255,0.2);
             text-align: left;
         }
 
-        .service-table th {
+        .routes-table th {
             background-color: rgba(255,255,255,0.15);
         }
 
-        .service-table tbody tr:nth-child(even) {
+        .routes-table tbody tr:nth-child(even) {
             background-color: rgba(255,255,255,0.05);
         }
     </style>
@@ -118,63 +119,55 @@
 
     <div class="content-wrapper">
         <div class="form-container">
-            <form th:action="@{/stations/add/submit}" th:object="${station}" method="post" enctype="multipart/form-data">
-                <h2 th:if="${station.id == null}">THÊM GA TÀU</h2>
-                <h2 th:unless="${station.id == null}">CẬP NHẬT GA TÀU</h2>
+            <form th:action="@{/trains/add/submit}" th:object="${train}" method="post">
+                <h2 th:if="${train.id == null}">THÊM TÀU</h2>
+                <h2 th:unless="${train.id == null}">CẬP NHẬT TÀU</h2>
                 <input type="hidden" th:field="*{id}" />
 
-                <!-- Tên trạm -->
-                <label for="name">Tên ga:</label>
-                <input type="text" th:field="*{name}" placeholder="Nhập tên trạm" required />
+                <!-- Tên tàu -->
+                <label for="name">Tên tàu:</label>
+                <input type="text" th:field="*{name}" placeholder="Nhập tên tàu" required />
 
-                <!-- Ảnh -->
-                <label>Ảnh mô tả:</label>
-                <input type="file" th:field="*{file}" />
-
-                <div th:if="${station.image != null}">
-                    <img th:src="@{${station.image}}" alt="Hình trạm" style="width: 100%; height: auto; margin-top: 10px; border-radius: 8px;" />
-                </div>
-
-                <button type="submit" th:if="${station.id == null}">Thêm</button>
-                <button type="submit" th:unless="${station.id == null}">Cập nhật</button>
+                <button type="submit" th:if="${train.id == null}">Thêm</button>
+                <button type="submit" th:unless="${train.id == null}">Cập nhật</button>
             </form>
         </div>
 
-        <!--DANH SÁCH DỊCH VỤ -->
-        <div th:if="${station.id != null}" class="services-wrapper">
+        <!--DANH SÁCH TUYẾN TÀU -->
+        <div th:if="${train.id != null}" class="routes-wrapper">
+
             <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <span th:text="${successMessage}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <h3 style="text-align:center; margin-top: 40px; color: white;">DANH SÁCH DỊCH VỤ TẠI GA</h3>
-            <table class="service-table">
+
+            <h3 style="text-align:center; margin-top: 40px; color: white;">DANH SÁCH TUYẾN</h3>
+            <table class="routes-table">
                 <thead>
                     <tr>
-                        <th>Tên dịch vụ</th>
-                        <th>Mô tả</th>
-                        <th>Hình ảnh</th>
-                        <th>Trạng thái</th>
+                        <th>Ga</th>
+                        <th>Khoảng cách (Km)</th>
+                        <th>Thời gian</th>
+                        <th>Thứ tự dừng</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="s : ${services}">
-                        <td th:text="${s.name}"></td>
-                        <td th:text="${s.description}"></td>
-                        <td>
-                            <img th:src="@{${s.image}}" alt="Ảnh dịch vụ" style="width: 100px; height: auto; border-radius: 6px;" />
-                        </td>
-                        <td th:text="${s.isActive} ? 'Có' : 'Không'"></td>
+                    <tr th:each="r : ${routes}">
+                        <td th:text="${r.departureStationId.name}"></td>
+                        <td th:text="${r.distance}"></td>
+                        <td th:text="${#temporals.format(r.travelTime, 'HH:mm:ss')}"></td>
+                        <td th:text="${r.stopOrder}"></td>
                         <td>
                             <!--Link chỉnh sửa--> 
-                            <a th:href="@{/services/add/{id}/{stationId}(id=${s.id}, stationId=${station.id})}"
+                            <a th:href="@{#}"
                                class="btn btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>
                             </a>
                             <!--Link xóa--> 
-                            <a th:href="@{/services/delete/{id}/{stationId}(id=${s.id}, stationId=${station.id})}"
+                            <a th:href="@{/train-routes/delete/{id}/{trainId}(id=${r.id}, trainId=${train.id})}"
                                class="btn btn-sm btn-danger"
-                               onclick="return confirm('Bạn có chắc chắn muốn xóa dịch vụ này?');">
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa tuyến này?');">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>
@@ -183,10 +176,10 @@
             </table>
 
             <div style="margin-top: 20px; text-align: right;">
-                <a th:href="@{/services/add/{stationId}(stationId=${station.id})}"
+                <a th:href="@{/train-routes/add/{trainId}(trainId=${train.id})}"
                    class="btn btn-primary" 
                    style="padding: 10px 20px; border-radius: 6px; color: white; text-decoration: none;">
-                    Thêm mới dịch vụ
+                    Thêm mới tuyến
                 </a>
             </div>
         </div>

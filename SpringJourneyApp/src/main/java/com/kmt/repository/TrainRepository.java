@@ -14,4 +14,8 @@ import java.util.List;
 public interface TrainRepository {
     List<Train> getTrains();
     Train getTrainById(int id);
+    List<Train> getTrainsPaginated(int page, int size);
+    long countTrains();
+    void addOrUpdateTrain(Train train);
+    void deleteTrainById(int id);
 }

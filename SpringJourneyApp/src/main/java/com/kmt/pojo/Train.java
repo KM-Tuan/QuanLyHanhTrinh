@@ -30,7 +30,9 @@ import java.util.Set;
 @NamedQueries({
     @NamedQuery(name = "Train.findAll", query = "SELECT t FROM Train t"),
     @NamedQuery(name = "Train.findById", query = "SELECT t FROM Train t WHERE t.id = :id"),
-    @NamedQuery(name = "Train.findByName", query = "SELECT t FROM Train t WHERE t.name = :name")})
+    @NamedQuery(name = "Train.findByName", query = "SELECT t FROM Train t WHERE t.name = :name"),
+    @NamedQuery(name = "Train.findAllPaginated", query = "SELECT t FROM Train t ORDER BY t.id"),
+    @NamedQuery(name = "Train.countAll", query = "SELECT COUNT(t) FROM Train t"),})
 public class Train implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -108,5 +110,5 @@ public class Train implements Serializable {
     public String toString() {
         return "com.kmt.pojo.Train[ id=" + id + " ]";
     }
-    
+
 }

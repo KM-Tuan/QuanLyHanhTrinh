@@ -51,7 +51,6 @@ public class ServiceController {
 
     @PostMapping("/services/add/submit")
     public String addService(@ModelAttribute Service service, @RequestParam("stationIdValue") int stationId) {
-        // Xử lý upload file và lưu service
         serSer.addOrUpdateService(service, stationId);
         return "redirect:/stations/add/" + stationId;
     }

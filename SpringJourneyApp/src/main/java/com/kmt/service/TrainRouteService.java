@@ -6,8 +6,8 @@ package com.kmt.service;
 
 import com.kmt.pojo.Train;
 import com.kmt.pojo.TrainRoute;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -17,4 +17,9 @@ public interface TrainRouteService {
     List<Train> findTrainsByStations(int departureStationId, int arrivalStationId);
     List<TrainRoute> findByTrainAndStations(int trainId, int departureStationId, int arrivalStationId);
     List<TrainRoute> findRoutesBetweenStations(int trainId, int departureStationId, int arrivalStationId);
+    List<TrainRoute> findRoutesByTrainId(int trainId);
+    TrainRoute findRouteById(int id);
+    void deleteRouteById(int id, int trainId);
+    void addOrUpdateRoute(Integer routeId, int trainId, int departureStationId, int arrivalStationId, int distance, LocalTime travelTime, int stopOrder);
+    TrainRoute getLastRouteByTrainId(int trainId);
 }

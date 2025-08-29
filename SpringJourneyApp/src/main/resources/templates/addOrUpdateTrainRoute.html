@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm/Cập nhật tuyến tàu</title>
+</head>
+<body>
+    <form th:action="@{/train-routes/add/submit}" method="post">
+        <h2 th:if="${route.id == null}">THÊM TUYẾN TÀU</h2>
+        <h2 th:unless="${route.id == null}">CẬP NHẬT TUYẾN TÀU</h2>
+
+        <!-- Giữ lại trainId và route id -->
+        <input type="hidden" name="trainIdValue" th:value="${train.id}" />
+        <input type="hidden" name="routeId" th:value="${route.id}" />
+
+        <label>Tuyến thuộc tàu:</label>
+        <span th:text="${train.name}"></span>
+        <br/><br/>
+
+        <!-- Nếu chưa có route nào => cho chọn Departure -->
+        <div th:if="${lastArrivalStation == null}">
+            <label>Ga đi:</label>
+            <select name="departureStationId" required>
+                <option value="">-- Chọn ga đi --</option>
+                <option th:each="s : ${stations}" th:value="${s.id}" th:text="${s.name}"></option>
+            </select>
+        </div>
+
+        <!-- Nếu đã có route trước đó => Departure = Arrival của route cuối cùng -->
+        <div th:if="${lastArrivalStation != null}">
+            <label>Ga đi:</label>
+            <input type="text" th:value="${lastArrivalStation.name}" readonly />
+            <input type="hidden" name="departureStationId" th:value="${lastArrivalStation.id}" />
+        </div>
+        <br/>
+
+        <label>Ga đến:</label>
+        <select name="arrivalStationId" required>
+            <option value="">-- Chọn ga đến --</option>
+            <option th:each="s : ${stations}" th:value="${s.id}" th:text="${s.name}"></option>
+        </select>
+        <br/><br/>
+
+        <label>Khoảng cách (km):</label>
+        <input type="number" name="distance" th:value="${route.distance}" min="1" required />
+        <br/><br/>
+
+        <label>Thời gian di chuyển:</label>
+        <input type="time" name="travelTime" th:value="${route.travelTime}" step="1" required />
+        <br/><br/>
+
+        <label>Thứ tự dừng:</label>
+        <input type="number" name="stopOrder" th:value="${route.stopOrder}" min="1" required />
+        <br/><br/>
+
+        <button type="submit" th:if="${route.id == null}">Thêm</button>
+        <button type="submit" th:unless="${route.id == null}">Cập nhật</button>
+    </form>
+</body>
+</html>

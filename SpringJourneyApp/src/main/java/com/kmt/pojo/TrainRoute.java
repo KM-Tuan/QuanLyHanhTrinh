@@ -29,21 +29,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NamedQueries({
     @NamedQuery(name = "TrainRoute.findAll", query = "SELECT t FROM TrainRoute t"),
     @NamedQuery(name = "TrainRoute.findById", query = "SELECT t FROM TrainRoute t WHERE t.id = :id"),
+    @NamedQuery(name = "TrainRoute.findByTrainId", query = "SELECT t FROM TrainRoute t WHERE t.trainId.id = :trainId"),
     @NamedQuery(name = "TrainRoute.findByDistance", query = "SELECT t FROM TrainRoute t WHERE t.distance = :distance"),
     @NamedQuery(name = "TrainRoute.findByTravelTime", query = "SELECT t FROM TrainRoute t WHERE t.travelTime = :travelTime"),
     @NamedQuery(name = "TrainRoute.findByStopOrder", query = "SELECT t FROM TrainRoute t WHERE t.stopOrder = :stopOrder"),
-    // Trường hợp 1: ga đi và ga đến nằm trong cùng 1 đoạn (liền kề)
+    //Ga đi và ga đến nằm trong cùng 1 đoạn
     @NamedQuery(name = "TrainRoute.findTrainsByAdjacentStations", query = "SELECT DISTINCT tr.trainId FROM TrainRoute tr " + "WHERE tr.departureStationId.id = :departureStationId " + "AND tr.arrivalStationId.id = :arrivalStationId"),
-    // Trường hợp 2: ga đi và ga đến nằm ở 2 đoạn khác nhau (không liền kề)
+    //Ga đi và ga đến nằm ở 2 đoạn khác nhau
     @NamedQuery(name = "TrainRoute.findTrainsByStations", query = "SELECT DISTINCT tr1.trainId FROM TrainRoute tr1, TrainRoute tr2 " + "WHERE tr1.trainId = tr2.trainId " + "AND tr1.departureStationId.id = :departureStationId " + "AND tr2.arrivalStationId.id = :arrivalStationId " + "AND tr1.stopOrder < tr2.stopOrder"),
-    @NamedQuery(
-            name = "TrainRoute.findRoutesBetweenStations",
-            query = "SELECT tr FROM TrainRoute tr "
-            + "WHERE tr.trainId.id = :trainId "
-            + "AND tr.stopOrder >= (SELECT tr1.stopOrder FROM TrainRoute tr1 WHERE tr1.trainId.id = :trainId AND tr1.departureStationId.id = :departureStationId) "
-            + "AND tr.stopOrder <= (SELECT tr2.stopOrder FROM TrainRoute tr2 WHERE tr2.trainId.id = :trainId AND tr2.arrivalStationId.id = :arrivalStationId) "
-            + "ORDER BY tr.stopOrder ASC"
-    )})
+    @NamedQuery(name = "TrainRoute.findRoutesBetweenStations", query = "SELECT tr FROM TrainRoute tr " + "WHERE tr.trainId.id = :trainId " + "AND tr.stopOrder >= (SELECT tr1.stopOrder FROM TrainRoute tr1 WHERE tr1.trainId.id = :trainId AND tr1.departureStationId.id = :departureStationId) " + "AND tr.stopOrder <= (SELECT tr2.stopOrder FROM TrainRoute tr2 WHERE tr2.trainId.id = :trainId AND tr2.arrivalStationId.id = :arrivalStationId) " + "ORDER BY tr.stopOrder ASC"),
+    @NamedQuery(name = "TrainRoute.findLastByTrainId", query = "SELECT t FROM TrainRoute t WHERE t.trainId.id = :trainId ORDER BY t.stopOrder DESC"),
+    @NamedQuery(name = "TrainRoute.shiftStopOrdersUp", query = "UPDATE TrainRoute r SET r.stopOrder = r.stopOrder + 1 " + "WHERE r.trainId.id = :trainId AND r.stopOrder >= :stopOrder"),
+    @NamedQuery(name = "TrainRoute.shiftStopOrdersDown", query = "UPDATE TrainRoute r SET r.stopOrder = r.stopOrder - 1 " + "WHERE r.trainId.id = :trainId AND r.stopOrder > :stopOrder")})
 public class TrainRoute implements Serializable {
 
     private static final long serialVersionUID = 1L;

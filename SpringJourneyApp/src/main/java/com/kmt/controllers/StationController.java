@@ -53,7 +53,7 @@ public class StationController {
     }
 
     @GetMapping("/stations/add/{id}")
-    public String updateStation(@PathVariable("id") int id, Model model) {
+    public String updateStationForm(@PathVariable("id") int id, Model model) {
         Station station = staSer.getStationById(id);
         model.addAttribute("station", station);
 

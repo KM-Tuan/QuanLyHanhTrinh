@@ -85,6 +85,8 @@ public class SpringSecurityConfigs {
                         "/users/add", "/users/add/{id}", "/users/add/submit", "/users/delete/{id}",
                         "/stations/add", "/stations/add/{id}", "/stations/add/submit", "/stations/delete/{id}",
                         "/services/add/{stationId}", "/services/add/{id}/{stationId}", "/services/add/submit", "/services/delete/{id}/{stationId}",
+                        "/trains/add", "/trains/add/{id}", "/trains/add/submit", "/trains/delete/{id}",
+                        "/train-routes/add/{trainId}", "/train-routes/add/{id}/{trainId}", "/train-routes/add/submit", "/train-routes/delete/{id}/{trainId}",
                         "/foods/add", "/foods/add/{id}", "/foods/add/submit", "/foods/delete/{id}",
                         "/foodcategory/add", "/foodcategory/add/{id}", "/foodcategory/add/submit", "/foodcategory/delete/{id}"
                 ).hasRole("ADMIN"))
