@@ -39,8 +39,7 @@ import org.springframework.format.annotation.DateTimeFormat;
     @NamedQuery(name = "TrainRoute.findTrainsByStations", query = "SELECT DISTINCT tr1.trainId FROM TrainRoute tr1, TrainRoute tr2 " + "WHERE tr1.trainId = tr2.trainId " + "AND tr1.departureStationId.id = :departureStationId " + "AND tr2.arrivalStationId.id = :arrivalStationId " + "AND tr1.stopOrder < tr2.stopOrder"),
     @NamedQuery(name = "TrainRoute.findRoutesBetweenStations", query = "SELECT tr FROM TrainRoute tr " + "WHERE tr.trainId.id = :trainId " + "AND tr.stopOrder >= (SELECT tr1.stopOrder FROM TrainRoute tr1 WHERE tr1.trainId.id = :trainId AND tr1.departureStationId.id = :departureStationId) " + "AND tr.stopOrder <= (SELECT tr2.stopOrder FROM TrainRoute tr2 WHERE tr2.trainId.id = :trainId AND tr2.arrivalStationId.id = :arrivalStationId) " + "ORDER BY tr.stopOrder ASC"),
     @NamedQuery(name = "TrainRoute.findLastByTrainId", query = "SELECT t FROM TrainRoute t WHERE t.trainId.id = :trainId ORDER BY t.stopOrder DESC"),
-    @NamedQuery(name = "TrainRoute.shiftStopOrdersUp", query = "UPDATE TrainRoute r SET r.stopOrder = r.stopOrder + 1 " + "WHERE r.trainId.id = :trainId AND r.stopOrder >= :stopOrder"),
-    @NamedQuery(name = "TrainRoute.shiftStopOrdersDown", query = "UPDATE TrainRoute r SET r.stopOrder = r.stopOrder - 1 " + "WHERE r.trainId.id = :trainId AND r.stopOrder > :stopOrder")})
+    @NamedQuery(name = "TrainRoute.findRoutesToShift", query = "SELECT tr FROM TrainRoute tr " + "WHERE tr.trainId.id = :trainId AND tr.stopOrder >= :stopOrder " + "ORDER BY tr.stopOrder DESC")})
 public class TrainRoute implements Serializable {
 
     private static final long serialVersionUID = 1L;

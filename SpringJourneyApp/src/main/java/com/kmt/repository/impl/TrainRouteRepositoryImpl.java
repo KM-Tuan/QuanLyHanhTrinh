@@ -117,4 +117,24 @@ public class TrainRouteRepositoryImpl implements TrainRouteRepository {
         q.setMaxResults(1);
         return q.getResultList();
     }
+
+    @Override
+    public void shiftStopOrdersUp(int trainId, int stopOrder) {
+        Session session = factory.getObject().getCurrentSession();
+
+        // Lấy danh sách route cần dẩy
+        List<TrainRoute> routesToShift = session.createNamedQuery("TrainRoute.findRoutesToShift", TrainRoute.class)
+                .setParameter("trainId", trainId)
+                .setParameter("stopOrder", stopOrder)
+                .getResultList();
+
+        // Tăng stopOrder từng route
+        for (TrainRoute r : routesToShift) {
+            r.setStopOrder(r.getStopOrder() + 1);
+            session.merge(r);
+        }
+
+        session.flush(); // Đẩy thay đổi lên DB
+    }
+
 }

@@ -81,27 +81,29 @@ public class TrainRouteServiceImpl implements TrainRouteService {
     }
 
     @Override
+    @Transactional  
     public void addOrUpdateRoute(Integer routeId, int trainId, int departureStationId, int arrivalStationId,
             int distance, LocalTime travelTime, int stopOrder) {
 
-        TrainRoute route = (routeId != null) ? findRouteById(routeId) : new TrainRoute();
+        TrainRoute route = (routeId != null) ? trainRouteRepo.findRouteById(routeId) : new TrainRoute();
 
-        // Set Train
         Train train = trainRepo.getTrainById(trainId);
         route.setTrainId(train);
 
-        // Set Stations
         Station dep = staSer.getStationById(departureStationId);
         Station arr = staSer.getStationById(arrivalStationId);
         route.setDepartureStationId(dep);
         route.setArrivalStationId(arr);
 
-        // Set các field khác
         route.setDistance(distance);
         route.setTravelTime(travelTime);
+
+        if (routeId == null) {
+            trainRouteRepo.shiftStopOrdersUp(trainId, stopOrder);
+        }
+
         route.setStopOrder(stopOrder);
 
-        // Lưu/Update
         trainRouteRepo.addOrUpdateRoute(route);
     }
 
