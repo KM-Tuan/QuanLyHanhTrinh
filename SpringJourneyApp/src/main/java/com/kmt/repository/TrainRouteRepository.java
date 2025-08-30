@@ -23,4 +23,5 @@ public interface TrainRouteRepository {
     List<TrainRoute> findLastRouteByTrainId(int trainId);
     void shiftStopOrdersUp(int trainId, int stopOrder);
     void updateRouteLinks(int trainId);
+    TrainRoute getRouteByTrainIdAndStopOrder(int trainId, int stopOrder);
 }

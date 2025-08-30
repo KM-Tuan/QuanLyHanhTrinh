@@ -41,13 +41,18 @@ public class TrainRouteController {
         Train train = trainSer.getTrainById(trainId);
         model.addAttribute("train", train);
         model.addAttribute("stations", staSer.getStas());
-        model.addAttribute("route", new TrainRoute());
 
         TrainRoute lastRoute = routeSer.getLastRouteByTrainId(trainId);
-        if (lastRoute != null) {
+
+        TrainRoute route = new TrainRoute();
+        if (lastRoute == null) {
+            route.setStopOrder(1); // Route đầu tiên
+        } else {
+            route.setStopOrder(lastRoute.getStopOrder() + 1); // Route tiếp theo
             model.addAttribute("lastArrivalStation", lastRoute.getArrivalStationId());
         }
 
+        model.addAttribute("route", route);
         return "addOrUpdateTrainRoute";
     }
 
@@ -61,6 +66,21 @@ public class TrainRouteController {
             @RequestParam("travelTime") LocalTime travelTime,
             @RequestParam("stopOrder") int stopOrder) {
 
+        // Lấy route đầu tiên của train
+        TrainRoute firstRoute = routeSer.getRouteByTrainIdAndStopOrder(trainId, 1);
+
+        // Lấy route cuối cùng của train
+        TrainRoute lastRoute = routeSer.getLastRouteByTrainId(trainId);
+
+        if (stopOrder == 1 && firstRoute != null) {
+            // Route đầu tiên đã tồn tại => giữ nguyên ga đi
+            depId = firstRoute.getDepartureStationId().getId();
+        } else if (stopOrder != 1 && lastRoute != null) {
+            // Route thứ 2 trở đi => ga đi = ga đến của route cuối cùng
+            depId = lastRoute.getArrivalStationId().getId();
+        }
+
+        // Gọi service thêm hoặc cập nhật route
         routeSer.addOrUpdateRoute(routeId, trainId, depId, arrId, distance, travelTime, stopOrder);
 
         return "redirect:/trains/add/" + trainId;

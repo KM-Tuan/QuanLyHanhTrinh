@@ -22,4 +22,5 @@ public interface TrainRouteService {
     void deleteRouteById(int id, int trainId);
     void addOrUpdateRoute(Integer routeId, int trainId, int departureStationId, int arrivalStationId, int distance, LocalTime travelTime, int stopOrder);
     TrainRoute getLastRouteByTrainId(int trainId);
+    TrainRoute getRouteByTrainIdAndStopOrder(int trainId, int stopOrder);
 }

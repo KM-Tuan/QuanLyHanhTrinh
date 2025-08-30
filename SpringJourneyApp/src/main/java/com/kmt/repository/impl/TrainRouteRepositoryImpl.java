@@ -162,4 +162,15 @@ public class TrainRouteRepositoryImpl implements TrainRouteRepository {
         session.flush();
     }
 
+    @Override
+    public TrainRoute getRouteByTrainIdAndStopOrder(int trainId, int stopOrder) {
+        Session session = factory.getObject().getCurrentSession();
+
+        Query<TrainRoute> query = session.createNamedQuery("TrainRoute.findByTrainIdAndStopOrder", TrainRoute.class);
+        query.setParameter("trainId", trainId);
+        query.setParameter("stopOrder", stopOrder);
+
+        return query.uniqueResult(); // trả về 1 route hoặc null
+    }
+
 }

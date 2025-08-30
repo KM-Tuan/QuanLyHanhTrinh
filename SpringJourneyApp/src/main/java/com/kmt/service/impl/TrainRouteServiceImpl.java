@@ -121,4 +121,9 @@ public class TrainRouteServiceImpl implements TrainRouteService {
         }
         return null;
     }
+
+    @Override
+    public TrainRoute getRouteByTrainIdAndStopOrder(int trainId, int stopOrder) {
+        return trainRouteRepo.getRouteByTrainIdAndStopOrder(trainId, stopOrder);
+    }
 }
