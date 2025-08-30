@@ -145,8 +145,9 @@
             <table class="routes-table">
                 <thead>
                     <tr>
-                        <th>Ga</th>
+                        <th>Ga khởi hành</th>
                         <th>Khoảng cách (Km)</th>
+                        <th>Ga kết thúc</th>
                         <th>Thời gian</th>
                         <th>Thứ tự dừng</th>
                         <th>Hành động</th>
@@ -156,6 +157,7 @@
                     <tr th:each="r : ${routes}">
                         <td th:text="${r.departureStationId.name}"></td>
                         <td th:text="${r.distance}"></td>
+                        <td th:text="${r.arrivalStationId.name}"></td>
                         <td th:text="${#temporals.format(r.travelTime, 'HH:mm:ss')}"></td>
                         <td th:text="${r.stopOrder}"></td>
                         <td>

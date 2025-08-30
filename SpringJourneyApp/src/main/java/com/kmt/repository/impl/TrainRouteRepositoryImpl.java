@@ -4,6 +4,7 @@
  */
 package com.kmt.repository.impl;
 
+import com.kmt.pojo.Station;
 import com.kmt.pojo.Train;
 import com.kmt.pojo.TrainRoute;
 import com.kmt.repository.TrainRouteRepository;
@@ -135,6 +136,30 @@ public class TrainRouteRepositoryImpl implements TrainRouteRepository {
         }
 
         session.flush(); // Đẩy thay đổi lên DB
+    }
+
+    @Override
+    public void updateRouteLinks(int trainId) {
+        Session session = factory.getObject().getCurrentSession();
+
+        // Lấy tất cả route của train theo stopOrder ASC
+        List<TrainRoute> routes = session.createQuery(
+                "FROM TrainRoute tr WHERE tr.trainId.id = :trainId ORDER BY tr.stopOrder ASC",
+                TrainRoute.class)
+                .setParameter("trainId", trainId)
+                .getResultList();
+
+        // Duyệt và cập nhật liên kết ga
+        Station prevArrival = null;
+        for (TrainRoute r : routes) {
+            if (prevArrival != null) {
+                r.setDepartureStationId(prevArrival);
+            }
+            prevArrival = r.getArrivalStationId();
+            session.merge(r);
+        }
+
+        session.flush();
     }
 
 }
