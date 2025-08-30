@@ -66,8 +66,16 @@ public class TrainRouteServiceImpl implements TrainRouteService {
         TrainRoute routeToDelete = trainRouteRepo.findRouteById(id);
         int deletedStopOrder = routeToDelete.getStopOrder();
 
+        // Lưu ga đi ban đầu nếu xóa route đầu tiên
+        Station originalDeparture = null;
+        if (deletedStopOrder == 1) {
+            originalDeparture = routeToDelete.getDepartureStationId();
+        }
+
+        // Xóa route
         trainRouteRepo.deleteRouteById(id);
 
+        // Giảm stopOrder các route sau
         List<TrainRoute> laterRoutes = trainRouteRepo.findRoutesByTrainId(trainId)
                 .stream()
                 .filter(r -> r.getStopOrder() > deletedStopOrder)
@@ -78,6 +86,18 @@ public class TrainRouteServiceImpl implements TrainRouteService {
             r.setStopOrder(r.getStopOrder() - 1);
             trainRouteRepo.addOrUpdateRoute(r);
         }
+
+        // Nếu route đầu tiên bị xóa, gán lại ga đi ban đầu cho route mới stopOrder = 1
+        if (originalDeparture != null) {
+            TrainRoute newFirstRoute = trainRouteRepo.getRouteByTrainIdAndStopOrder(trainId, 1);
+            if (newFirstRoute != null) {
+                newFirstRoute.setDepartureStationId(originalDeparture);
+                trainRouteRepo.addOrUpdateRoute(newFirstRoute);
+            }
+        }
+
+        // Cập nhật lại liên kết ga
+        trainRouteRepo.updateRouteLinks(trainId);
     }
 
     @Override
