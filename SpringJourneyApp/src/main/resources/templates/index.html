@@ -25,13 +25,13 @@
             z-index: -1;
         }
 
-        /* Wrapper để căn giữa content (căn giữa theo cả chiều dọc và ngang) */
+        /* Wrapper để căn giữa content */
         .content-wrapper {
             display: flex;
             justify-content: center; /* căn giữa ngang */
             align-items: center;     /* căn giữa dọc */
-            padding-top: 100px;      /* tránh bị header che */
-            padding-bottom: 140px;   /* tránh footer che, tăng padding hơn */
+            padding-top: 100px;
+            padding-bottom: 140px;
             min-height: 100vh;
             box-sizing: border-box;
             text-align: center;
@@ -41,32 +41,75 @@
         .container {
             max-width: 1200px;
             width: 90%;
-            padding: 20px;
-            background-color: rgba(19, 16, 16, 0.85);
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            background-color: rgba(19, 16, 16, 0.65); /* nền trong suốt hơn */
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85); /* đổ bóng mạnh hơn */
+            backdrop-filter: blur(6px); /* làm mờ nền phía sau */
+            /* Bỏ hover container */
+        }
+
+        /* Tiêu đề bảng */
+        .container h1 {
+            color: #9b59b6; /* màu tím */
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate; /* tách border để bo tròn góc */
+            border-spacing: 0;
             margin-top: 20px;
             background-color: transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
         }
 
         th, td {
-            border: 1px solid #444;
-            padding: 12px;
+            padding: 14px 12px;
             text-align: center;
-            background-color: rgba(30, 30, 30, 0.75);
+            background-color: rgba(30, 30, 30, 0.55); /* trong suốt hơn */
+            color: #fff;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
         }
 
         th {
-            background-color: rgba(42, 42, 42, 0.85);
+            background-color: rgba(42, 42, 42, 0.75);
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
-        tr:hover {
-            background-color: rgba(51, 51, 51, 0.85);
+        /* Hover nâng nhẹ từng hàng */
+        tbody tr {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        tbody tr:hover {
+            transform: translateY(-3px); /* nâng lên nhẹ */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* bóng nhẹ dưới hàng */
+        }
+
+        /* Hover chỉ áp dụng cho hàng */
+        tbody tr:hover td {
+            background-color: rgba(70, 70, 70, 0.6);
+        }
+
+        /* Bo góc cho bảng */
+        table th:first-child {
+            border-top-left-radius: 12px;
+        }
+        table th:last-child {
+            border-top-right-radius: 12px;
+        }
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 12px;
+        }
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 12px;
         }
     </style>
 </head>

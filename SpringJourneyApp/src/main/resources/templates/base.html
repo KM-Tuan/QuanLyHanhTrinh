@@ -214,26 +214,6 @@
                 background-color: rgba(155, 89, 182, 0.2);
                 box-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6, 0 0 30px #9b59b6;
             }
-
-            /* Responsive */
-            @media(max-width:768px){
-                .sidebar {
-                    width: var(--sidebar-width);
-                    position: relative;
-                    height: auto;
-                }
-            }
-
-            main.content {
-                margin-top: 56px;
-                padding-left: var(--sidebar-collapsed-width);
-                padding-bottom: 80px;
-                transition: padding-left 0.3s ease;
-            }
-
-            .sidebar:hover ~ main.content {
-                padding-left: var(--sidebar-width);
-            }
         </style>
     </block>
 </head>
