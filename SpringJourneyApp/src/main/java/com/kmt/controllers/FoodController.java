@@ -36,7 +36,7 @@ public class FoodController {
     @GetMapping("/foods")
     public String listFoods(Model model,
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "5") int size) {
+            @RequestParam(name = "size", defaultValue = "10") int size) {
         List<Food> foods = foodSer.getFoodsPaginated(page, size);
         long totalFoods = foodSer.countFoods();
         int totalPages = (int) Math.ceil((double) totalFoods / size);

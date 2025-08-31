@@ -35,7 +35,7 @@ public class StationController {
     @GetMapping("/stations")
     public String listStations(Model model,
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "5") int size) {
+            @RequestParam(name = "size", defaultValue = "10") int size) {
         List<Station> stations = staSer.getStationsPaginated(page, size);
         long totalStations = staSer.countStations();
         int totalPages = (int) Math.ceil((double) totalStations / size);

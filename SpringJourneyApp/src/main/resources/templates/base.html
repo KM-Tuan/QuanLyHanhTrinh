@@ -1,8 +1,8 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-    <head>
-        <title th:fragment="title">Quản Lý Hành Trình</title>
+<head>
+    <title th:fragment="title">Quản Lý Hành Trình</title>
 
     <block th:fragment="styles">
         <!-- Bootstrap -->
@@ -41,6 +41,9 @@
                 z-index: 1000;
                 overflow-x: hidden;
                 transition: width 0.3s ease;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
             }
 
             .sidebar:hover {
@@ -48,29 +51,42 @@
             }
 
             .sidebar a {
-                color: #C3ACD0;
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                padding: 12px 20px;
+                padding: 12px 16px;
                 text-decoration: none;
+                color: #C3ACD0;
+                background-color: rgba(30,30,30,0.3);
+                border-radius: 12px;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+                font-weight: 700;
+                transition: all 0.3s ease;
+                height: 50px;
+                box-sizing: border-box;
                 white-space: nowrap;
-                overflow: hidden;
-                transition: background-color 0.3s ease, color 0.3s ease;
             }
 
             .sidebar a:hover {
-                background-color: #333;
+                background-color: rgba(155, 89, 182, 0.4);
                 color: #fff;
+                transform: translateY(-4px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.8);
             }
 
+            .sidebar a i {
+                font-size: 1.2rem;
+                flex-shrink: 0;
+            }
+
+            /* Label text */
             .sidebar .text-label {
-                opacity: 0;
-                transition: opacity 0.2s ease;
+                display: none;
+                transition: all 0.3s ease;
             }
 
             .sidebar:hover .text-label {
-                opacity: 1;
+                display: inline;
             }
 
             /* Header */
@@ -80,7 +96,6 @@
                 padding: 0.5rem 1rem;
             }
 
-            /* Logo KMT Tech */
             .navbar-brand {
                 color: #9b59b6;
                 font-weight: 800;
@@ -93,7 +108,7 @@
                 text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 20px #9b59b6;
             }
 
-            /* User avatar + logout button */
+            /* User avatar */
             .user-avatar {
                 display: flex;
                 align-items: center;
@@ -110,7 +125,6 @@
             .user-avatar span {
                 font-weight: 600;
                 color: #9b59b6;
-                transition: all 0.3s ease;
             }
 
             .user-avatar .logout-btn {
@@ -125,7 +139,6 @@
                 transition: all 0.3s ease;
             }
 
-            /* Hover trên toàn bộ div user-avatar */
             .user-avatar:hover {
                 background-color: #9b59b6;
                 box-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6, 0 0 30px #9b59b6;
@@ -136,25 +149,25 @@
                 color: #fff;
             }
 
-            .navbar-brand:hover {
-                text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 20px #9b59b6;
+            /* Main content */
+            .content {
+                margin-left: var(--sidebar-collapsed-width);
+                flex: 1;
+                padding: 80px 20px 20px 20px;
+                transition: margin-left 0.3s ease;
             }
 
-            /* Main content tự giãn chiếm phần còn lại */
-            .content {
-                flex: 1;
-                padding-bottom: 80px;
+            .sidebar:hover ~ .content {
+                margin-left: var(--sidebar-width);
             }
 
             /* Footer */
             .footer-modern {
-                position: relative;
                 background-color: #111111;
                 color: #ffffff;
                 padding: 15px 40px;
                 font-weight: 500;
                 font-size: 14px;
-                z-index: 2000;
             }
 
             .footer-container {
@@ -174,14 +187,6 @@
                 text-align: right;
             }
 
-            .footer-right .social-links,
-            .footer-right .policy-links {
-                display: flex;
-                gap: 12px;
-                justify-content: flex-end;
-                flex-wrap: wrap;
-            }
-
             .footer-modern a {
                 text-decoration: none;
                 color: #ffffff;
@@ -194,99 +199,70 @@
                 transform: translateY(-2px);
             }
 
-            .footer-modern i {
-                color: #ffffff;
-                transition: color 0.3s ease, text-shadow 0.3s ease;
-            }
-
-            .footer-modern i:hover {
-                color: #9b59b6;
-                text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 20px #9b59b6;
-            }
-
-            .footer-modern .social-links a {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                padding: 5px 10px;
-                border-radius: 50px;
-                transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            }
-
-            .footer-modern .social-links a:hover {
-                background-color: rgba(155, 89, 182, 0.2);
-                box-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6, 0 0 30px #9b59b6;
-            }
         </style>
     </block>
 </head>
 
 <body>
 
-    <!-- Header Fragment -->
-    <header th:fragment="header">
-        <nav class="navbar navbar-expand-sm navbar-dark fixed-top">
-            <div class="container-fluid">
-                <!-- Logo -->
-                <a class="navbar-brand" th:href="@{/}">KMT Tech</a>
-
-                <!-- User info -->
-                <div class="user-info-wrapper d-flex align-items-center ms-auto" sec:authorize="isAuthenticated()">
-                    <div class="user-avatar d-flex align-items-center gap-2">
-                        <span sec:authentication="name"></span>
-                        <a class="logout-btn" th:href="@{/logout}">Đăng xuất</a>
-                    </div>
+<!-- Header Fragment -->
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">KMT Tech</a>
+            <div class="user-info-wrapper d-flex align-items-center ms-auto" sec:authorize="isAuthenticated()">
+                <div class="user-avatar d-flex align-items-center gap-2">
+                    <span sec:authentication="name"></span>
+                    <a class="logout-btn" th:href="@{/logout}">Đăng xuất</a>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
-    <!-- Sidebar Fragment -->
-    <div th:fragment="sidebar" class="sidebar">
-        <a th:href="@{/journeys}"><i class="fas fa-route"></i><span class="text-label">Hành trình</span></a>
-        <a th:href="@{/users}"><i class="fas fa-users"></i><span class="text-label">Người dùng</span></a>
-        <a th:href="@{/stations}"><i class="fas fa-train-subway"></i><span class="text-label">Ga tàu</span></a>
-        <a th:href="@{/trains}"><i class="fas fa-road"></i><span class="text-label">Tàu hỏa</span></a>
-        <a th:href="@{/foods}"><i class="fas fa-tools"></i><span class="text-label">Tiện ích</span></a>
-    </div>
+<!-- Sidebar Fragment -->
+<div th:fragment="sidebar" class="sidebar">
+    <a th:href="@{/journeys}"><i class="fas fa-route"></i><span class="text-label">Hành trình</span></a>
+    <a th:href="@{/users}"><i class="fas fa-users"></i><span class="text-label">Người dùng</span></a>
+    <a th:href="@{/stations}"><i class="fas fa-train-subway"></i><span class="text-label">Ga tàu</span></a>
+    <a th:href="@{/trains}"><i class="fas fa-road"></i><span class="text-label">Tàu hỏa</span></a>
+    <a th:href="@{/foods}"><i class="fas fa-tools"></i><span class="text-label">Tiện ích</span></a>
+</div>
 
-    <!-- Main content -->
-    <main class="content" th:fragment="content">
-        <!-- Nội dung các trang sẽ được include vào đây -->
-    </main>
+<!-- Main content -->
+<main class="content" th:fragment="content">
+    <!-- Nội dung các trang sẽ được include vào đây -->
+</main>
 
-    <!-- Footer Fragment -->
-    <div th:fragment="footer">
-        <footer class="footer-modern">
-            <div class="footer-container">
-                <!-- Bên trái -->
-                <div class="footer-left">
-                    <div>
-                        <i class="fas fa-copyright"></i>
-                        <span>2025 KMT Tech</span>
-                    </div>
-                    <div>
-                        <i class="fas fa-info-circle"></i>
-                        <a href="#">Về chúng tôi</a>
-                    </div>
+<!-- Footer Fragment -->
+<div th:fragment="footer">
+    <footer class="footer-modern">
+        <div class="footer-container">
+            <div class="footer-left">
+                <div>
+                    <i class="fas fa-copyright"></i>
+                    <span>2025 KMT Tech</span>
                 </div>
-
-                <!-- Bên phải -->
-                <div class="footer-right">
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-                        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-                        <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                    </div>
-                    <div class="policy-links">
-                        <a href="#">Chính sách bảo mật</a>
-                        <a href="#">Quy chế hoạt động</a>
-                        <a href="#">Chính sách thanh toán</a>
-                    </div>
+                <div>
+                    <i class="fas fa-info-circle"></i>
+                    <a href="#">Về chúng tôi</a>
                 </div>
             </div>
-        </footer>
-    </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+                <div class="policy-links">
+                    <a href="#">Chính sách bảo mật</a>
+                    <a href="#">Quy chế hoạt động</a>
+                    <a href="#">Chính sách thanh toán</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 
 </body>
 </html>
