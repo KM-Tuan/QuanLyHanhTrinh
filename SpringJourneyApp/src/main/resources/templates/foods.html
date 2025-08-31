@@ -9,12 +9,14 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            display: flex;
+            flex-direction: column;
             font-family: Arial, sans-serif;
             color: white;
             overflow-x: hidden;
         }
 
-        /* Video nền */
+        /* Video nền fullscreen */
         #bg-video {
             position: fixed;
             top: 0;
@@ -25,90 +27,163 @@
             z-index: -1;
         }
 
+        /* Wrapper nội dung */
         .content-wrapper {
-            padding: 100px 20px 140px 20px; /* tránh header/footer che */
-            box-sizing: border-box;
+            flex: 1;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-
-        .table-container {
-            background-color: rgba(19, 16, 16, 0.85);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            flex-direction: column;
+            align-items: center;
+            padding-top: 110px;
+            padding-bottom: 30px;
+            box-sizing: border-box;
             width: 100%;
-            max-width: 1000px;
         }
 
-        .table-container h1 {
+        /* Container */
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            padding: 30px;
+            background-color: rgba(19,16,16,0.65);
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
             text-align: center;
-            margin-bottom: 30px;
-            font-weight: 600;
         }
 
+        .container h1 {
+            color: #9b59b6;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+        }
+
+        /* Table */
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
             background-color: transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
         }
 
         th, td {
-            border: 1px solid #444;
-            padding: 12px;
+            padding: 14px 12px;
             text-align: center;
-            background-color: rgba(30, 30, 30, 0.75);
+            background-color: rgba(30, 30, 30, 0.55);
             color: #fff;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
         }
 
         th {
-            background-color: rgba(42, 42, 42, 0.85);
+            background-color: rgba(42,42,42,0.75);
+            font-weight: 600;
         }
 
-        tr:hover {
-            background-color: rgba(51, 51, 51, 0.85);
+        tbody tr {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        tbody tr:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        tbody tr:hover td {
+            background-color: rgba(70,70,70,0.6);
         }
 
-        .btn-add {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
+        /* Bo góc bảng */
+        table th:first-child {
+            border-top-left-radius: 12px;
+        }
+        table th:last-child {
+            border-top-right-radius: 12px;
+        }
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 12px;
+        }
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 12px;
+        }
+
+        /* Nút Thêm mới ngoài container, chỉ dấu + */
+        .add-new-wrapper {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .add-new-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            border: none;
+            background-color: rgba(19,16,16,0.3);
+            color: #9b59b6;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
-            border-radius: 6px;
             font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .add-new-btn:hover {
+            color: #f0f;
+            transform: scale(1.15);
+        }
+
+        /* Button hành động trong bảng */
+        td a.btn-sm {
+            font-size: 14px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
+            justify-content: center;
+        }
+        td a.btn-sm.btn-primary {
+            background-color: #9b59b6;
+            color: #fff;
+        }
+        td a.btn-sm.btn-danger {
+            background-color: #e74c3c;
+            color: #fff;
         }
 
-        /* Phân trang */
+        /* Pagination */
         .pagination {
             margin-top: 20px;
+            text-align: center;
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 6px;
         }
-
         .pagination a {
             padding: 6px 12px;
-            background: #28a745;
+            background: #9b59b6;
             color: white;
             border-radius: 4px;
             text-decoration: none;
-            display: inline-block;
+            transition: all 0.2s ease;
         }
-
+        .pagination a:hover {
+            background: #f0f;
+        }
         .pagination a.active {
-            background: #007bff;
+            background: #f0f;
         }
     </style>
 </head>
 <body>
-    <!-- Video nền -->
     <video id="bg-video" autoplay muted loop playsinline>
         <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
         Your browser does not support the video tag.
@@ -118,20 +193,13 @@
     <div th:replace="base :: sidebar"></div>
 
     <div class="content-wrapper">
-        <div class="table-container">
-            <h1>DANH SÁCH MÓN ĂN</h1>
-
+        <div class="container">
             <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <span th:text="${successMessage}"></span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <!-- Nút thêm mới -->
-            <div style="text-align:right;">
-                <a th:href="@{/addChoice}" class="btn-add">
-                    <i class="fas fa-plus-circle"></i> Thêm mới
-                </a>
-            </div>
+            <h1>DANH SÁCH MÓN ĂN</h1>
 
             <table>
                 <thead>
@@ -148,11 +216,10 @@
                         <td th:text="${f.name}"></td>
                         <td th:text="${f.price} + ' VNĐ'"></td>
                         <td>
-                            <a th:href="@{/foods/add/{id}(id=${f.id})}" class="btn btn-sm btn-primary">
+                            <a th:href="@{/foods/add/{id}(id=${f.id})}" class="btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <a th:href="@{/foods/delete/{id}(id=${f.id})}"
-                               class="btn btn-sm btn-danger"
+                            <a th:href="@{/foods/delete/{id}(id=${f.id})}" class="btn-sm btn-danger"
                                onclick="return confirm('Bạn có chắc chắn muốn xóa món này?');">
                                 <i class="fa fa-trash"></i>
                             </a>
@@ -160,20 +227,20 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
 
-            <!-- Pagination -->
-            <div class="pagination">
-                <a th:if="${currentPage > 0}"
-                   th:href="@{/foods(page=${currentPage - 1}, size=${size})}">« Trước</a>
+        <div class="add-new-wrapper">
+            <a th:href="@{/addChoice}" class="add-new-btn">+</a>
+        </div>
 
-                <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                   th:href="@{/foods(page=${i}, size=${size})}"
-                   th:text="${i + 1}"
-                   th:classappend="${i == currentPage} ? 'active' : ''"></a>
-
-                <a th:if="${currentPage + 1 < totalPages}"
-                   th:href="@{/foods(page=${currentPage + 1}, size=${size})}">Sau »</a>
-            </div>
+        <!-- Pagination -->
+        <div class="pagination">
+            <a th:if="${currentPage > 0}" th:href="@{/foods(page=${currentPage - 1}, size=${size})}">Trước</a>
+            <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+               th:href="@{/foods(page=${i}, size=${size})}"
+               th:text="${i + 1}"
+               th:classappend="${i == currentPage} ? 'active' : ''"></a>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/foods(page=${currentPage + 1}, size=${size})}">Sau</a>
         </div>
     </div>
 
