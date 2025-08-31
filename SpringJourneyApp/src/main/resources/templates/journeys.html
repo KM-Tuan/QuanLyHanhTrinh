@@ -189,6 +189,25 @@
             color: #f0f;
             transform: scale(1.15);
         }
+
+        /* Button hành động trong bảng */
+        td a.btn-sm {
+            font-size: 14px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        td a.btn-sm.btn-primary {
+            background-color: #9b59b6;
+            color: #fff;
+        }
+        td a.btn-sm.btn-danger {
+            background-color: #e74c3c;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -272,12 +291,10 @@
                         <td th:text="${j.createdBy.firstName}"></td>
                         <td>
                             <a th:if="${j.status.name() == 'WAITTING'}"
-                               th:href="@{/journeys/add/{id}/step1(id=${j.id})}"
-                               class="btn btn-sm btn-primary">
+                               th:href="@{/journeys/add/{id}/step1(id=${j.id})}" class="btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <a th:href="@{/journeys/delete/{id}(id=${j.id})}"
-                               class="btn btn-sm btn-danger"
+                            <a th:href="@{/journeys/delete/{id}(id=${j.id})}" class="btn-sm btn-danger"
                                onclick="return confirm('Bạn có chắc muốn xóa hành trình này?');">
                                 <i class="fa fa-trash"></i>
                             </a>
