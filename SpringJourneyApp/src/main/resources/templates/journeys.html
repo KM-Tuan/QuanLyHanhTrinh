@@ -9,12 +9,14 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            display: flex;
+            flex-direction: column;
             font-family: Arial, sans-serif;
             color: white;
             overflow-x: hidden;
         }
 
-        /* Video nền fullscreen */
+        /* Video nền */
         #bg-video {
             position: fixed;
             top: 0;
@@ -25,84 +27,167 @@
             z-index: -1;
         }
 
-        /* Wrapper căn giữa nội dung chính */
+        /* Content wrapper */
         .content-wrapper {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 100px;      /* tránh header che */
-            padding-bottom: 140px;   /* tránh footer che */
-            min-height: 100vh;
+            padding-top: 110px;
+            padding-bottom: 30px;
             box-sizing: border-box;
+            width: 100%;
         }
 
-        /* Form tìm kiếm (Grid 2 hàng 3 cột) */
+        /* Form tìm kiếm 2 dòng, 4 input + select + 2 button nằm ngang */
         .search-form {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
             width: 90%;
             max-width: 1200px;
-            margin: 0 auto 20px auto;
-            background-color: rgba(19, 16, 16, 0.85);
+            margin-bottom: 30px;
+            background-color: rgba(19,16,16,0.65);
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
         }
 
-        .search-form input {
+        .search-form input,
+        .search-form select {
             width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            background-color: rgba(30,30,30,0.75);
-            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #555;
+            background-color: rgba(30,30,30,0.7);
+            color: #fff;
+            box-sizing: border-box;
         }
 
         .search-form input::placeholder {
             color: #bbb;
         }
 
-        .search-buttons {
-            display: flex;
-            gap: 10px;
+        .search-form button,
+        .search-form a.btn-secondary {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
         }
 
-        .search-buttons .btn {
-            width: 100%;
+        .search-form button {
+            background-color: #9b59b6;
+        }
+        .search-form a.btn-secondary {
+            background-color: #555;
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Container bảng journey */
+        /* Container bảng */
         .container {
             max-width: 1200px;
             width: 90%;
-            padding: 20px;
+            padding: 30px;
+            background-color: rgba(19,16,16,0.65);
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
             text-align: center;
-            background-color: rgba(19, 16, 16, 0.85);
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
         }
 
+        .container h1 {
+            color: #9b59b6;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+        }
+
+        /* Table */
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 20px;
             background-color: transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
         }
 
         th, td {
-            border: 1px solid #444;
-            padding: 12px;
+            padding: 14px 12px;
             text-align: center;
-            background-color: rgba(30, 30, 30, 0.75);
+            background-color: rgba(30, 30, 30, 0.55);
+            color: #fff;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
         }
 
         th {
-            background-color: rgba(42, 42, 42, 0.85);
+            background-color: rgba(42,42,42,0.75);
+            font-weight: 600;
         }
 
-        tr:hover {
-            background-color: rgba(51, 51, 51, 0.85);
+        tbody tr {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        tbody tr:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        tbody tr:hover td {
+            background-color: rgba(70,70,70,0.6);
+        }
+
+        /* Bo góc bảng */
+        table th:first-child {
+            border-top-left-radius: 12px;
+        }
+        table th:last-child {
+            border-top-right-radius: 12px;
+        }
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 12px;
+        }
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 12px;
+        }
+
+        /* Nút Thêm mới ngoài container, chỉ dấu + */
+        .add-new-wrapper {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .add-new-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            border: none;
+            background-color: rgba(19,16,16,0.3);
+            color: #9b59b6;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .add-new-btn:hover {
+            color: #f0f;
+            transform: scale(1.15);
         }
     </style>
 </head>
@@ -116,49 +201,30 @@
     <div th:replace="base :: header"></div>
     <div th:replace="base :: sidebar"></div>
 
-    <!-- Nội dung chính -->
     <div class="content-wrapper">
 
         <!-- Form tìm kiếm -->
         <form th:action="@{/journeys}" method="get" class="search-form">
-            <!-- Tên hành trình -->
-            <input type="text" name="name"
-                   placeholder="Tên hành trình"
-                   th:value="${param.name}" />
+            <input type="text" name="name" placeholder="Tên hành trình" th:value="${param.name}" />
+            <input type="text" name="trainName" placeholder="Tên tàu" th:value="${param.trainName}" />
+            <input type="text" name="departureStationName" placeholder="Ga đi" th:value="${param.departureStationName}" />
+            <input type="text" name="arrivalStationName" placeholder="Ga đến" th:value="${param.arrivalStationName}" />
 
-            <!-- Tên tàu -->
-            <input type="text" name="trainName"
-                   placeholder="Tên tàu"
-                   th:value="${param.trainName}" />
-
-            <!-- Ga đi -->
-            <input type="text" name="departureStationName"
-                   placeholder="Ga đi"
-                   th:value="${param.departureStationName}" />
-
-            <!-- Ga đến -->
-            <input type="text" name="arrivalStationName"
-                   placeholder="Ga đến"
-                   th:value="${param.arrivalStationName}" />
-
-            <!-- Trạng thái -->
-            <select name="status" class="form-control">
+            <select name="status">
                 <option value="">-- Chọn trạng thái --</option>
                 <option th:each="s : ${status}"
                         th:value="${s}"
                         th:text="${s}"
-                        th:selected="${param.status == s}">
-                </option>
+                        th:selected="${param.status == s}"></option>
             </select>
 
-            <!-- Nút tìm kiếm và reset -->
             <div class="search-buttons">
                 <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 <a th:href="@{/journeys}" class="btn btn-secondary">Reset</a>
             </div>
         </form>
 
-        <!-- Danh sách hành trình -->
+        <!-- Container bảng -->
         <div class="container">
             <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <span th:text="${successMessage}"></span>
@@ -171,6 +237,7 @@
             </div>
 
             <h1>DANH SÁCH CÁC HÀNH TRÌNH</h1>
+
             <table>
                 <thead>
                     <tr>
@@ -218,15 +285,9 @@
                     </tr>
                 </tbody>
             </table>
-
-            <div style="margin-top: 20px; text-align: right;">
-                <a th:href="@{/journeys/add/step1}"
-                   style="background-color: #28a745; color: white; padding: 10px 20px;
-                   text-decoration: none; border-radius: 6px; font-weight: bold;
-                   display: inline-flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-plus-circle"></i> Thêm mới
-                </a>
-            </div>
+        </div>
+        <div class="add-new-wrapper">
+            <a th:href="@{/journeys/add/step1}" class="add-new-btn">+</a>
         </div>
     </div>
 

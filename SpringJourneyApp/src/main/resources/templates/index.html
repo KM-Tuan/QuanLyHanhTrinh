@@ -5,10 +5,13 @@
     <block th:replace="base :: styles"></block>
 
     <style>
+        /* Reset cơ bản */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
+            display: flex;
+            flex-direction: column;
             font-family: Arial, sans-serif;
             color: white;
             overflow-x: hidden;
@@ -25,16 +28,16 @@
             z-index: -1;
         }
 
-        /* Wrapper để căn giữa content */
+        /* Content chính */
         .content-wrapper {
+            flex: 1;
             display: flex;
-            justify-content: center; /* căn giữa ngang */
-            align-items: center;     /* căn giữa dọc */
-            padding-top: 100px;
-            padding-bottom: 140px;
-            min-height: 100vh;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 120px;
+            padding-bottom: 60px;
             box-sizing: border-box;
-            text-align: center;
+            width: 100%;
         }
 
         /* Container bảng journey */
@@ -42,16 +45,15 @@
             max-width: 1200px;
             width: 90%;
             padding: 30px;
-            background-color: rgba(19, 16, 16, 0.65); /* nền trong suốt hơn */
+            background-color: rgba(19, 16, 16, 0.65);
             border-radius: 16px;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85); /* đổ bóng mạnh hơn */
-            backdrop-filter: blur(6px); /* làm mờ nền phía sau */
-            /* Bỏ hover container */
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
+            text-align: center;
         }
 
-        /* Tiêu đề bảng */
         .container h1 {
-            color: #9b59b6; /* màu tím */
+            color: #9b59b6;
             margin-bottom: 25px;
             font-weight: 700;
             text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
@@ -59,7 +61,7 @@
 
         table {
             width: 100%;
-            border-collapse: separate; /* tách border để bo tròn góc */
+            border-collapse: separate;
             border-spacing: 0;
             margin-top: 20px;
             background-color: transparent;
@@ -71,7 +73,7 @@
         th, td {
             padding: 14px 12px;
             text-align: center;
-            background-color: rgba(30, 30, 30, 0.55); /* trong suốt hơn */
+            background-color: rgba(30, 30, 30, 0.55);
             color: #fff;
             font-weight: 500;
             transition: background-color 0.3s ease;
@@ -83,22 +85,19 @@
             letter-spacing: 0.5px;
         }
 
-        /* Hover nâng nhẹ từng hàng */
         tbody tr {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         tbody tr:hover {
-            transform: translateY(-3px); /* nâng lên nhẹ */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* bóng nhẹ dưới hàng */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Hover chỉ áp dụng cho hàng */
         tbody tr:hover td {
             background-color: rgba(70, 70, 70, 0.6);
         }
 
-        /* Bo góc cho bảng */
         table th:first-child {
             border-top-left-radius: 12px;
         }
