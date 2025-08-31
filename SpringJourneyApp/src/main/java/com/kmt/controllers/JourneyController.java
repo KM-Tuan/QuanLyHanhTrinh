@@ -5,6 +5,7 @@
 package com.kmt.controllers;
 
 import com.kmt.pojo.Journey;
+import com.kmt.pojo.Station;
 import com.kmt.pojo.Train;
 import com.kmt.pojo.TrainRoute;
 import com.kmt.service.JourneyService;
@@ -108,14 +109,8 @@ public class JourneyController {
         LocalDateTime departureTime = LocalDateTime.parse(departureTimeStr, formatter);
 
         List<TrainRoute> routes = trainRouteSer.findByTrainAndStations(trainId, departureId, arrivalId);
-        if (routes == null || routes.isEmpty()) {
-            model.addAttribute("error", "Không tìm thấy tuyến phù hợp!");
-            return "addJourneyStep2";
-        }
-
         int totalDistance = 0;
         Duration totalTravelDuration = Duration.ZERO;
-
         for (TrainRoute tr : routes) {
             totalDistance += tr.getDistance();
             LocalTime t = tr.getTravelTime();
@@ -133,13 +128,22 @@ public class JourneyController {
         LocalDateTime arrivalTime = departureTime.plus(totalTravelDuration);
         String formattedTime = String.format("%02d:%02d:%02d", hours, minutes, secs);
 
+        Station departureStation = staSer.getStationById(departureId);
+        Station arrivalStation = staSer.getStationById(arrivalId);
+        Train train = trainSer.getTrainById(trainId);
+
+        String journeyName = jourSer.generateRandomName();
+        model.addAttribute("journeyName", journeyName);
         model.addAttribute("departureStationId", departureId);
         model.addAttribute("arrivalStationId", arrivalId);
+        model.addAttribute("departureStationName", departureStation.getName());
+        model.addAttribute("arrivalStationName", arrivalStation.getName());
         model.addAttribute("trainId", trainId);
-        model.addAttribute("departureTime", departureTimeStr);
-        model.addAttribute("arrivalTime", arrivalTime.format(formatter));
+        model.addAttribute("trainName", train.getName());
+        model.addAttribute("departureTime", departureTime);
+        model.addAttribute("arrivalTime", arrivalTime);
         model.addAttribute("totalDistance", totalDistance);
-        model.addAttribute("totalTravelTime", formattedTime);  // Dùng String cho hiển thị
+        model.addAttribute("totalTravelTime", formattedTime);
 
         return "addJourneyStep3";
     }
@@ -151,7 +155,6 @@ public class JourneyController {
             @RequestParam("trainId") int trainId,
             @RequestParam("departureTime") String departureTimeStr,
             Model model) {
-        Journey journey = jourSer.getJourneyById(id);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime departureTime = LocalDateTime.parse(departureTimeStr, formatter);
@@ -169,12 +172,20 @@ public class JourneyController {
         }
         LocalDateTime arrivalTime = departureTime.plus(totalTravelDuration);
 
-        model.addAttribute("journey", journey);
+        Station departureStation = staSer.getStationById(departureId);
+        Station arrivalStation = staSer.getStationById(arrivalId);
+        Train train = trainSer.getTrainById(trainId);
+
+        Journey journey = jourSer.getJourneyById(id);
+        model.addAttribute("journeyName", journey.getName());
         model.addAttribute("departureStationId", departureId);
         model.addAttribute("arrivalStationId", arrivalId);
+        model.addAttribute("departureStationName", departureStation.getName());
+        model.addAttribute("arrivalStationName", arrivalStation.getName());
         model.addAttribute("trainId", trainId);
-        model.addAttribute("departureTime", departureTimeStr);
-        model.addAttribute("arrivalTime", arrivalTime.format(formatter));
+        model.addAttribute("trainName", train.getName());
+        model.addAttribute("departureTime", departureTime);
+        model.addAttribute("arrivalTime", arrivalTime);
         model.addAttribute("totalDistance", totalDistance);
         model.addAttribute("totalTravelTime", String.format("%02d:%02d:%02d",
                 totalTravelDuration.toHours(),
@@ -194,6 +205,7 @@ public class JourneyController {
             @RequestParam("arrivalTime") String arrivalTimeStr,
             @RequestParam("totalDistance") int totalDistance,
             @RequestParam("totalTravelTime") String totalTravelTimeStr,
+            @RequestParam("journeyName") String journeyName,
             RedirectAttributes redirectAttributes) {
 
         LocalDateTime departureTime = LocalDateTime.parse(departureTimeStr);
@@ -208,7 +220,7 @@ public class JourneyController {
         journey.setArrivalTime(arrivalTime);
         journey.setTotalDistance(totalDistance);
         journey.setTotalTravelTime(totalTravelTimeStr);
-        journey.setName(jourSer.generateRandomName());
+        journey.setName(journeyName);
         journey.setCreatedAt(now);
         journey.setCreatedBy(userService.getCurrentUser());
 
@@ -255,7 +267,7 @@ public class JourneyController {
         redirectAttributes.addFlashAttribute("success", "Cập nhật hành trình thành công!");
         return "redirect:/journeys";
     }
-    
+
     @GetMapping("/journeys/delete/{id}")
     public String deleteJourney(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         Journey journey = jourSer.getJourneyById(id);
