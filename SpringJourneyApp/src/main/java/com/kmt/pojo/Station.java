@@ -34,7 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Station.findAll", query = "SELECT s FROM Station s"),
     @NamedQuery(name = "Station.findById", query = "SELECT s FROM Station s WHERE s.id = :id"),
     @NamedQuery(name = "Station.findByName", query = "SELECT s FROM Station s WHERE s.name = :name"),
-    @NamedQuery(name = "Station.findByImage", query = "SELECT s FROM Station s WHERE s.image = :image")})
+    @NamedQuery(name = "Station.findByImage", query = "SELECT s FROM Station s WHERE s.image = :image"),
+    @NamedQuery(name = "Station.findAllPaginated", query = "SELECT s FROM Station s ORDER BY s.id"),
+    @NamedQuery(name = "Station.countAll", query = "SELECT COUNT(s) FROM Station s")})
 public class Station implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -73,7 +75,7 @@ public class Station implements Serializable {
 
     @Transient
     private MultipartFile file;
-    
+
     @Transient
     private Integer distance;
 

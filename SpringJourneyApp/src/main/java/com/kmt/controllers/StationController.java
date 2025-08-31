@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -32,18 +33,19 @@ public class StationController {
     private ServiceService serSer;
 
     @GetMapping("/stations")
-    public String index(Model model) {
-        List<Station> allStations = this.staSer.getStas();
-        int total = allStations.size();
-        int mid = total / 2;
+    public String listStations(Model model,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size) {
+        List<Station> stations = staSer.getStationsPaginated(page, size);
+        long totalStations = staSer.countStations();
+        int totalPages = (int) Math.ceil((double) totalStations / size);
 
-        List<Station> stations1 = allStations.subList(0, mid);
-        List<Station> stations2 = allStations.subList(mid, total);
+        model.addAttribute("stations", stations);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("size", size);
 
-        model.addAttribute("staList1", stations1);
-        model.addAttribute("staList2", stations2);
-
-        return "stations"; // Tên template HTML
+        return "stations";
     }
 
     @GetMapping("/stations/add")

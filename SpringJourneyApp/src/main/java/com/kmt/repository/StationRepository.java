@@ -13,6 +13,8 @@ import java.util.List;
  */
 public interface StationRepository {
     List<Station> getStas();
+    List<Station> getStationsPaginated(int page, int size);
+    long countStations();
     Station getStationById(int id);
     void addOrUpdateStation(Station station);
     void deleteStationById(int id);

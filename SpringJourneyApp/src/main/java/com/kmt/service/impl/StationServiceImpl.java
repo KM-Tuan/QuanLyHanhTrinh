@@ -38,6 +38,16 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
+    public List<Station> getStationsPaginated(int page, int size) {
+        return this.staRepo.getStationsPaginated(page, size);
+    }
+
+    @Override
+    public long countStations() {
+        return this.staRepo.countStations();
+    }
+
+    @Override
     public Station getStationById(int id) {
         return this.staRepo.getStationById(id);
     }
@@ -69,5 +79,4 @@ public class StationServiceImpl implements StationService {
     public void deleteStationById(int id) {
         this.staRepo.deleteStationById(id);
     }
-
 }

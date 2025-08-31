@@ -31,6 +31,24 @@ public class StationRepositoryImpl implements StationRepository {
         Query q = s.createNamedQuery("Station.findAll", Station.class);
         return q.getResultList();
     }
+    
+    @Override
+    public List<Station> getStationsPaginated(int page, int size) {
+        Session session = factory.getObject().getCurrentSession();
+        Query<Station> q = session.createNamedQuery("Station.findAllPaginated", Station.class);
+
+        q.setFirstResult(page * size);
+        q.setMaxResults(size);
+
+        return q.getResultList();
+    }
+
+    @Override
+    public long countStations() {
+        Session session = factory.getObject().getCurrentSession();
+        Query<Long> q = session.createNamedQuery("Station.countAll", Long.class);
+        return q.getSingleResult();
+    }
 
     @Override
     public Station getStationById(int id) {
