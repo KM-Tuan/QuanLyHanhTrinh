@@ -18,13 +18,24 @@
                 --sidebar-collapsed-width: 60px;
             }
 
+            body {
+                min-height: 100vh;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                background-color: #0d0d0d;
+                color: #ffffff;
+            }
+
+            /* Sidebar */
             .sidebar {
                 height: 100vh;
                 position: fixed;
                 top: 56px;
                 left: 0;
                 width: var(--sidebar-collapsed-width);
-                background-color: #2c2f33;
+                background-color: #1a1a1a;
                 color: white;
                 padding-top: 20px;
                 z-index: 1000;
@@ -45,40 +56,204 @@
                 text-decoration: none;
                 white-space: nowrap;
                 overflow: hidden;
+                transition: background-color 0.3s ease, color 0.3s ease;
             }
 
             .sidebar a:hover {
-                background-color: #444;
+                background-color: #333;
                 color: #fff;
             }
 
             .sidebar .text-label {
                 opacity: 0;
                 transition: opacity 0.2s ease;
-                white-space: nowrap;
             }
 
             .sidebar:hover .text-label {
                 opacity: 1;
             }
+
+            /* Header */
+            .navbar {
+                background-color: #111111;
+                z-index: 1100;
+                padding: 0.5rem 1rem;
+            }
+
+            /* Logo KMT Tech */
+            .navbar-brand {
+                color: #9b59b6;
+                font-weight: 800;
+                font-size: 1.5rem;
+                text-shadow: none;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-brand:hover {
+                text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 20px #9b59b6;
+            }
+
+            /* User avatar + logout button */
+            .user-avatar {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background-color: #222;
+                padding: 5px 10px;
+                border-radius: 25px;
+                box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-left: 10px;
+            }
+
+            .user-avatar span {
+                font-weight: 600;
+                color: #9b59b6;
+                transition: all 0.3s ease;
+            }
+
+            .user-avatar .logout-btn {
+                color: #fff;
+                background-color: #222;
+                border-radius: 25px;
+                padding: 5px 15px;
+                text-decoration: none;
+                font-weight: 600;
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            /* Hover trên toàn bộ div user-avatar */
+            .user-avatar:hover {
+                background-color: #9b59b6;
+                box-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6, 0 0 30px #9b59b6;
+            }
+
+            .user-avatar:hover span,
+            .user-avatar:hover .logout-btn {
+                color: #fff;
+            }
+
+            .navbar-brand:hover {
+                text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 20px #9b59b6;
+            }
+
+            /* Footer */
+            .footer-modern {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: #111111;
+                color: #ffffff;
+                padding: 15px 40px;
+                font-weight: 500;
+                font-size: 14px;
+                z-index: 1200;
+            }
+
+            .footer-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            .footer-left, .footer-right {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .footer-right {
+                text-align: right;
+            }
+
+            .footer-right .social-links,
+            .footer-right .policy-links {
+                display: flex;
+                gap: 12px;
+                justify-content: flex-end;
+                flex-wrap: wrap;
+            }
+
+            .footer-modern a {
+                text-decoration: none;
+                color: #ffffff;
+                transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.2s ease;
+            }
+
+            .footer-modern a:hover {
+                color: #9b59b6;
+                text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 20px #9b59b6;
+                transform: translateY(-2px);
+            }
+
+            .footer-modern i {
+                color: #ffffff;
+                transition: color 0.3s ease, text-shadow 0.3s ease;
+            }
+
+            .footer-modern i:hover {
+                color: #9b59b6;
+                text-shadow: 0 0 5px #9b59b6, 0 0 10px #9b59b6, 0 0 20px #9b59b6;
+            }
+
+            .footer-modern .social-links a {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 5px 10px;
+                border-radius: 50px;
+                transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .footer-modern .social-links a:hover {
+                background-color: rgba(155, 89, 182, 0.2);
+                box-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6, 0 0 30px #9b59b6;
+            }
+
+            /* Responsive */
+            @media(max-width:768px){
+                .sidebar {
+                    width: var(--sidebar-width);
+                    position: relative;
+                    height: auto;
+                }
+            }
+
+            main.content {
+                margin-top: 56px;
+                padding-left: var(--sidebar-collapsed-width);
+                padding-bottom: 80px;
+                transition: padding-left 0.3s ease;
+            }
+
+            .sidebar:hover ~ main.content {
+                padding-left: var(--sidebar-width);
+            }
         </style>
     </block>
 </head>
 
-<body style="padding-bottom: 80px;">
+<body>
 
     <!-- Header Fragment -->
     <header th:fragment="header">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <nav class="navbar navbar-expand-sm navbar-dark fixed-top">
             <div class="container-fluid">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">KMT Tech</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link" th:href="@{/logout}">Đăng xuất</a>
-                    </li>
-                </ul>
+                <!-- Logo -->
+                <a class="navbar-brand" th:href="@{/}">KMT Tech</a>
+
+                <!-- User info -->
+                <div class="user-info-wrapper d-flex align-items-center ms-auto" sec:authorize="isAuthenticated()">
+                    <div class="user-avatar d-flex align-items-center gap-2">
+                        <span sec:authentication="name"></span>
+                        <a class="logout-btn" th:href="@{/logout}">Đăng xuất</a>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
@@ -92,34 +267,43 @@
         <a th:href="@{/foods}"><i class="fas fa-tools"></i><span class="text-label">Tiện ích</span></a>
     </div>
 
+    <!-- Main content -->
+    <main class="content" th:fragment="content">
+        <!-- Nội dung các trang sẽ được include vào đây -->
+    </main>
+
     <!-- Footer Fragment -->
-    <footer th:fragment="footer" style="
-            background-color: #31363F;
-            color: #C3ACD0;
-            padding: 20px 40px;
-            font-weight: 500;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;">
-        <div class="container" style="
-             max-width: 800px;
-             margin: 0 auto;
-             display: flex;
-             justify-content: space-between;
-             align-items: center;
-             flex-wrap: wrap;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fa fa-cogs" style="color: #C95792;"></i>
-                <span>KMT Tech &copy; 2025</span>
+    <div th:fragment="footer">
+        <footer class="footer-modern">
+            <div class="footer-container">
+                <!-- Bên trái -->
+                <div class="footer-left">
+                    <div>
+                        <i class="fas fa-copyright"></i>
+                        <span>2025 KMT Tech</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-info-circle"></i>
+                        <a href="#">Về chúng tôi</a>
+                    </div>
+                </div>
+
+                <!-- Bên phải -->
+                <div class="footer-right">
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                        <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    </div>
+                    <div class="policy-links">
+                        <a href="#">Chính sách bảo mật</a>
+                        <a href="#">Quy chế hoạt động</a>
+                        <a href="#">Chính sách thanh toán</a>
+                    </div>
+                </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span>Nâng tầm công nghệ - Đồng hành phát triển</span>
-                <i class="fa fa-heart" style="color: #7C4585;"></i>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
 </body>
 </html>
