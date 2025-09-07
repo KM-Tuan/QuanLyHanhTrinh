@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useContext } from "react";
-import Apis, { endpoints } from "../../configs/Apis";
+import Apis, { endpoints, authApis } from "../../configs/Apis";
 import MySpinner from "../layouts/MySpinner";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -15,17 +15,17 @@ const Menu = () => {
   const [cart, cartDispatch] = useContext(MyCartContext);
 
   const loadFoods = async (pageNum) => {
-    if (loading) return; // tránh gọi API liên tục
+    if (loading) return; 
     setLoading(true);
     try {
       let res = await Apis.get(`${endpoints["foods"]}?page=${pageNum}&size=8`);
       const data = res.data;
 
       if (pageNum === 0) {
-        setFoods(data.foods); // load trang đầu tiên
+        setFoods(data.foods); 
       } else {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setFoods((prev) => [...prev, ...data.foods]); // load thêm trang sau
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setFoods((prev) => [...prev, ...data.foods]);
       }
 
       setTotalPages(data.totalPages);
@@ -40,7 +40,6 @@ const Menu = () => {
     loadFoods(page);
   }, [page]);
 
-  // Chỉ chạy observer khi chưa load hết tất cả
   useEffect(() => {
     if (!loaderRef.current || page + 1 >= totalPages) return;
 
@@ -60,7 +59,9 @@ const Menu = () => {
     };
   }, [totalPages, page, loading]);
 
-  const addToCart = (f) => {
+  const addToCart = async (f) => {
+    if (f.quantity <= 0) return; // không thêm nếu quantity = 0
+
     let cart = cookie.load("cart") || {};
 
     if (f.id in cart) {
@@ -75,9 +76,23 @@ const Menu = () => {
     }
 
     cookie.save('cart', cart);
-    console.info(cart);
+    cartDispatch({ "type": "update" });
 
-    cartDispatch({ "type": "update" })
+    // Gọi API giảm quantity món ăn
+    try {
+      let res = await authApis().post(endpoints["food-decrease"](f.id), null, {
+        params: { quantityChange: 1 }
+      });
+
+      // Cập nhật lại state foods để phản ánh quantity mới
+      setFoods((prev) =>
+        prev.map((food) =>
+          food.id === f.id ? { ...food, quantity: food.quantity - 1 } : food
+        )
+      );
+    } catch (err) {
+      console.error("Lỗi giảm quantity:", err);
+    }
   }
 
   return (
@@ -120,11 +135,22 @@ const Menu = () => {
                 <p className="card-text text-muted">
                   {f.price?.toLocaleString()} VNĐ
                 </p>
+                <p className="card-text text-muted">
+                  Số lượng còn lại: {f.quantity}
+                </p>
 
-                {/* Hai nút luôn cố định phía dưới */}
                 <div className="d-flex gap-2 mt-auto">
-                  <Button onClick={() => addToCart(f)} className="btn btn-success flex-fill">Thêm</Button>
-                  <Link to={`/food-detail/${f.id}`} className="btn btn-primary flex-fill">Chi tiết</Link>
+                  <Button
+                    onClick={() => addToCart(f)}
+                    className="flex-fill"
+                    disabled={f.quantity <= 0}
+                    style={{ opacity: f.quantity <= 0 ? 0.5 : 1 }}
+                  >
+                    Thêm
+                  </Button>
+                  <Link to={`/food-detail/${f.id}`} className="btn btn-primary flex-fill">
+                    Chi tiết
+                  </Link>
                 </div>
               </div>
             </div>
@@ -132,10 +158,9 @@ const Menu = () => {
         ))}
       </div>
 
-      {/* Loader */}
       {page + 1 <= totalPages && (
         <div ref={loaderRef} className="text-center my-3">
-          {loading === true ? <MySpinner /> : "Đã hiển thị hết!"}
+          {loading ? <MySpinner /> : "Đã hiển thị hết!"}
         </div>
       )}
     </div>

@@ -15,8 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,12 +63,6 @@ public class ApiFoodController {
         return ResponseEntity.ok(f);
     }
 
-//    @PutMapping("/foods/update/{foodId}")
-//    public ResponseEntity<Food> updateFood(@PathVariable(name = "foodId") int foodId, @RequestBody Food food) {
-//        food.setId(foodId);
-//        foodSer.addOrUpdateFood(food, food.getCategoryId().getId());
-//        return ResponseEntity.ok(food);
-//    }
     @PutMapping("/foods/update/{foodId}")
     public ResponseEntity<?> updateFood(
             @PathVariable(name = "foodId") int foodId,
@@ -90,6 +84,32 @@ public class ApiFoodController {
         food.setQuantity(quantity);
         food.setFile(file);
         foodSer.addOrUpdateFood(food, categoryId);
+
+        return ResponseEntity.ok(food);
+    }
+
+    @PostMapping("foods/{id}/decrease-quantity")
+    public ResponseEntity<?> decreaseQuantity(
+            @PathVariable("id") Integer id,
+            @RequestParam("quantityChange") int quantityChange) {
+
+        Food food = foodSer.getFoodById(id);
+        
+        food.setQuantity(food.getQuantity() - quantityChange);
+        foodSer.addOrUpdateFood(food, food.getCategoryId().getId());
+
+        return ResponseEntity.ok(food);
+    }
+
+    @PostMapping("foods/{id}/increase-quantity")
+    public ResponseEntity<?> increaseQuantity(
+            @PathVariable("id") Integer id,
+            @RequestParam("quantityChange") int quantityChange) {
+
+        Food food = foodSer.getFoodById(id);
+
+        food.setQuantity(food.getQuantity() + quantityChange);
+        foodSer.addOrUpdateFood(food, food.getCategoryId().getId());
 
         return ResponseEntity.ok(food);
     }

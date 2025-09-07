@@ -69,7 +69,8 @@ public class SpringSecurityConfigs {
                 ).hasAnyRole("ADMIN", "STAFF", "PASSENGER")
                 .requestMatchers(
                         "/api/service-register", "/api/service-register/user/{userId}",
-                        "/api/cart", "/api/cart/user/{userId}", "/api/journey"
+                        "/api/cart", "/api/cart/user/{userId}", "/api/journey",
+                        "/api/foods/{id}/decrease-quantity", "/api/foods/{id}/increase-quantity"
                 ).hasAnyRole("PASSENGER")
                 .requestMatchers(
                         "/api/statistics/most-ordered", "/api/statistics/most-ordered/csv", "/api/statistics/most-ordered/pdf",

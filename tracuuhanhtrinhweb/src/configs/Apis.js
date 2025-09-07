@@ -20,6 +20,8 @@ export const endpoints = {
     'my-food': (userId) => `/cart/user/${userId}`,
     'food-detail': (foodId) => `/foods/${foodId}`,
     'update-food': (foodId) => `/foods/update/${foodId}`,
+    'food-decrease': (foodId) => `/foods/${foodId}/decrease-quantity`,
+    'food-increase': (foodId) => `/foods/${foodId}/increase-quantity`,
     'cart': '/cart',
 
     // Thống kê
