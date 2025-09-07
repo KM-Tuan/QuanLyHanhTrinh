@@ -61,7 +61,7 @@ public class SpringSecurityConfigs {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/api/users", "/api/login", "/api/track-journey", "/api/journeys/{journeyName}/stations", "/api/foods", "/api/foods/{foodId}"
+                .requestMatchers("/api/users", "/api/login", "/api/track-journey", "/api/journeys/{journeyName}/stations", "/api/foods", "/api/foods/{foodId}", "/api/food-categories"
                 ).permitAll()
                 .requestMatchers(
                         "/api/secure/profile",
@@ -75,7 +75,7 @@ public class SpringSecurityConfigs {
                         "/api/statistics/most-ordered", "/api/statistics/most-ordered/csv", "/api/statistics/most-ordered/pdf",
                         "/api/statistics/day", "/api/statistics/month", "/api/statistics/year",
                         "/api/statistics/day/csv", "/api/statistics/month/csv", "/api/statistics/year/csv", "/api/statistics/day/pdf", "/api/statistics/month/pdf", "/api/statistics/year/pdf",
-                        "/api/food-categories", "/api/foods/update/{foodId}"
+                        "/api/foods/update/{foodId}"
                 ).hasAnyRole("STAFF")
                 .requestMatchers(
                         "/", "/journeys", "/foods", "/stations", "/trains", "/users", "/addChoice",

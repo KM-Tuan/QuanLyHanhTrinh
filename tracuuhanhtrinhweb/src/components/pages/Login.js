@@ -8,6 +8,7 @@ import { MyDispatcherContext } from "../../configs/MyContexts";
 
 const Login = () => {
   const [user, setUser] = useState({});
+  const [role, setRole] = useState("PASSENGER"); // role mặc định
   const [msg, setMsg] = useState();
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
@@ -32,36 +33,36 @@ const Login = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      let res = await Apis.post(endpoints['login'], {
-        ...user
-      });
+      setMsg(null);
+
+      let res = await Apis.post(endpoints['login'], { ...user });
 
       cookie.save('token', res.data.token);
 
       let u = await authApis().get(endpoints['current-user']);
-      console.info(u.data);
+
+      if (u.data.role !== role) {
+        setMsg("Role không đúng. Vui lòng chọn role chính xác.");
+        cookie.remove('token');
+        return;
+      }
 
       dispatch({
-        "type": "login",
-        "payload": u.data
+        type: "login",
+        payload: u.data
       });
 
       let next = q.get('next');
-      if (next)
-        nav(next);
-      else
-        nav("/");
+      if (next) nav(next);
+      else nav("/");
+
     } catch (ex) {
       console.error(ex);
+      setMsg("Đăng nhập thất bại. Kiểm tra lại tài khoản và mật khẩu.");
     } finally {
       setLoading(false);
     }
   }
-
-
-
-
-
 
   return (
     <>
@@ -69,10 +70,26 @@ const Login = () => {
 
       {msg && <Alert variant="danger">{msg}</Alert>}
 
-      <Form onSubmit={login}>
-        {info.map(i => <Form.Control key={i.field} value={user[i.field]} onChange={e => setState(e.target.value, i.field)} className="mt-2 mb-1" type={i.type} placeholder={i.title} required />)}
+      <Form.Select className="mt-2 mb-1" value={role} onChange={e => setRole(e.target.value)}>
+        <option value="PASSENGER">Hành khách</option>
+        <option value="STAFF">Nhân viên</option>
+        <option value="ADMIN">Quản trị viên</option>
+      </Form.Select>
 
-        {loading === true ? <MySpinner /> : <Button type="submit" variant="success" className="mt-2 mb-1">Đăng nhập</Button>}
+      <Form onSubmit={login}>
+        {info.map(i =>
+          <Form.Control
+            key={i.field}
+            value={user[i.field] || ''}
+            onChange={e => setState(e.target.value, i.field)}
+            className="mt-2 mb-1"
+            type={i.type}
+            placeholder={i.title}
+            required
+          />
+        )}
+
+        {loading ? <MySpinner /> : <Button type="submit" variant="success" className="mt-2 mb-1">Đăng nhập</Button>}
       </Form>
     </>
   )
