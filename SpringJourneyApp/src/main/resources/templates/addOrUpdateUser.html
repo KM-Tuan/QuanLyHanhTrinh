@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
     <div th:replace="base :: title"></div>
@@ -8,8 +8,10 @@
         body, html {
             margin: 0;
             padding: 0;
+            height: 100%;
             font-family: Arial, sans-serif;
             color: white;
+            overflow-x: hidden;
         }
 
         #bg-video {
@@ -23,50 +25,141 @@
         }
 
         .content-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-container {
+            width: 950px;
+            max-width: 95%;
+            background-color: rgba(19,16,16,0.65);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #9b59b6;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .boxes-wrapper {
+            display: flex;
+            gap: 30px;
+            align-items: stretch; /* Hai box cùng chiều cao */
+        }
+
+        .left-box, .right-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-box {
+            justify-content: space-between; /* Avatar top, file input bottom */
+        }
+
+        .form-group-box {
+            background-color: rgba(30,30,30,0.55);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .form-group-box .form-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            text-align: left;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #9b59b6;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            background-color: rgba(42,42,42,0.75);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input:focus,
+        select:focus {
+            border: 2px solid #9b59b6;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            background-color: #9b59b6;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #8e44ad;
+            transform: scale(1.05);
+        }
+
+        /* --- Avatar --- */
+        .avatar-wrapper {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding-top: 100px;
-            padding-bottom: 140px;
-            min-height: 100vh;
-            background: rgba(19, 16, 16, 0.85);
         }
-        .form-container {
-            width: 500px;
-            background: rgba(30, 30, 30, 0.9);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
-        }
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .form-container label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .form-container input, .form-container select {
+
+        .avatar-preview {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: none;
-            border-radius: 8px;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
         }
-        .form-container button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+
+        /* Đảm bảo box phải luôn cao bằng avatar */
+        .right-box .form-group-box {
+            flex: 1;
+            min-height: 400px; /* chiều cao cố định bạn muốn */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .form-container button:hover {
-            background: #218838;
+
+        /* Nút file luôn ở dưới box trái */
+        .file-input-wrapper {
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -80,70 +173,85 @@
     <div th:replace="base :: sidebar"></div>
 
     <div class="content-wrapper">
-        <div class="form-container">
-            <form th:action="@{/users/add/submit}" th:object="${user}" method="post" enctype="multipart/form-data">
-                
-                <div th:if="${errorMessage}" style="color: red; margin-bottom: 10px;">
-                    <p th:text="${errorMessage}"></p>
-                </div>
-                
-                <h2 th:if="${user.id == null}">THÊM USER</h2>
-                <h2 th:unless="${user.id == null}">CẬP NHẬT USER</h2>
-                <input type="hidden" th:field="*{id}" />
-                <div th:if="${user.id == null}">
-                    <!-- Username -->
-                    <label>Tên đăng nhập</label>
-                    <input type="text" th:field="*{username}" required />
+        <form th:action="@{/users/add/submit}" th:object="${user}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}" />
 
-                    <!-- Password -->
-                    <label>Mật khẩu</label>
-                    <input type="password" th:field="*{password}" required />
+            <div class="form-container">
+                <div class="form-title" th:text="${user.id == null} ? 'THÊM USER' : 'CẬP NHẬT USER'"></div>
 
-                    <!--Confirm Password-->
-                    <label>Xác nhận mật khẩu</label>
-                    <input type="password" th:field="*{confirmPassword}" required />
-                </div>
+                <div class="boxes-wrapper">
+                    <!-- Box trái -->
+                    <div class="left-box">
+                        <!-- Thêm mới -->
+                        <div th:if="${user.id == null}" class="form-group-box">
+                            <div class="form-item">
+                                <label>Tên đăng nhập</label>
+                                <input type="text" th:field="*{username}" required />
+                            </div>
+                            <div class="form-item">
+                                <label>Mật khẩu</label>
+                                <input type="password" th:field="*{password}" required />
+                            </div>
+                            <div class="form-item">
+                                <label>Xác nhận mật khẩu</label>
+                                <input type="password" th:field="*{confirmPassword}" required />
+                            </div>
+                            <div></div>
+                        </div>
 
-                    <!-- Họ và Tên -->
-                    <label>Họ:</label>
-                    <input type="text" th:field="*{lastName}" />
-                    <label>Tên:</label>
-                    <input type="text" th:field="*{firstName}" />
+                        <!-- Cập nhật avatar -->
+                        <div th:if="${user.id != null}" class="avatar-wrapper">
+                            <img th:src="@{${user.avatar}}" alt="Avatar" class="avatar-preview" />
+                        </div>
 
-                    <!-- Email -->
-                    <label>Email:</label>
-                    <input type="email" th:field="*{email.email}" />
-
-                    <!-- Phone -->
-                    <label>Số điện thoại:</label>
-                    <input type="text" th:field="*{phone.phone}" />
-
-                    <!-- Vai trò -->
-                    <label>Vai trò:</label>
-                    <select th:field="*{role}">
-                        <option value="ADMIN">ADMIN</option>
-                        <option value="STAFF">STAFF</option>
-                        <option value="PASSENGER">PASSENGER</option>
-                    </select>
-
-                    <!-- Trạng thái -->
-                    <label>Trạng thái:</label>
-                    <select th:field="*{isActive}">
-                        <option value="true">Hoạt động</option>
-                        <option value="false">Không hoạt động</option>
-                    </select>
-
-                    <!-- Avatar -->
-                    <label>Avatar:</label>
-                    <input type="file" th:field="*{file}" />
-                    <div th:if="${user.avatar != null}">
-                        <img th:src="@{${user.avatar}}" alt="Avatar" style="width: 120px; height: auto; margin-top: 10px; border-radius: 8px; display: block;" />
+                        <!-- Nút chọn file luôn ở dưới box trái -->
+                        <div class="file-input-wrapper">
+                            <input type="file" th:field="*{file}" />
+                        </div>
                     </div>
 
-                    <button type="submit" th:if="${user.id == null}">Thêm</button>
-                    <button type="submit" th:unless="${user.id == null}">Cập nhật</button>
-            </form>
-        </div>
+                    <!-- Box phải -->
+                    <div class="right-box">
+                        <div class="form-group-box">
+                            <div class="form-item">
+                                <label>Họ</label>
+                                <input type="text" th:field="*{lastName}" />
+                            </div>
+                            <div class="form-item">
+                                <label>Tên</label>
+                                <input type="text" th:field="*{firstName}" />
+                            </div>
+                            <div class="form-item">
+                                <label>Email</label>
+                                <input type="email" th:field="*{email.email}" />
+                            </div>
+                            <div class="form-item">
+                                <label>Số điện thoại</label>
+                                <input type="text" th:field="*{phone.phone}" />
+                            </div>
+                            <div class="form-item">
+                                <label>Vai trò</label>
+                                <select th:field="*{role}">
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="STAFF">STAFF</option>
+                                    <option value="PASSENGER">PASSENGER</option>
+                                </select>
+                            </div>
+                            <div class="form-item">
+                                <label>Trạng thái</label>
+                                <select th:field="*{isActive}">
+                                    <option value="true">Hoạt động</option>
+                                    <option value="false">Không hoạt động</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" th:if="${user.id == null}">Thêm</button>
+                        <button type="submit" th:unless="${user.id == null}">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div th:replace="base :: footer"></div>

@@ -50,7 +50,7 @@ public class UserController {
     public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
 
         userSer.deleteUserById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Xóa user thành công!");
+        redirectAttributes.addFlashAttribute("successMessage", "Xóa người dùng thành công!");
 
         return "redirect:/users"; // Quay về danh sách
     }

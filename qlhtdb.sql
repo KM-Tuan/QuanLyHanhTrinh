@@ -88,7 +88,7 @@ CREATE TABLE `food` (
   UNIQUE KEY `name` (`name`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `food_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `food_category` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +97,7 @@ CREATE TABLE `food` (
 
 LOCK TABLES `food` WRITE;
 /*!40000 ALTER TABLE `food` DISABLE KEYS */;
-INSERT INTO `food` VALUES (1,'Phở bò','Phở bò truyền thống Hà Nội','https://res.cloudinary.com/daupdu9bs/image/upload/v1754815772/bhgv8qxo7d6doprgqgbf.jpg',50000,100,2),(2,'Bánh mì','Bánh mì kẹp thịt đặc biệt','https://res.cloudinary.com/daupdu9bs/image/upload/v1754815789/bd4nlevdroxgiokyt33u.webp',20000,150,2),(3,'Cà phê sữa đá','Cà phê phin truyền thống','https://res.cloudinary.com/daupdu9bs/image/upload/v1754815733/texlj0ydngdvejw4ygjd.jpg',15000,200,1),(4,'Bạc xỉu','Cà phê sữa đặc biệt','https://res.cloudinary.com/daupdu9bs/image/upload/v1754815753/ewcadlfxrbnc2irtdq6d.jpg',20000,250,1);
+INSERT INTO `food` VALUES (1,'Bánh mì ốp la 2 trứng','Bánh mì giòn rụm kẹp 2 quả trứng ốp la béo ngậy, lòng đào vàng óng, thêm chút dưa leo và đồ chua thanh mát, đơn giản mà đầy đủ dinh dưỡng cho bữa sáng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755967779/ug46wlzygzcks8twrhgh.jpg',23000,5,3),(2,'Bánh mì bò lá lốt','Thịt bò ướp đậm đà, cuộn trong lá lốt nướng thơm lừng, ăn kèm bánh mì nóng giòn, rau sống và nước sốt đặc trưng, mang hương vị dân dã nhưng khó quên.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755968891/s7wn5csra58cjbijurm4.jpg',29000,5,3),(3,'Bánh mì nem nướng','Nem nướng xay nhuyễn, nướng than thơm phức, vị ngọt của thịt quyện cùng nước chấm chua ngọt, tạo nên ổ bánh mì hấp dẫn khó cưỡng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755968935/cwrarxqbkw8lz9qhyast.jpg',27000,5,3),(4,'Bánh mì thịt nướng mỡ hành','Thịt nướng vàng óng, mềm ngọt, thấm vị ướp, rưới thêm mỡ hành béo bùi, kẹp cùng bánh mì nóng hổi và rau củ tươi giòn – sự kết hợp đậm đà và béo ngậy.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755968969/beiuvdar5nrrrzfzlfbt.jpg',29000,5,3),(5,'Bánh mì bì xíu mại','Ổ bánh mì đặc biệt kết hợp bì heo dai giòn và xíu mại mềm thơm, chan chút nước sốt đậm vị, tạo cảm giác vừa quen vừa lạ miệng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755968999/l82ie6qirzylj69kwmsj.jpg',27000,5,3),(6,'Bánh mì chả cá','Chả cá chiên vàng rụm, thơm lừng hương biển, kẹp trong bánh mì giòn cùng rau thơm và dưa chua, mang đến vị ngon lạ miệng, khó quên.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969053/ckqbw0tmp9vccfrabbai.jpg',27000,5,3),(7,'Bành mì gà nướng muối ớt','Thịt gà nướng cay mặn vừa đủ, dậy mùi muối ớt hấp dẫn, kết hợp rau sống và sốt mayonnaise béo ngậy, thích hợp cho tín đồ ăn cay.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969622/opcqvjmnsxlxcssknjnr.jpg',25000,5,3),(8,'Bánh mì bò mỡ chài lá lốt','Bò mỡ chài thơm ngọt, gói cùng lá lốt nướng than dậy hương, kẹp trong ổ bánh mì giòn rụm – sự kết hợp sáng tạo và độc đáo.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969675/rnd5hsowf73grpyawms2.jpg',29000,5,3),(9,'Gà rán','Gà vàng rộm, giòn tan bên ngoài, thịt mềm ngọt bên trong, ướp gia vị đậm đà – món ăn kinh điển khiến ai cũng mê.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969760/uonoe1kn1wmrieukwbo3.jpg',25000,5,12),(10,'Gà xiên lá chanh','Thịt gà xiên nướng thơm lừng hương lá chanh, cay nhẹ, ăn kèm nước sốt chua ngọt, vừa miệng, hấp dẫn vị giác.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969779/z0vztpxtqs2cygtfymbq.jpg',19000,5,12),(11,'Heo xiên nướng','Thịt heo xiên nướng vàng ruộm, thấm gia vị đậm đà, thơm mùi than hồng, ăn kèm rau sống hoặc bánh mì đều tuyệt.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969803/vlqxgflksxdriqx28xfx.webp',19000,5,12),(12,'Nem nướng xiên','Nem nướng thơm phức, vị ngọt tự nhiên của thịt quyện cùng nước chấm chua ngọt, hấp dẫn khó cưỡng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969828/wsuf3i4u0xzf7hdby73l.jpg',17000,5,12),(13,'Xúc xích','Xúc xích dai ngon, nướng vừa tới, giữ trọn vị thịt, thích hợp nhâm nhi hoặc ăn kèm bánh mì.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969854/ausxu0mme4gvcfhfrq3j.jpg',10000,5,12),(14,'Xúc xích phô mai','Xúc xích kết hợp phô mai kéo sợi béo ngậy, nướng vàng giòn bên ngoài, thơm phức bên trong – món ăn vặt “gây nghiện”.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969872/oppeatck4b8tsa4dfjii.jpg',16000,5,12),(15,'Lạp xưởng','Lạp xưởng nướng trên đá nóng, vỏ hơi cháy xém, thịt ngọt và thơm, ăn kèm rau sống hoặc bánh mì đều hợp.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969899/eu8z3dynbkqks0vd4qrg.jpg',18000,5,12),(16,'Cánh gà nướng tiêu','Cánh gà nướng tẩm ướp tiêu đen thơm nồng, vàng giòn bên ngoài, mềm mọng bên trong, cay nồng vừa phải, cực hợp nhâm nhi.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755969920/xrceuk1hpvl9hzppr5ga.jpg',19000,5,12),(17,'Bánh bao khoai môn','Bánh bao mềm mịn, nhân khoai môn béo ngậy, thơm nhẹ, ăn một miếng là cảm nhận vị ngọt tự nhiên và hương thơm thanh thoát.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970026/dvwcofxrpql9xdkrgygx.jpg',8000,5,1),(18,'Bánh bao xá xíu','Bánh bao trắng phau, nhân thịt xá xíu ngọt vừa, đậm đà gia vị, mềm mềm dai dai – món ăn nhẹ lý tưởng mọi lúc.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970044/ilancpdahuulsccp2k2b.jpg',24000,5,1),(19,'Bánh bao trứng cút trứng muối','Bánh bao kết hợp trứng cút và trứng muối béo ngậy, nhân thơm, vị mặn nhẹ quyện cùng vỏ bánh mềm xốp, cực kỳ hấp dẫn.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970062/vtqsrtuhfzthe9p07udc.jpg',24000,5,1),(20,'Bánh xếp','Vỏ bánh mỏng mềm, nhân thịt hoặc rau củ đậm đà, hấp vừa chín tới, ăn một miếng là cảm nhận vị ngọt thanh và dai nhẹ.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970109/oqhypepdvaduzvn6ywoc.jpg',7000,5,5),(21,'Há cảo','Há cảo trong suốt, nhân tôm, thịt hoặc rau củ tươi ngon, hấp nóng hổi, giữ trọn hương vị tự nhiên và mềm mại.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970136/qcgjsu9alccqgdxkukus.jpg',16000,5,5),(22,'Xíu mại','Xíu mại thơm phức, thịt mềm ngọt, hấp giữ nước, chấm chút nước sốt đậm đà là vừa miệng, thích hợp ăn kèm cơm hoặc bánh bao.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970514/kx23pebjxtqcfpw7xlno.jpg',16000,5,5),(23,'Bánh giò gà','Bánh giò mềm mịn, nhân gà xé thơm, đậm đà gia vị, vỏ bánh ấm nóng ôm trọn nhân béo ngọt, món ăn sáng lý tưởng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970572/paolu4aszykl4xl6eakn.jpg',18000,5,2),(24,'Bánh giò heo','Bánh giò vỏ mềm mịn, nhân thịt heo băm thơm lừng, đậm vị, ăn kèm chút nước mắm chua ngọt càng thêm hấp dẫn.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970589/b1oqaovx31vvozkvkxwb.jpg',18000,5,2),(25,'Mì trộn sốt thái','Sợi mì dai mềm, trộn cùng sốt Thái chua cay đặc trưng, rau sống và lạc rang, món ăn đậm vị, hấp dẫn vị giác.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970664/pkawhcjfdjjr9sjkxttg.jpg',15000,5,6),(26,'Mì trộn xốt tứ xuyên','Mì trộn cùng sốt Tứ Xuyên cay nồng, kết hợp thịt, rau tươi và chút hành phi thơm, tạo hương vị mạnh mẽ và kích thích.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970683/w1mwumxj1tjwgsk72tqc.jpg',15000,5,6),(27,'Mì trộn hải sản','Mì dai mềm kết hợp hải sản tươi ngon, trộn với rau thơm, nước sốt chua ngọt đậm đà – món ăn lạ miệng nhưng cực hấp dẫn.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970705/dxbmvdxib81ihlacqcp2.jpg',23000,5,6),(28,'Đồ chua','Rau củ tươi ngâm chua ngọt vừa phải, giòn giòn, tạo hương vị thanh mát, ăn kèm mọi món chính đều tăng độ hấp dẫn.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970759/gbpduklfr6ytpdryxyjl.jpg',2000,5,8),(29,'Trứng gà ốp la','Trứng ốp la vừa chín, lòng đỏ mềm mịn, vàng óng, ăn kèm bánh mì hoặc cơm đều thơm ngon, béo ngậy và đầy dinh dưỡng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970780/z6i9dyls7cughlui6vz1.jpg',6000,5,8),(30,'Trứng gà luộc','Trứng luộc chín vừa tới, lòng đỏ béo, trắng mịn, tiện lợi cho bữa sáng hoặc ăn nhẹ, bổ sung protein đầy đủ.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970805/upixrhuyna3roy2hmy9h.jpg',6000,5,8),(31,'Cà phê sữa tươi','Cà phê đậm vị hòa quyện cùng sữa tươi béo ngậy, tạo hương thơm nhẹ nhàng, uống lạnh hay nóng đều tuyệt.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970883/t70tgziqs1qkt6htaxfb.jpg',27000,5,4),(32,'Latte','Espresso hòa cùng sữa nóng, lớp bọt mịn mềm mại trên bề mặt, thơm và dịu nhẹ, phù hợp thưởng thức cả ngày.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970930/lvhs7hedkjbzldtii25l.jpg',25000,5,4),(33,'Americano','Espresso pha loãng với nước nóng, vị đắng nhẹ, thanh tao, giữ trọn hương cà phê nguyên chất.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970948/mmustbvsiq4bzhmewkdq.jpg',22000,5,4),(34,'Cà phê sữa yến mạch','Espresso kết hợp sữa yến mạch béo nhẹ, thơm thơm hạt ngọt tự nhiên, là lựa chọn lành mạnh và thơm ngon.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970971/kvqek6cwv8wnff1zctew.jpg',35000,5,4),(35,'Bạc xỉu kem muối','Cà phê sữa ngọt dịu kết hợp lớp kem muối béo mặn hấp dẫn, vừa uống vừa cảm nhận hương vị độc đáo.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755970991/flm8cv1on3sgae74q0eh.jpg',23000,5,4),(36,'Bạc xỉu','Cà phê sữa béo vừa phải, thơm mùi cà phê, uống dịu nhẹ, phù hợp cho những ai thích vị ngọt thanh.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971016/y6n9uwom95bemwyldud0.jpg',23000,5,4),(37,'Cà phê kem muối','Cà phê đen kết hợp kem muối béo thơm, tạo vị mặn ngọt cân bằng, thưởng thức cực đã.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971034/xcgau6vfylbocgbkkjzt.jpg',20000,5,4),(38,'Cà phê đen','Cà phê nguyên chất, rang đậm, vị đắng nồng, hương thơm đặc trưng, thích hợp cho tín đồ cà phê thuần.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971054/np9kh4kyrhcm3iwfddd4.jpg',17000,5,4),(39,'Cà phê sữa','Cà phê pha cùng sữa đặc, ngọt béo, thơm cà phê nồng nàn, món uống truyền thống được nhiều người yêu thích.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971070/owkvgjpa4teeslnqqnvd.jpg',17000,5,4),(40,'Cold Brew','Cà phê ủ lạnh, vị dịu, hương thơm tự nhiên, uống mát lạnh sảng khoái, thích hợp ngày nóng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971087/nhqdzguzqlrkfhsoulzj.jpg',25000,5,4),(41,'Trà tắc','Trà tắc chua ngọt thanh mát, thêm chút đá lạnh và lát tắc thơm, giải khát cực sảng khoái.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971159/mnhei3vb4pe01kylh1gl.png',17000,5,11),(42,'Trà đào','Trà đào ngọt nhẹ, thơm hương đào tươi, uống lạnh kèm đá, mang lại cảm giác mát lành và sảng khoái.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971199/w9hmqy7enbuc0oqkgwg2.jpg',23000,5,11),(43,'Trà xoài','Trà xoài vàng óng, ngọt tự nhiên, kết hợp trà thanh mát, uống lạnh cực đã miệng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971219/zt4gzi5qxxnhbex3sc4c.jpg',29000,5,11),(44,'Trà dâu','Trà dâu tươi ngon, màu đỏ bắt mắt, vị ngọt dịu và hương thơm trái cây tự nhiên, uống mát lạnh sảng khoái.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971241/z5ebwzq88q8m4b8gb1yg.jpg',29000,5,11),(45,'Trà sữa khoai môn','Trà sữa béo ngậy, kết hợp khoai môn thơm mềm, ngọt dịu, uống lạnh cực “gây nghiện”.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971321/twugv2tqbdzm2erfxusf.jpg',25000,5,10),(46,'Hồng trà sữa','Hồng trà sữa thanh mát, vị trà nhẹ hòa cùng sữa ngọt dịu, thưởng thức lạnh là tuyệt nhất.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971347/pr5jt0khzwzgg2o9ecim.jpg',25000,5,10),(47,'Lài sữa sương sáo','Trà sữa lài thơm dịu, kết hợp sương sáo giòn mát, tạo vị ngọt nhẹ, giải khát sảng khoái.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971374/klapp6ekcwqvkqbcpd5l.jpg',29000,5,10),(48,'Trà sữa Olong gạo','Trà sữa thơm béo kết hợp lông gạo dai dai, mang đến hương vị độc đáo và mới lạ.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971403/lxofdjs5ftth9wdskx7n.png',25000,5,10),(49,'Trà sữa Olong rang','Trà sữa béo thơm, kết hợp lông rang giòn nhẹ, tạo cảm giác vừa lạ vừa quen khi thưởng thức.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971430/cptg77us3l6mnrs8itdw.png',25000,5,10),(50,'Sữa đậu nành','Sữa đậu nành tươi, béo nhẹ, thơm mùi đậu tự nhiên, uống mát lạnh hoặc ấm đều bổ dưỡng và dễ uống.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971533/o2p1mo94yxpwh8jigfxr.jpg',15000,5,7),(51,'Sâm bí đao','Thức uống giải khát thanh mát, kết hợp sâm và bí đao, uống lạnh cực sảng khoái, giúp giải nhiệt ngày nóng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971554/wncba3rsbfxsmwpsb5e7.jpg',17000,5,7),(52,'Thạch tắc xí muội','Thạch dai giòn, kết hợp vị chua thanh của tắc và chút xí muội ngọt mặn, ăn kèm đồ uống hoặc tráng miệng cực đã.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971602/x13w4ilcfoctdsz3m4b4.jpg',9000,5,9),(53,'Thạch sương sáo','Thạch sương sáo mát lạnh, giòn sần sật, hương vị thanh mát, thích hợp ăn kèm trà, trà sữa hoặc món tráng miệng.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971633/mbgjzjiqd3tp6zhjwl1u.jpg',6000,5,9),(54,'Trân châu phô mai','Trân châu dai mềm, béo vị phô mai, thêm chút ngọt nhẹ, topping cực “gây nghiện” cho trà sữa và món uống.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971710/cxq3aztxqebcfx7f9srn.png',9000,5,9),(55,'Trân châu caramel','Trân châu ngọt vừa, thấm vị caramel thơm béo, dai mềm, ăn kèm trà sữa hoặc trà trái cây đều hợp.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971749/prwgoa5lqtlfoacumudl.jpg',9000,5,9),(56,'Trân châu trắng','Trân châu trắng dai mềm, thanh ngọt tự nhiên, topping nhẹ nhàng mà hấp dẫn cho mọi món đồ uống.','https://res.cloudinary.com/daupdu9bs/image/upload/v1755971777/ztk4odxatfu4n0ifdpqa.jpg',7000,5,9);
 /*!40000 ALTER TABLE `food` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +113,7 @@ CREATE TABLE `food_category` (
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `food_category` (
 
 LOCK TABLES `food_category` WRITE;
 /*!40000 ALTER TABLE `food_category` DISABLE KEYS */;
-INSERT INTO `food_category` VALUES (2,'Đồ ăn'),(1,'Nước uống');
+INSERT INTO `food_category` VALUES (1,'Bánh bao'),(2,'Bánh giò'),(3,'Bánh mì'),(4,'Cà phê'),(5,'Dimsum'),(6,'Mì trộn'),(7,'Nước ép'),(8,'Topping đồ ăn'),(9,'Topping nước uống'),(10,'Trà sữa'),(11,'Trà trái cây'),(12,'Xiên que');
 /*!40000 ALTER TABLE `food_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +153,7 @@ CREATE TABLE `food_comment` (
 
 LOCK TABLES `food_comment` WRITE;
 /*!40000 ALTER TABLE `food_comment` DISABLE KEYS */;
-INSERT INTO `food_comment` VALUES (1,3,1,'Phở rất ngon và đậm đà!','2025-08-13 21:19:24'),(2,3,2,'Bánh mì ngon, giòn rụm','2025-08-13 21:19:24'),(3,2,1,'Mình thích món này, nên ăn nhiều hơn.','2025-08-13 21:19:24');
+INSERT INTO `food_comment` VALUES (1,3,1,'Phở rất ngon và đậm đà!','2025-09-06 09:02:18'),(2,3,2,'Bánh mì ngon, giòn rụm','2025-09-06 09:02:18'),(3,2,1,'Mình thích món này, nên ăn nhiều hơn.','2025-09-06 09:02:18');
 /*!40000 ALTER TABLE `food_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +183,7 @@ CREATE TABLE `food_like` (
 
 LOCK TABLES `food_like` WRITE;
 /*!40000 ALTER TABLE `food_like` DISABLE KEYS */;
-INSERT INTO `food_like` VALUES (1,3,1,'2025-08-13 21:19:24'),(2,3,2,'2025-08-13 21:19:24'),(3,2,1,'2025-08-13 21:19:24');
+INSERT INTO `food_like` VALUES (1,3,1,'2025-09-06 09:02:18'),(2,3,2,'2025-09-06 09:02:18'),(3,2,1,'2025-09-06 09:02:18');
 /*!40000 ALTER TABLE `food_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,16 +198,15 @@ CREATE TABLE `food_order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `user_id` int NOT NULL,
-  `journey_id` int NOT NULL,
+  `journey_name` varchar(100) NOT NULL,
   `total_amount` double NOT NULL,
-  `payment_status` enum('PENDING','PAID') NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `journey_id` (`journey_id`),
+  KEY `journey_name` (`journey_name`),
   CONSTRAINT `food_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `food_order_ibfk_2` FOREIGN KEY (`journey_id`) REFERENCES `journey` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `food_order_ibfk_2` FOREIGN KEY (`journey_name`) REFERENCES `journey` (`name`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,7 +215,6 @@ CREATE TABLE `food_order` (
 
 LOCK TABLES `food_order` WRITE;
 /*!40000 ALTER TABLE `food_order` DISABLE KEYS */;
-INSERT INTO `food_order` VALUES (1,'Đơn hàng 1',3,1,65000,'PAID','2025-08-13 21:19:24'),(2,'Đơn hàng 2',3,1,20000,'PENDING','2025-08-13 21:19:24');
 /*!40000 ALTER TABLE `food_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,7 +236,7 @@ CREATE TABLE `food_order_item` (
   KEY `food_id` (`food_id`),
   CONSTRAINT `food_order_item_ibfk_1` FOREIGN KEY (`food_order_id`) REFERENCES `food_order` (`id`) ON DELETE CASCADE,
   CONSTRAINT `food_order_item_ibfk_2` FOREIGN KEY (`food_id`) REFERENCES `food` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -247,7 +245,6 @@ CREATE TABLE `food_order_item` (
 
 LOCK TABLES `food_order_item` WRITE;
 /*!40000 ALTER TABLE `food_order_item` DISABLE KEYS */;
-INSERT INTO `food_order_item` VALUES (1,1,1,1,50000),(2,1,3,1,15000),(3,2,2,1,20000);
 /*!40000 ALTER TABLE `food_order_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,7 +394,7 @@ CREATE TABLE `service_comment` (
 
 LOCK TABLES `service_comment` WRITE;
 /*!40000 ALTER TABLE `service_comment` DISABLE KEYS */;
-INSERT INTO `service_comment` VALUES (1,3,1,'Phòng chờ rộng rãi và thoải mái','2025-08-13 21:19:24'),(2,2,2,'Dịch vụ gửi hành lý rất tiện lợi','2025-08-13 21:19:24');
+INSERT INTO `service_comment` VALUES (1,3,1,'Phòng chờ rộng rãi và thoải mái','2025-09-06 09:02:18'),(2,2,2,'Dịch vụ gửi hành lý rất tiện lợi','2025-09-06 09:02:18');
 /*!40000 ALTER TABLE `service_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -427,7 +424,7 @@ CREATE TABLE `service_like` (
 
 LOCK TABLES `service_like` WRITE;
 /*!40000 ALTER TABLE `service_like` DISABLE KEYS */;
-INSERT INTO `service_like` VALUES (1,3,1,'2025-08-13 21:19:24'),(2,2,2,'2025-08-13 21:19:24');
+INSERT INTO `service_like` VALUES (1,3,1,'2025-09-06 09:02:18'),(2,2,2,'2025-09-06 09:02:18');
 /*!40000 ALTER TABLE `service_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -442,20 +439,20 @@ CREATE TABLE `service_order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `user_id` int NOT NULL,
-  `journey_id` int NOT NULL,
+  `journey_name` varchar(100) NOT NULL,
   `station_id` int NOT NULL,
   `service_id` int NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `journey_id` (`journey_id`),
+  KEY `journey_name` (`journey_name`),
   KEY `station_id` (`station_id`),
   KEY `service_id` (`service_id`),
   CONSTRAINT `service_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `service_order_ibfk_2` FOREIGN KEY (`journey_id`) REFERENCES `journey` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `service_order_ibfk_2` FOREIGN KEY (`journey_name`) REFERENCES `journey` (`name`) ON DELETE CASCADE,
   CONSTRAINT `service_order_ibfk_3` FOREIGN KEY (`station_id`) REFERENCES `station` (`id`) ON DELETE CASCADE,
   CONSTRAINT `service_order_ibfk_4` FOREIGN KEY (`service_id`) REFERENCES `service` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -464,7 +461,6 @@ CREATE TABLE `service_order` (
 
 LOCK TABLES `service_order` WRITE;
 /*!40000 ALTER TABLE `service_order` DISABLE KEYS */;
-INSERT INTO `service_order` VALUES (1,'Dịch vụ 1',3,1,1,1,'2025-08-13 21:19:24'),(2,'Dịch vụ 2',3,1,2,2,'2025-08-13 21:19:24');
 /*!40000 ALTER TABLE `service_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -618,4 +614,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-13 21:20:40
+-- Dump completed on 2025-09-07 15:44:39
