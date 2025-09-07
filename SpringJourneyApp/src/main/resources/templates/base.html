@@ -1,8 +1,8 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <title th:fragment="title">Quản Lý Hành Trình</title>
+    <head>
+        <title th:fragment="title">Quản Lý Hành Trình</title>
 
     <block th:fragment="styles">
         <!-- Bootstrap -->
@@ -168,6 +168,9 @@
                 padding: 15px 40px;
                 font-weight: 500;
                 font-size: 14px;
+                position: relative;
+                z-index: 1500;
+                width: 100%;
             }
 
             .footer-container {
@@ -205,64 +208,64 @@
 
 <body>
 
-<!-- Header Fragment -->
-<header th:fragment="header">
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">KMT Tech</a>
-            <div class="user-info-wrapper d-flex align-items-center ms-auto" sec:authorize="isAuthenticated()">
-                <div class="user-avatar d-flex align-items-center gap-2">
-                    <span sec:authentication="name"></span>
-                    <a class="logout-btn" th:href="@{/logout}">Đăng xuất</a>
+    <!-- Header Fragment -->
+    <header th:fragment="header">
+        <nav class="navbar navbar-expand-sm navbar-dark fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/}">KMT Tech</a>
+                <div class="user-info-wrapper d-flex align-items-center ms-auto" sec:authorize="isAuthenticated()">
+                    <div class="user-avatar d-flex align-items-center gap-2">
+                        <span sec:authentication="name"></span>
+                        <a class="logout-btn" th:href="@{/logout}">Đăng xuất</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
-<!-- Sidebar Fragment -->
-<div th:fragment="sidebar" class="sidebar">
-    <a th:href="@{/journeys}"><i class="fas fa-route"></i><span class="text-label">Hành trình</span></a>
-    <a th:href="@{/users}"><i class="fas fa-users"></i><span class="text-label">Người dùng</span></a>
-    <a th:href="@{/stations}"><i class="fas fa-train-subway"></i><span class="text-label">Ga tàu</span></a>
-    <a th:href="@{/trains}"><i class="fas fa-road"></i><span class="text-label">Tàu hỏa</span></a>
-    <a th:href="@{/foods}"><i class="fas fa-tools"></i><span class="text-label">Tiện ích</span></a>
-</div>
+    <!-- Sidebar Fragment -->
+    <div th:fragment="sidebar" class="sidebar">
+        <a th:href="@{/journeys}"><i class="fas fa-route"></i><span class="text-label">Hành trình</span></a>
+        <a th:href="@{/users}"><i class="fas fa-users"></i><span class="text-label">Người dùng</span></a>
+        <a th:href="@{/stations}"><i class="fas fa-train-subway"></i><span class="text-label">Ga tàu</span></a>
+        <a th:href="@{/trains}"><i class="fas fa-road"></i><span class="text-label">Tàu hỏa</span></a>
+        <a th:href="@{/foods}"><i class="fas fa-tools"></i><span class="text-label">Tiện ích</span></a>
+    </div>
 
-<!-- Main content -->
-<main class="content" th:fragment="content">
-    <!-- Nội dung các trang sẽ được include vào đây -->
-</main>
+    <!-- Main content -->
+    <main class="content" th:fragment="content">
+        <!-- Nội dung các trang sẽ được include vào đây -->
+    </main>
 
-<!-- Footer Fragment -->
-<div th:fragment="footer">
-    <footer class="footer-modern">
-        <div class="footer-container">
-            <div class="footer-left">
-                <div>
-                    <i class="fas fa-copyright"></i>
-                    <span>2025 KMT Tech</span>
+    <!-- Footer Fragment -->
+    <div th:fragment="footer">
+        <footer class="footer-modern">
+            <div class="footer-container">
+                <div class="footer-left">
+                    <div>
+                        <i class="fas fa-copyright"></i>
+                        <span>2025 KMT Tech</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-info-circle"></i>
+                        <a href="#">Về chúng tôi</a>
+                    </div>
                 </div>
-                <div>
-                    <i class="fas fa-info-circle"></i>
-                    <a href="#">Về chúng tôi</a>
+                <div class="footer-right">
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                        <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    </div>
+                    <div class="policy-links">
+                        <a href="#">Chính sách bảo mật</a>
+                        <a href="#">Quy chế hoạt động</a>
+                        <a href="#">Chính sách thanh toán</a>
+                    </div>
                 </div>
             </div>
-            <div class="footer-right">
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-                    <a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                </div>
-                <div class="policy-links">
-                    <a href="#">Chính sách bảo mật</a>
-                    <a href="#">Quy chế hoạt động</a>
-                    <a href="#">Chính sách thanh toán</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-</div>
+        </footer>
+    </div>
 
 </body>
 </html>
