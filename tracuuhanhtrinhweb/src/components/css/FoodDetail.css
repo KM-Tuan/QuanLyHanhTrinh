@@ -1,0 +1,132 @@
+/* Reset cơ bản */
+body, html, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Video nền */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Wrapper chính */
+.food-detail-page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+}
+
+/* Box chính */
+.food-detail-box {
+    background: rgba(19, 16, 16, 0.65);
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    text-align: left;
+    max-width: 1200px; /* tăng từ 900px lên 1200px */
+    width: 90%; /* chiếm 90% màn hình */
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Tiêu đề */
+.food-detail-box h2 {
+    color: #9b59b6;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(155, 89, 182, 0.6);
+}
+
+/* Mô tả */
+.food-detail-box p {
+    color: #dbd5d5;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Giá */
+.food-detail-box h4 {
+    color: #e74c3c;
+    font-size: 22px;
+    margin: 10px 0;
+}
+
+/* Số lượng */
+.food-detail-box strong {
+    color: #fff;
+}
+
+/* Button */
+.food-detail-box .btn {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.food-detail-box .btn-success {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+}
+
+.food-detail-box .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(155, 89, 182, 0.7);
+    background: linear-gradient(135deg, #8e44ad, #732d91);
+}
+
+.food-detail-box .btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.food-detail-box .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.food-detail-box .btn-warning {
+    background: linear-gradient(135deg, #f39c12, #d35400);
+    color: white;
+}
+
+.food-detail-box .btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(243, 156, 18, 0.7);
+    background: linear-gradient(135deg, #d35400, #a84300);
+}
+
+/* Hình ảnh */
+.food-detail-box img {
+    border-radius: 15px;
+    object-fit: cover;
+    width: 100%;
+    height: 300px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

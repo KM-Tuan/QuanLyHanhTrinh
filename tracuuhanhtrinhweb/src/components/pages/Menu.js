@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import cookie from "react-cookies";
 import { MyCartContext } from "../../configs/MyContexts";
+import "../css/Menu.css";
 
 const Menu = () => {
   const [foods, setFoods] = useState([]);
@@ -15,14 +16,14 @@ const Menu = () => {
   const [cart, cartDispatch] = useContext(MyCartContext);
 
   const loadFoods = async (pageNum) => {
-    if (loading) return; 
+    if (loading) return;
     setLoading(true);
     try {
       let res = await Apis.get(`${endpoints["foods"]}?page=${pageNum}&size=8`);
       const data = res.data;
 
       if (pageNum === 0) {
-        setFoods(data.foods); 
+        setFoods(data.foods);
       } else {
         await new Promise((resolve) => setTimeout(resolve, 500));
         setFoods((prev) => [...prev, ...data.foods]);
@@ -60,31 +61,29 @@ const Menu = () => {
   }, [totalPages, page, loading]);
 
   const addToCart = async (f) => {
-    if (f.quantity <= 0) return; // không thêm nếu quantity = 0
+    if (f.quantity <= 0) return;
 
-    let cart = cookie.load("cart") || {};
+    let cartCookie = cookie.load("cart") || {};
 
-    if (f.id in cart) {
-      cart[f.id]['quantity']++;
+    if (f.id in cartCookie) {
+      cartCookie[f.id]['quantity']++;
     } else {
-      cart[f.id] = {
-        "id": f.id,
-        "name": f.name,
-        "price": f.price,
-        "quantity": 1
-      }
+      cartCookie[f.id] = {
+        id: f.id,
+        name: f.name,
+        price: f.price,
+        quantity: 1
+      };
     }
 
-    cookie.save('cart', cart);
-    cartDispatch({ "type": "update" });
+    cookie.save('cart', cartCookie);
+    cartDispatch({ type: "update" });
 
-    // Gọi API giảm quantity món ăn
     try {
-      let res = await authApis().post(endpoints["food-decrease"](f.id), null, {
+      await authApis().post(endpoints["food-decrease"](f.id), null, {
         params: { quantityChange: 1 }
       });
 
-      // Cập nhật lại state foods để phản ánh quantity mới
       setFoods((prev) =>
         prev.map((food) =>
           food.id === f.id ? { ...food, quantity: food.quantity - 1 } : food
@@ -93,64 +92,30 @@ const Menu = () => {
     } catch (err) {
       console.error("Lỗi giảm quantity:", err);
     }
-  }
+  };
 
   return (
-    <div className="container my-4">
-      <h1 className="text-center mb-4">Menu</h1>
+    <div className="menu-page">
+      <video autoPlay muted loop playsInline id="bg-video">
+        <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
+      </video>
 
-      <div className="row justify-content-center">
-        {foods.map((f) => (
-          <div
-            key={f.id}
-            className="col-md-3 col-sm-6 mb-4 d-flex justify-content-center"
-          >
-            <div
-              className="card shadow-sm"
-              style={{
-                width: "100%",
-                maxWidth: "250px",
-                transition: "transform 0.3s, box-shadow 0.3s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-                e.currentTarget.style.boxShadow = "0 6px 20px rgba(0,0,0,0.3)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.boxShadow = "0 4px 10px rgba(0,0,0,0.1)";
-              }}
-            >
-              {f.image && (
-                <img
-                  src={f.image}
-                  className="card-img-top"
-                  alt={f.name}
-                  style={{ height: "160px", objectFit: "cover" }}
-                  loading="lazy"
-                />
-              )}
-              <div className="card-body d-flex flex-column text-center">
+      <h1>THỰC ĐƠN</h1>
+
+      <div className="row">
+        {foods.map(f => (
+          <div key={f.id}>
+            <div className="card">
+              {f.image && <img src={f.image} alt={f.name} className="card-img-top" />}
+              <div className="card-body d-flex flex-column">
                 <h5 className="card-title">{f.name}</h5>
-                <p className="card-text text-muted">
-                  {f.price?.toLocaleString()} VNĐ
-                </p>
-                <p className="card-text text-muted">
-                  Số lượng còn lại: {f.quantity}
-                </p>
-
+                <p className="card-text">{f.price?.toLocaleString()} VNĐ</p>
+                <p className="card-text">Số lượng còn lại: {f.quantity}</p>
                 <div className="d-flex gap-2 mt-auto">
-                  <Button
-                    onClick={() => addToCart(f)}
-                    className="flex-fill"
-                    disabled={f.quantity <= 0}
-                    style={{ opacity: f.quantity <= 0 ? 0.5 : 1 }}
-                  >
+                  <Button onClick={() => addToCart(f)} disabled={f.quantity <= 0} className="btn-add flex-fill">
                     Thêm
                   </Button>
-                  <Link to={`/food-detail/${f.id}`} className="btn btn-primary flex-fill">
-                    Chi tiết
-                  </Link>
+                  <Link to={`/food-detail/${f.id}`} className="btn btn-primary flex-fill">Chi tiết</Link>
                 </div>
               </div>
             </div>
@@ -159,7 +124,7 @@ const Menu = () => {
       </div>
 
       {page + 1 <= totalPages && (
-        <div ref={loaderRef} className="text-center my-3">
+        <div ref={loaderRef} className="loader">
           {loading ? <MySpinner /> : "Đã hiển thị hết!"}
         </div>
       )}

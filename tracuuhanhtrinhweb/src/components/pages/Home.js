@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Apis, { endpoints } from "../../configs/Apis";
+import "../css/Home.css"
 
 const Home = () => {
   const [journeyName, setJourneyName] = useState("");
@@ -18,7 +19,7 @@ const Home = () => {
     }
 
     try {
-      const res = await Apis.get(endpoints['track-journey'], { params: { name } });
+      const res = await Apis.get(endpoints["track-journey"], { params: { name } });
 
       if (!res.data || typeof res.data.status === "undefined") {
         setError("Không tìm thấy hành trình!");
@@ -47,31 +48,29 @@ const Home = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "#31363F",
-        minHeight: "100vh",
-        color: "white",
-        padding: "20px",
-      }}
-    >
-      <h1>Trang Chủ</h1>
+    <div className="home-page">
+      {/* Video nền */}
+      <video autoPlay muted loop playsInline id="bg-video">
+        <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
+      </video>
 
-      <div className="p-4">
-        <form onSubmit={handleTrack}>
-          <input
-            type="text"
-            placeholder="Enter Journey Name"
-            value={journeyName}
-            onChange={(e) => setJourneyName(e.target.value)}
-            className="border p-2"
-          />
-          <button type="submit" className="ml-2 p-2 bg-blue-500 text-white">
-            Track
-          </button>
-        </form>
+      {/* Content */}
+      <div className="home-wrapper">
+        <div className="home-box">
+          <h1>QUẢN LÝ HÀNH TRÌNH</h1>
 
-        {error && <p className="mt-2 text-red-500">{error}</p>}
+          <form onSubmit={handleTrack}>
+            <input
+              type="text"
+              placeholder="Nhập mã hành trình..."
+              value={journeyName}
+              onChange={(e) => setJourneyName(e.target.value)}
+            />
+            <button type="submit">Theo dõi</button>
+          </form>
+
+          {error && <p className="error">{error}</p>}
+        </div>
       </div>
     </div>
   );

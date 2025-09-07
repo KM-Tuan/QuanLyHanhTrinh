@@ -1,0 +1,154 @@
+/* Wrapper chính */
+.menu-page {
+    position: relative;
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+/* Video nền */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Tiêu đề */
+.menu-page h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #9b59b6;
+    text-shadow: 0 0 10px rgba(155, 89, 182, 0.6);
+    text-align: center;
+}
+
+/* Grid card */
+.menu-page .row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* mỗi hàng 4 card */
+    gap: 15px;
+    /* khoảng cách giữa các card */
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* Card */
+.menu-page .card {
+    width: 100%;
+    height: 360px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    /* Shadow hiện đại */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3),
+        0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.menu-page .card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4),
+        0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Image */
+.menu-page .card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* Card body */
+.menu-page .card-body {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+/* Card title */
+.menu-page .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Price và quantity */
+.menu-page .card-text {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.menu-page .card-text:nth-child(3) {
+    font-weight: 600;
+    color: #9b59b6;
+}
+
+/* Nút */
+.menu-page .btn {
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+/* Nút Thêm */
+.menu-page .btn-add {
+    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4);
+}
+
+.menu-page .btn-add:hover {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.5);
+}
+
+
+.menu-page .btn:first-child:disabled {
+    opacity: 0.5;
+}
+
+/* Nút Chi tiết */
+.menu-page .btn.btn-primary {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #9b59b6;
+    color: #9b59b6;
+    box-shadow: 0 4px 12px rgba(155, 89, 182, 0.2);
+}
+
+.menu-page .btn.btn-primary:hover {
+    background: rgba(155, 89, 182, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+    color: #9b59b6;
+}
+
+/* Loader */
+.menu-page .loader {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+    color: white;
+}

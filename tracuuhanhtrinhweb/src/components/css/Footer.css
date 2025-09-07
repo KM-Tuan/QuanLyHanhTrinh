@@ -1,0 +1,66 @@
+.footer-modern {
+    background-color: #131010;
+    padding: 20px 40px;
+    color: #ccc;
+    border-top: 1px solid #2c2c2c;
+    font-size: 0.95rem;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-left div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-left i {
+    color: #9b59b6;
+}
+
+.footer-left a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-left a:hover {
+    color: #9b59b6;
+}
+
+/* Bên phải - grid 2 hàng 3 cột */
+.footer-right {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 10px 30px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.footer-right a {
+    color: #ccc;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+}
+
+.footer-right a i {
+    color: #9b59b6;
+}
+
+.footer-right a:hover {
+    color: #9b59b6;
+}

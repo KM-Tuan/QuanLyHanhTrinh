@@ -1,0 +1,93 @@
+/* Video nền */
+#myfood-bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Wrapper */
+.myfood-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  color: white;
+  padding: 50px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Box chứa bảng */
+.myfood-box {
+  background: rgba(19, 16, 16, 0.65);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  max-width: 900px;
+  width: 100%;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Header */
+.myfood-box h2 {
+  color: #9b59b6;
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(155, 89, 182, 0.6);
+}
+
+/* Bảng */
+.myfood-box table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(30, 30, 30, 0.75);
+  color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.myfood-box th,
+.myfood-box td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+.myfood-box th {
+  background: rgba(155, 89, 182, 0.8);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.myfood-box tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.myfood-box tr:hover {
+  background: rgba(155, 89, 182, 0.2);
+}
+
+/* Loading & Error */
+.myfood-box p {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

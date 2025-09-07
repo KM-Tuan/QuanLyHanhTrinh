@@ -4,9 +4,10 @@ import Apis, { endpoints } from "../../configs/Apis";
 import MySpinner from "../layouts/MySpinner";
 import cookie from "react-cookies";
 import { MyCartContext, MyUserContext } from "../../configs/MyContexts";
+import "../css/FoodDetail.css";
 
 const FoodDetail = () => {
-    const { foodId } = useParams(); // lấy id từ URL
+    const { foodId } = useParams();
     const [food, setFood] = useState(null);
     const [loading, setLoading] = useState(true);
     const [cart, cartDispatch] = useContext(MyCartContext);
@@ -23,13 +24,11 @@ const FoodDetail = () => {
                 setLoading(false);
             }
         };
-
         loadFood();
     }, [foodId]);
 
     const addToCart = (f) => {
         let cart = cookie.load("cart") || {};
-
         if (f.id in cart) {
             cart[f.id]["quantity"]++;
         } else {
@@ -40,20 +39,22 @@ const FoodDetail = () => {
                 quantity: 1,
             };
         }
-
         cookie.save("cart", cart);
-        console.info("Giỏ hàng:", cart);
-
         cartDispatch({ type: "update" });
     };
 
     if (loading) return <MySpinner />;
-
     if (!food) return <div className="text-center mt-5">Không tìm thấy món ăn!</div>;
 
     return (
-        <div className="container my-4">
-            <div className="card shadow p-3">
+        <div className="food-detail-page">
+
+            {/* Video nền */}
+            <video autoPlay muted loop playsInline id="bg-video">
+                <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
+            </video>
+
+            <div className="food-detail-box">
                 <div className="row g-4">
                     {/* Hình ảnh */}
                     <div className="col-md-5">
@@ -61,8 +62,7 @@ const FoodDetail = () => {
                             <img
                                 src={food.image}
                                 alt={food.name}
-                                className="img-fluid rounded"
-                                style={{ objectFit: "cover", width: "100%", height: "300px" }}
+                                className="img-fluid"
                             />
                         )}
                     </div>
@@ -70,13 +70,11 @@ const FoodDetail = () => {
                     {/* Nội dung */}
                     <div className="col-md-7 d-flex flex-column">
                         <h2>{food.name}</h2>
-                        <p className="text-muted">{food.description}</p>
-                        <h4 className="text-danger">
-                            {food.price?.toLocaleString()} VNĐ
-                        </h4>
+                        <p>{food.description}</p>
+                        <h4>{food.price?.toLocaleString()} VNĐ</h4>
                         <p>Số lượng còn lại: <strong>{food.quantity}</strong></p>
 
-                        <div className="mt-auto d-flex gap-2">
+                        <div className="mt-auto d-flex gap-2 flex-wrap">
                             <Link to="/menu" className="btn btn-secondary">Quay lại Menu</Link>
                             <button
                                 className="btn btn-success"
@@ -84,7 +82,6 @@ const FoodDetail = () => {
                             >
                                 Thêm vào giỏ
                             </button>
-
                             {user?.role === "STAFF" && (
                                 <Link to={`/update-food/${food.id}`} className="btn btn-warning">
                                     Chỉnh sửa

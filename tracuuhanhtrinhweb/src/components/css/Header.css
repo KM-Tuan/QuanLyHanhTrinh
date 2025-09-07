@@ -1,0 +1,167 @@
+/* Header.css */
+
+.app-header {
+    background-color: #131010;
+    padding: 12px 24px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Logo chữ */
+.app-logo {
+    color: #9b59b6;
+    /* tím giống nút theo dõi */
+    font-weight: bold;
+    font-size: 1.6rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.app-logo:hover {
+    color: #b983d3;
+    /* sáng hơn khi hover */
+}
+
+/* Nút giỏ hàng */
+.cart-btn {
+  background-color: #131010 !important;
+  border: 2px solid #9b59b6 !important;
+  color: #9b59b6 !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.cart-btn i {
+  color: #9b59b6;
+}
+
+.cart-btn:hover {
+  background-color: #9b59b6 !important;
+  color: #fff !important;
+}
+
+.cart-btn:hover i {
+  color: #fff;
+}
+
+/* Nút login */
+.login-btn {
+    background-color: #9b59b6 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #b983d3 !important;
+}
+
+/* Nút register */
+.register-btn {
+    background-color: #9b59b6 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+    background-color: #b983d3 !important;
+}
+
+/* Box user */
+.user-box {
+    background-color: #1f1f1f;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.user-name {
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Dropdown hiện đại */
+.user-dropdown {
+    right: 0;
+    min-width: 200px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    padding: 10px 0;
+    overflow: hidden;
+    animation: dropdownFade 0.3s ease forwards;
+}
+
+/* Animation fade in */
+@keyframes dropdownFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Items trong dropdown */
+.user-dropdown .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.user-dropdown .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+/* Divider mượt */
+.user-dropdown .dropdown-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 6px 0;
+    border: none;
+}
+
+/* Logout button */
+.logout-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: calc(100% - 20px);
+    margin: 0 10px;
+    background: #e74c3c !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #c0392b !important;
+    transform: translateX(3px);
+}

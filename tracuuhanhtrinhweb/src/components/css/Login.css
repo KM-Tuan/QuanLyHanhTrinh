@@ -1,0 +1,135 @@
+/* Reset cơ bản */
+body,
+html,
+#root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Video nền */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Wrapper chính */
+.login-page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+/* Box chính */
+.login-box {
+    background: rgba(19, 16, 16, 0.65);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Tiêu đề */
+.login-box h1 {
+    color: #9b59b6;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px rgba(155, 89, 182, 0.6);
+}
+
+/* Form input */
+.login-box input,
+.login-box select,
+.login-box .form-select {
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.login-box input:focus,
+.login-box select:focus,
+.login-box .form-select:focus {
+    border-color: #9b59b6;
+    box-shadow: 0 0 12px rgba(155, 89, 182, 0.7);
+}
+
+/* Button */
+.login-box button {
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.login-box button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(155, 89, 182, 0.7);
+    background: linear-gradient(135deg, #8e44ad, #732d91);
+}
+
+/* Thông báo lỗi */
+.login-box .error,
+.login-box .alert {
+    margin-top: 15px;
+    color: #ff6b6b;
+    font-weight: 500;
+    animation: shake 0.4s ease;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    50% {
+        transform: translateX(4px);
+    }
+
+    75% {
+        transform: translateX(-4px);
+    }
+}

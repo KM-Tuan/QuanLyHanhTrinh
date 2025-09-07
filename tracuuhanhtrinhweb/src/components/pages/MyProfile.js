@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { MyUserContext } from "../../configs/MyContexts";
 import { Card, Badge } from "react-bootstrap";
+import "../css/MyProfile.css";
 
 const MyProfile = () => {
     const user = useContext(MyUserContext);
@@ -10,17 +11,20 @@ const MyProfile = () => {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center mt-5">
-            <Card style={{ width: "600px", boxShadow: "0 4px 12px rgba(0,0,0,0.2)" }}>
-                <Card.Body className="d-flex align-items-center">
+        <div className="my-profile-page">
+
+            {/* Video nền */}
+            <video autoPlay muted loop playsInline id="bg-video">
+                <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
+            </video>
+
+            <Card className="my-profile-card d-flex align-items-center">
+                <Card.Body className="d-flex align-items-center flex-wrap">
                     {/* Avatar */}
                     <img
                         src={user.avatar}
                         alt="avatar"
-                        width="120"
-                        height="120"
-                        className="rounded-circle me-4"
-                        style={{ objectFit: "cover", border: "3px solid #C95792" }}
+                        className="me-4"
                     />
 
                     {/* Thông tin */}
@@ -31,21 +35,15 @@ const MyProfile = () => {
                                 {user.role}
                             </Badge>
                         </h4>
-                        <p className="mb-1">
-                            <strong>Tên đăng nhập:</strong> {user.username}
-                        </p>
-                        <p className="mb-1">
-                            <strong>Email:</strong> {user.email?.email}
-                        </p>
-                        <p className="mb-1">
-                            <strong>Số điện thoại:</strong> {user.phone?.phone}
-                        </p>
-                        <p className="mb-1">
+                        <p><strong>Tên đăng nhập:</strong> {user.username}</p>
+                        <p><strong>Email:</strong> {user.email?.email}</p>
+                        <p><strong>Số điện thoại:</strong> {user.phone?.phone}</p>
+                        <p>
                             <strong>Trạng thái:</strong>{" "}
                             {user.isActive ? (
-                                <span className="text-success fw-bold">Hoạt động</span>
+                                <span className="text-success">Hoạt động</span>
                             ) : (
-                                <span className="text-danger fw-bold">Bị khóa</span>
+                                <span className="text-danger">Bị khóa</span>
                             )}
                         </p>
                     </div>
