@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { authApis, endpoints } from "../../configs/Apis";
 import { MyUserContext } from "../../configs/MyContexts";
+import "../css/ServiceRegistration.css";
 
 const ServiceRegistration = () => {
     const { stationId } = useParams();
@@ -12,10 +13,8 @@ const ServiceRegistration = () => {
     const [message, setMessage] = useState(null);
     const user = useContext(MyUserContext);
 
-    // giả sử journeyName truyền qua localStorage hoặc props
     const location = useLocation();
     const { journeyName } = location.state || {};
-    
 
     useEffect(() => {
         const fetchStationAndServices = async () => {
@@ -50,82 +49,71 @@ const ServiceRegistration = () => {
             console.log("Service order created:", res.data);
         } catch (err) {
             console.error("Register service error:", err);
-            setMessage((err.response?.data || err.message));
+            setMessage(err.response?.data || err.message);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="container mt-3 d-flex flex-column align-items-center">
-            {/* Ảnh Station */}
-            {station && (
-                <div className="text-center mb-4">
-                    <img
-                        src={station.image}
-                        alt={station.name}
-                        style={{ width: "400px", height: "400px", objectFit: "cover", borderRadius: "8px" }}
-                    />
-                    <h4 className="mt-2">{station.name}</h4>
-                </div>
-            )}
+        <div className="service-registration-page">
+            {/* Video nền */}
+            <video autoPlay muted loop playsInline id="bg-video">
+                <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
+            </video>
 
-            {/* Thẻ Service */}
-            <div className="d-flex flex-wrap justify-content-center gap-3">
-                {services.map((service) => (
-                    <div
-                        key={service.id}
-                        className={`d-flex align-items-center p-2 border rounded text-center ${selectedService?.id === service.id ? "border-primary" : "border-secondary"
-                            }`}
-                        style={{
-                            cursor: service.isActive ? "pointer" : "not-allowed",
-                            minWidth: "150px",
-                            opacity: service.isActive ? 1 : 0.5,
-                        }}
-                        onClick={() => service.isActive && setSelectedService(service)}
-                    >
-                        <i className="bi bi-tools fs-4 me-2"></i>
-                        <span>{service.name}</span>
+            <div className="service-registration-box">
+                {/* Station */}
+                {station && (
+                    <div className="station-section">
+                        <img src={station.image} alt={station.name} />
+                        <h4>{station.name}</h4>
                     </div>
-                ))}
-            </div>
+                )}
 
-            {/* Thông tin service đã chọn */}
-            {selectedService && (
-                <div className="card mt-4 p-3" style={{ maxWidth: "600px" }}>
-                    <h5>{selectedService.name}</h5>
-                    {selectedService.image && (
-                        <img
-                            src={selectedService.image}
-                            alt={selectedService.name}
-                            style={{ width: "100%", maxHeight: "300px", objectFit: "cover", marginBottom: "10px" }}
-                        />
-                    )}
-                    <p>{selectedService.description}</p>
-                    <p>
-                        Trạng thái:{" "}
-                        {selectedService.isActive ? (
-                            <span className="badge bg-success">Hoạt động</span>
-                        ) : (
-                            <span className="badge bg-secondary">Ngừng</span>
+                {/* Services list */}
+                <div className="services-list">
+                    {services.map((service) => (
+                        <div
+                            key={service.id}
+                            className={`service-card ${selectedService?.id === service.id ? "active" : ""} ${!service.isActive ? "disabled" : ""}`}
+                            onClick={() => service.isActive && setSelectedService(service)}
+                        >
+                            <i className="bi bi-tools fs-4 me-2"></i>
+                            <span>{service.name}</span>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Selected Service */}
+                {selectedService && (
+                    <div className="selected-service">
+                        <h5>{selectedService.name}</h5>
+                        {selectedService.image && (
+                            <img src={selectedService.image} alt={selectedService.name} />
                         )}
-                    </p>
-                    <button
-                        className="btn btn-primary"
-                        disabled={!selectedService.isActive || loading}
-                        onClick={handleRegisterService}
-                    >
-                        {loading ? "Đang xử lý..." : "Đăng ký dịch vụ"}
-                    </button>
-                </div>
-            )}
+                        <p>{selectedService.description}</p>
+                        <p>
+                            Trạng thái:{" "}
+                            {selectedService.isActive ? (
+                                <span className="badge bg-success">Hoạt động</span>
+                            ) : (
+                                <span className="badge bg-secondary">Ngừng</span>
+                            )}
+                        </p>
+                        <button
+                            className="btn btn-primary"
+                            disabled={!selectedService.isActive || loading}
+                            onClick={handleRegisterService}
+                        >
+                            {loading ? "Đang xử lý..." : "Đăng ký dịch vụ"}
+                        </button>
+                    </div>
+                )}
 
-            {/* Thông báo */}
-            {message && (
-                <div className="alert alert-info mt-3" style={{ maxWidth: "600px" }}>
-                    {message}
-                </div>
-            )}
+                {/* Thông báo */}
+                {message && <div className="alert-box">{message}</div>}
+            </div>
         </div>
     );
 };
