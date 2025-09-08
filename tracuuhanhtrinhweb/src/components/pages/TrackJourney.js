@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom"; 
+import { useLocation, useNavigate } from "react-router-dom";
 import Apis, { endpoints } from "../../configs/Apis";
 import { MyUserContext } from "../../configs/MyContexts";
+import "../css/TrackJourney.css";
 
 const TrackJourney = () => {
     const location = useLocation();
@@ -53,7 +54,7 @@ const TrackJourney = () => {
     useEffect(() => {
         let rafId;
         const animate = () => {
-            setDisplayProgress(prev => {
+            setDisplayProgress((prev) => {
                 if (prev < progress) {
                     rafId = requestAnimationFrame(animate);
                     return prev + 1;
@@ -64,7 +65,6 @@ const TrackJourney = () => {
         return () => cancelAnimationFrame(rafId);
     }, [progress, displayProgress]);
 
-    // Click vào trạm để chuyển sang trang ServiceRegistration
     const handleStationClick = (stationId) => {
         if (!user) {
             alert("Vui lòng đăng nhập trước khi đăng ký dịch vụ!");
@@ -75,55 +75,44 @@ const TrackJourney = () => {
     };
 
     return (
-        <div className="p-3">
-            <h4 className="mb-3">Journey: {journeyName}</h4>
+        <div className="track-journey-page">
+            {/* Video nền */}
+            <video autoPlay muted loop playsInline id="bg-video">
+                <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
+            </video>
 
-            {stations.length > 0 && (
-                <div className="d-flex justify-content-between mb-2 position-relative">
-                    {stations.map((station) => (
-                        <div
-                            key={station.id}
-                            className="position-relative text-center"
-                            style={{ flex: 1 }}
-                            onMouseEnter={() => setHoverStation(station)}
-                            onMouseLeave={() => setHoverStation(null)}
-                        >
-                            <i className="bi bi-train-front fs-3 text-primary"></i>
+            <div className="track-journey-box">
+                <h4>HÀNH TRÌNH: {journeyName}</h4>
 
-                            {hoverStation?.id === station.id && (
-                                <div
-                                    className="position-absolute p-2 bg-light text-dark border rounded"
-                                    style={{
-                                        top: "-180px",
-                                        left: "50%",
-                                        transform: "translateX(-50%)",
-                                        width: "220px",
-                                        zIndex: 100,
-                                        textAlign: "center",
-                                        cursor: "pointer"
-                                    }}
-                                    onClick={() => handleStationClick(station.id)}
-                                >
-                                    <img
-                                        src={station.image}
-                                        alt={station.name}
-                                        style={{ width: "100%", height: "100px", objectFit: "cover", borderRadius: "6px" }}
-                                    />
-                                    <p className="fw-bold mt-2 mb-1">{station.name}</p>
-                                    <p className="mb-0">Khoảng cách tới ga kế tiếp: {station.distance} km</p>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            {status === "RUNNING" && (
-                <>
-                    <div style={{ position: "relative", width: "100%", marginTop: "10px" }}>
-                        <div className="progress" style={{ height: "30px" }}>
+                {stations.length > 0 && (
+                    <div className="stations-row">
+                        {stations.map((station) => (
                             <div
-                                className="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                key={station.id}
+                                className="station-icon"
+                                onMouseEnter={() => setHoverStation(station)}
+                                onMouseLeave={() => setHoverStation(null)}
+                                onClick={() => handleStationClick(station.id)}
+                            >
+                                <i className="bi bi-geo-alt-fill fs-3"></i>
+
+                                {hoverStation?.id === station.id && (
+                                    <div className="station-tooltip">
+                                        <img src={station.image} alt={station.name} />
+                                        <p className="fw-bold">{station.name}</p>
+                                        <p>Khoảng cách tới ga kế tiếp: {station.distance} km</p>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {status === "RUNNING" && (
+                    <>
+                        <div className="progress">
+                            <div
+                                className="progress-bar"
                                 role="progressbar"
                                 style={{ width: `${displayProgress}%` }}
                                 aria-valuenow={displayProgress}
@@ -133,16 +122,20 @@ const TrackJourney = () => {
                                 {displayProgress}%
                             </div>
                         </div>
-                    </div>
-                    <p className="mt-2 text-success">Đang chạy...</p>
-                    {remainingDistance !== null && (
-                        <p className="mt-1 fw-bold">🚉 Khoảng cách còn lại tổng: {remainingDistance} km</p>
-                    )}
-                </>
-            )}
+                        <p className="status-running">Đang chạy...</p>
+                        {remainingDistance !== null && (
+                            <p className="fw-bold">Khoảng cách còn lại tổng: {remainingDistance} km</p>
+                        )}
+                    </>
+                )}
 
-            {status === "COMPLETED" && <p className="text-primary mt-2 fw-bold">Hành trình đã kết thúc</p>}
-            {status === "WAITTING" && <p className="text-warning mt-2 fw-bold">Hành trình chưa được xuất phát</p>}
+                {status === "COMPLETED" && (
+                    <p className="status-text status-completed">✅ Hành trình đã kết thúc</p>
+                )}
+                {status === "WAITTING" && (
+                    <p className="status-text status-waiting">⌛ Hành trình chưa được xuất phát</p>
+                )}
+            </div>
         </div>
     );
 };
