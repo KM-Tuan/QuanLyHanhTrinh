@@ -33,12 +33,12 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendOtpEmail(int emailId, String otpCode, String subject, String content) {
+    public void sendEmail(int emailId, String subject, StringBuilder content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("kieuminhtuan2112003@gmail.com");
         message.setTo(this.getEmailById(emailId).getEmail());
         message.setSubject(subject);
-        message.setText(content);
+        message.setText(content.toString());
         mailSender.send(message);
     }
 

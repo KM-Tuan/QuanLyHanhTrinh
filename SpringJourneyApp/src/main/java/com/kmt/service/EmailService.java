@@ -12,5 +12,5 @@ import com.kmt.pojo.Email;
  */
 public interface EmailService {
     Email getEmailById(int id);
-    void sendOtpEmail(int emailId, String otpCode, String subject, String content);
+    void sendEmail(int emailId, String subject, StringBuilder content);
 }

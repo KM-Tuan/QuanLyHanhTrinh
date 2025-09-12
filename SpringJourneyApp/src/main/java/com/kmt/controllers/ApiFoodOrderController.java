@@ -15,10 +15,16 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.kmt.pojo.FoodOrder;
+import com.kmt.pojo.FoodOrderItem;
+import com.kmt.pojo.Journey;
+import com.kmt.pojo.User;
+import com.kmt.service.EmailService;
 import com.kmt.service.FoodOrderService;
+import com.kmt.service.UserService;
 import com.opencsv.CSVWriter;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -44,6 +50,12 @@ public class ApiFoodOrderController {
     @Autowired
     private FoodOrderService oderSer;
 
+    @Autowired
+    private UserService userSer;
+
+    @Autowired
+    private EmailService emailSer;
+
     @PostMapping("/cart")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<FoodOrder> checkout(@RequestBody Map<String, Object> payload) {
@@ -52,9 +64,34 @@ public class ApiFoodOrderController {
         List<Map<String, Object>> items = (List<Map<String, Object>>) payload.get("items");
 
         FoodOrder saved = oderSer.createOrder(items, userId, journeyName);
+
+        String subject = "[THÔNG BÁO] - CÓ ĐƠN HÀNG MỚI";
+        StringBuilder content = new StringBuilder();
+        content.append(saved.getName()).append("\n");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        content.append("Thời gian đặt hàng: ").append(saved.getCreatedAt().format(formatter)).append("\n");
+
+        content.append("Hành khách: ").append(saved.getUserId().getFirstName()).append(" ").append(saved.getUserId().getLastName()).append("\n");
+        content.append("Hành trình: ").append(journeyName).append("\n");
+        content.append("Danh sách sản phẩm:\n");
+        content.append(String.format("%-40s %-10s %-10s%n", "Tên", "Số lượng", "Giá"));
+
+        for (FoodOrderItem item : saved.getFoodOrderItemList()) {
+            double totalAmount = item.getQuantity() * item.getPrice();
+            content.append(String.format("%-40s x%-9d %s VNĐ%n", item.getFoodId().getName(), item.getQuantity(), totalAmount));
+        }
+        content.append(String.format("%-50s %s VNĐ%n", "Thành tiền:", saved.getTotalAmount()));
+
+        List<User> staffUsers = userSer.getUsersByRole(User.UserRole.STAFF);
+
+        for (User staff : staffUsers) {
+            emailSer.sendEmail(staff.getEmail().getId(), subject, content);
+        }
+
         return ResponseEntity.ok(saved);
     }
-    
+
     @GetMapping("/cart/user/{userId}")
     public ResponseEntity<?> getFoodOrdersByUser(@PathVariable("userId") Integer userId) {
         List<FoodOrder> orders = oderSer.getOrderByUserId(userId);

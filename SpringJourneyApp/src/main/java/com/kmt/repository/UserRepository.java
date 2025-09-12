@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface UserRepository {
     List<User> getUsers();
+    List<User> getUsersByRole(User.UserRole role);
     User getUserByUsername(String username);
     User getUserById(int id);
     User getUserByEmailId(int emailId);

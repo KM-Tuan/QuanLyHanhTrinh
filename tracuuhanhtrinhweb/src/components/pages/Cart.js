@@ -5,6 +5,7 @@ import { MyCartContext, MyUserContext } from "../../configs/MyContexts";
 import { Link, useNavigate } from "react-router-dom";
 import { authApis, endpoints } from "../../configs/Apis";
 import "../css/Cart.css";
+import MySpinner from "../layouts/MySpinner";
 
 const Cart = () => {
     const [cart, setCart] = useState(cookie.load('cart') || {});
@@ -12,6 +13,7 @@ const Cart = () => {
     const [journeyName, setJourneyName] = useState("");
     const user = useContext(MyUserContext);
     const [, cartDispatch] = useContext(MyCartContext);
+    const [loading, setLoading] = useState(false);
     const nav = useNavigate();
 
     const removeItem = async (id) => {
@@ -57,6 +59,7 @@ const Cart = () => {
             alert("Vui lòng nhập mã hành trình!");
             return;
         }
+        setLoading(true);
         try {
             await authApis().get(`${endpoints['journey']}?journeyName=${journeyName}`);
             const payload = { userId: user.id, journeyName: journeyName, items: Object.values(cart) };
@@ -67,6 +70,7 @@ const Cart = () => {
                 cartDispatch({ "type": "paid" });
                 alert("Thanh toán thành công!");
                 nav("/");
+                setLoading(false);
             }
         } catch (err) {
             console.error(err);
@@ -138,8 +142,12 @@ const Cart = () => {
                                     <Form.Control type="text" placeholder="VD: JRN000" value={journeyName} onChange={(e) => setJourneyName(e.target.value)} />
                                 </Form.Group>
                                 <div className="mt-2 d-flex gap-2 justify-content-center">
-                                    <Button variant="success" onClick={confirmCheckout}>Xác nhận thanh toán</Button>
-                                    <Button variant="secondary" onClick={() => setShowJourneyInput(false)}>Hủy</Button>
+                                    {loading ? <>
+                                        <MySpinner />
+                                    </> : <>
+                                        <Button variant="success" onClick={confirmCheckout}>Xác nhận thanh toán</Button>
+                                        <Button variant="secondary" onClick={() => setShowJourneyInput(false)}>Hủy</Button>
+                                    </>}
                                 </div>
                             </div>
                         )}
@@ -156,7 +164,7 @@ const Cart = () => {
                     </>
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 

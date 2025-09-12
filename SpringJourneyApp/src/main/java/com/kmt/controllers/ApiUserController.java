@@ -61,8 +61,10 @@ public class ApiUserController {
         otpSer.addOtp(otp);
 
         String subject = "[THÔNG BÁO] - MÃ OTP XÁC NHẬN ĐĂNG KÝ TÀI KHOẢN KMT-TECH";
-        String content = "Mã OTP của bạn là: " + otpCode + ". OTP có hiệu lực trong 5 phút.\nVui lòng không chia sẻ mã này cho bất kỳ ai!";
-        emailSer.sendOtpEmail(u.getEmail().getId(), otpCode, subject, content);
+        StringBuilder content = new StringBuilder();
+        content.append("Mã OTP của bạn là: ").append(otpCode).append("\nOTP có hiệu lực trong 5 phút.\n");
+        content.append("Vui lòng không chia sẻ mã này cho bất kỳ ai!");
+        emailSer.sendEmail(u.getEmail().getId(), subject, content);
 
         Map<String, Integer> res = new HashMap<>();
         res.put("emailId", u.getEmail().getId());
