@@ -84,6 +84,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByEmailId(int emailId) {
+        return this.userRepo.getUserByEmailId(emailId);
+    }
+
+    @Override
     public User getCurrentUser() {
         String username = getCurrentUsername();
         return username != null ? userRepo.getUserByUsername(username) : null;
@@ -156,7 +161,7 @@ public class UserServiceImpl implements UserService {
         u.setFirstName(params.get("firstName"));
         u.setLastName(params.get("lastName"));
         u.setRole(User.UserRole.valueOf(params.get("role")));
-        u.setIsActive(true);
+        u.setIsActive(false);
         
         Email e = new Email();
         e.setEmail(params.get("email"));

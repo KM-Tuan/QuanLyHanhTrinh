@@ -8,10 +8,13 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.kmt.filters.JwtFilter;
 import java.util.List;
+import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -61,7 +64,9 @@ public class SpringSecurityConfigs {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/api/users", "/api/login", "/api/track-journey", "/api/journeys/{journeyName}/stations", "/api/foods", "/api/foods/{foodId}", "/api/food-categories"
+                .requestMatchers("/api/users", "/api/users/verify-otp", "/api/login", 
+                        "/api/track-journey", "/api/journeys/{journeyName}/stations", 
+                        "/api/foods", "/api/foods/{foodId}", "/api/food-categories"
                 ).permitAll()
                 .requestMatchers(
                         "/api/secure/profile",
@@ -123,5 +128,23 @@ public class SpringSecurityConfigs {
                         "api_secret", "xT7kQA2e8w7pgvDKZn04jokFVY4",
                         "secure", true));
         return cloudinary;
+    }
+
+    @Bean
+    public JavaMailSender mailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("kieuminhtuan2112003@gmail.com");
+        mailSender.setPassword("fraw ngvs xtik aizh");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.required", "true");
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.debug", "true");
+
+        return mailSender;
     }
 }

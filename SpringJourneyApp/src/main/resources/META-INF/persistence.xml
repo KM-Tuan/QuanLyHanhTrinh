@@ -42,5 +42,6 @@
     <class>com.kmt.pojo.Email</class>
     <class>com.kmt.pojo.Station</class>
     <class>com.kmt.pojo.Train</class>
+    <class>com.kmt.pojo.Otp</class>
   </persistence-unit>
 </persistence>

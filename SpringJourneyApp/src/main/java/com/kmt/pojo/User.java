@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+    @NamedQuery(name = "User.findByEmailId", query = "SELECT u FROM User u WHERE u.email.id = :emailId"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
@@ -77,6 +78,7 @@ public class User implements Serializable {
     private String avatar;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 9)
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private UserRole role;

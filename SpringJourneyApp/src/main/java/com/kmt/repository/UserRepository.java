@@ -15,6 +15,7 @@ public interface UserRepository {
     List<User> getUsers();
     User getUserByUsername(String username);
     User getUserById(int id);
+    User getUserByEmailId(int emailId);
     void addOrUpdateUser(User user);
     void deleteUserById(int id);
     User register(User u);

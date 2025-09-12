@@ -25,7 +25,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -53,6 +53,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User getUserByEmailId(int emailId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query<User> q = s.createNamedQuery("User.findByEmailId", User.class);
+        q.setParameter("emailId", emailId);
+        return q.getSingleResult();
+    }
+
+    @Override
     public void addOrUpdateUser(User user) {
         Session s = this.factory.getObject().getCurrentSession();
 
@@ -74,7 +82,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User register(User u) {
         Session s = factory.getObject().getCurrentSession();
         s.persist(u);
-        
+
         s.refresh(u);
         return u;
     }
@@ -85,5 +93,4 @@ public class UserRepositoryImpl implements UserRepository {
 
         return this.passwordEncoder.matches(password, u.getPassword());
     }
-
 }
