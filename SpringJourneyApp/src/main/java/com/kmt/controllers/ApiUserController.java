@@ -60,7 +60,9 @@ public class ApiUserController {
         otp.setExpiryTime(LocalDateTime.now().plusMinutes(5));
         otpSer.addOtp(otp);
 
-        emailSer.sendOtpEmail(u.getEmail().getId(), otpCode);
+        String subject = "[THÔNG BÁO] - MÃ OTP XÁC NHẬN ĐĂNG KÝ TÀI KHOẢN KMT-TECH";
+        String content = "Mã OTP của bạn là: " + otpCode + ". OTP có hiệu lực trong 5 phút.\nVui lòng không chia sẻ mã này cho bất kỳ ai!";
+        emailSer.sendOtpEmail(u.getEmail().getId(), otpCode, subject, content);
 
         Map<String, Integer> res = new HashMap<>();
         res.put("emailId", u.getEmail().getId());

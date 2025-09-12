@@ -33,12 +33,12 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendOtpEmail(int emailId, String otpCode) {
+    public void sendOtpEmail(int emailId, String otpCode, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("kieuminhtuan2112003@gmail.com");
         message.setTo(this.getEmailById(emailId).getEmail());
-        message.setSubject("[THÔNG BÁO] - MÃ OTP XÁC NHẬN ĐĂNG KÝ TÀI KHOẢN KMT-TECH");
-        message.setText("Mã OTP của bạn là: " + otpCode + ". OTP có hiệu lực trong 5 phút.\nVui lòng không chia sẻ mã này cho bất kỳ ai!");
+        message.setSubject(subject);
+        message.setText(content);
         mailSender.send(message);
     }
 
