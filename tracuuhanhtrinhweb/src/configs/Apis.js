@@ -4,27 +4,35 @@ import cookie from "react-cookies";
 const BASE_URL = 'http://localhost:8080/SpringJourneyApp/api/';
 
 export const endpoints = {
-    'foods': '/foods',
-    'food-categories': '/food-categories',
+    // Journey
     'journeys': '/journeys',
     'journey': '/journey',
-    'register': '/users',
-    'login': '/login',
-    'current-user': '/secure/profile',
     'track-journey': '/track-journey',
     'station': (stationId) => `/stations/${stationId}`,
     'journey-stations': (journeyName) => `/journeys/${journeyName}/stations`,
+
+    // Service
     'station-services': (stationId) => `/stations/${stationId}/services`,
     'service-register': '/service-register',
     'my-service': (userId) => `/service-register/user/${userId}`,
-    'my-food': (userId) => `/cart/user/${userId}`,
+
+    // Food
+    'foods': '/foods',
+    'food-categories': '/food-categories',
     'food-detail': (foodId) => `/foods/${foodId}`,
     'update-food': (foodId) => `/foods/update/${foodId}`,
     'food-decrease': (foodId) => `/foods/${foodId}/decrease-quantity`,
     'food-increase': (foodId) => `/foods/${foodId}/increase-quantity`,
     'cart': '/cart',
+    'my-food': (userId) => `/cart/user/${userId}`,
 
-    // Thống kê
+    // User
+    'register': '/users',
+    'verify-otp': '/users/verify-otp',
+    'login': '/login',
+    'current-user': '/secure/profile',
+
+    // Statistic
     'ordered-json': '/statistics/most-ordered',
     'ordered-csv': '/statistics/most-ordered/csv',
     'ordered-pdf': '/statistics/most-ordered/pdf',

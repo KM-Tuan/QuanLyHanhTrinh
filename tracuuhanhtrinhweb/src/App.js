@@ -56,21 +56,26 @@ const App = () => {
             <Header />
 
             <Routes>
+              {/* User */}
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/menu" element={<Menu />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/my-profile" element={<MyProfile />} />
+
+              {/* Journey */}
               <Route path="/track-journey" element={<TrackJourney />} />
               <Route path="/service-registration/:stationId" element={<ServiceRegistration />} />
-              <Route path="/history" element={<History />} />
               <Route path="/my-service/:userId" element={<MyServiceOrders />} />
+
+              {/* Food */}
               <Route path="/my-food/:userId" element={<MyFoodOrders />} />
               <Route path="/food-detail/:foodId" element={<FoodDetail />} />
               <Route path="/update-food/:foodId" element={<FoodUpdate />} />
-              <Route path="/my-profile" element={<MyProfile />} />
               <Route path="/cart" element={<Cart />} />
 
-              {/* Thống kê */}
+              {/* Statistic */}
               <Route path="/statistic" element={<Statistic />} />
               <Route path="/most-ordered-statistic" element={<MostOrderedStatistic />} />
               <Route path="/total-amount-statistic" element={<TotalAmountStatistic />} />

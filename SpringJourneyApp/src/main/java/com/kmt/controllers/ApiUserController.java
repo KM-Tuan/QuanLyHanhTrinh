@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class ApiUserController {
     private OtpService otpSer;
 
     @PostMapping(path = "/users", consumes = MediaType.MULTIPART_FORM_DATA)
-    public ResponseEntity<String> register(
+    public ResponseEntity<Map<String, Integer>> register(
             @RequestParam Map<String, String> params,
             @RequestParam(value = "avatar", required = false) MultipartFile avatar) {
 
@@ -61,8 +62,10 @@ public class ApiUserController {
 
         emailSer.sendOtpEmail(u.getEmail().getId(), otpCode);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Đăng ký thành công. OTP đã gửi đến email của bạn.");
+        Map<String, Integer> res = new HashMap<>();
+        res.put("emailId", u.getEmail().getId());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
     @PostMapping("users/verify-otp")

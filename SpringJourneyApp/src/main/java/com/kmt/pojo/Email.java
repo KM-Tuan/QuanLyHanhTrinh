@@ -35,19 +35,20 @@ import java.util.Collection;
     @NamedQuery(name = "Email.findByEmail", query = "SELECT e FROM Email e WHERE e.email = :email")})
 public class Email implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "email")
-    private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emailId")
-    private Collection<Otp> otpCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "email")
+    private String email;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emailId")
+    @JsonIgnore
+    private Collection<Otp> otpCollection;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @OneToOne
     @JsonIgnore

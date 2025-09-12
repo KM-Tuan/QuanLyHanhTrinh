@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Alert, Button, Form } from "react-bootstrap";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 import Apis, { endpoints } from "../../configs/Apis";
 import MySpinner from "../layouts/MySpinner";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,10 @@ const Register = () => {
     const avatar = useRef();
     const [msg, setMsg] = useState();
     const [loading, setLoading] = useState(false);
+    const [showOtpModal, setShowOtpModal] = useState(false);
+    const [otp, setOtp] = useState("");
+    const [otpMsg, setOtpMsg] = useState(null);
+    const [emailId, setEmailId] = useState(null);
     const nav = useNavigate();
 
     const info = [
@@ -41,14 +45,19 @@ const Register = () => {
         }
         if (avatar.current.files[0]) form.append("avatar", avatar.current.files[0]);
         form.append("role", user.role || "PASSENGER");
-        form.append("isActive", true);
+        form.append("isActive", false); // ban đầu chưa kích hoạt
 
         try {
             setLoading(true);
-            await Apis.post(endpoints['register'], form, {
+            let res = await Apis.post(endpoints['register'], form, {
                 headers: { 'Content-type': 'multipart/form-data' }
             });
-            nav("/login");
+
+            // Sau khi đăng ký thành công thì hiển thị modal nhập OTP
+            if (res.status === 201 || res.status === 200) {
+                setEmailId(res.data.emailId);
+                setShowOtpModal(true);
+            }
         } catch (ex) {
             console.error(ex);
             setMsg("Đăng ký thất bại. Vui lòng thử lại.");
@@ -57,9 +66,30 @@ const Register = () => {
         }
     };
 
+    const verifyOtp = async () => {
+        setOtpMsg(null);
+        console.log(emailId, otp);
+        try {
+            let res = await Apis.post(endpoints['verify-otp'], null, {
+                params: {
+                    emailId: emailId,
+                    otp: otp
+                }
+            });
+
+            if (res.status === 200) {
+                alert("Xác nhận OTP thành công!");
+                setShowOtpModal(false);
+                nav("/login");
+            }
+        } catch (ex) {
+            console.error(ex);
+            setOtpMsg("OTP không hợp lệ hoặc đã hết hạn. Vui lòng nhập lại.");
+        }
+    };
+
     return (
         <div className="register-page">
-
             <video autoPlay muted loop playsInline id="bg-video">
                 <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
             </video>
@@ -99,6 +129,27 @@ const Register = () => {
                     )}
                 </Form>
             </div>
+
+            {/* Modal nhập OTP */}
+            <Modal show={showOtpModal} centered>
+                <Modal.Header>
+                    <Modal.Title>Xác thực OTP</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Mã OTP đã được gửi về email của bạn. Vui lòng nhập OTP để kích hoạt tài khoản.</p>
+                    {otpMsg && <Alert variant="danger">{otpMsg}</Alert>}
+                    <Form.Control
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        type="text"
+                        placeholder="Nhập OTP"
+                        className="mb-3"
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={verifyOtp}>Xác nhận</Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };
