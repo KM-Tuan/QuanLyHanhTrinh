@@ -25,6 +25,7 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -121,6 +122,9 @@ public class User implements Serializable {
     @JsonIgnore
     @Transient
     private MultipartFile file;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
+    private Collection<NotificationSubscription> notificationSubscriptionCollection;
 
     public User() {
     }
@@ -351,6 +355,21 @@ public class User implements Serializable {
      */
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    /**
+     * @return the notificationSubscriptionCollection
+     */
+    public Collection<NotificationSubscription> getNotificationSubscriptionCollection() {
+        return notificationSubscriptionCollection;
+    }
+
+    /**
+     * @param notificationSubscriptionCollection the
+     * notificationSubscriptionCollection to set
+     */
+    public void setNotificationSubscriptionCollection(Collection<NotificationSubscription> notificationSubscriptionCollection) {
+        this.notificationSubscriptionCollection = notificationSubscriptionCollection;
     }
 
 }

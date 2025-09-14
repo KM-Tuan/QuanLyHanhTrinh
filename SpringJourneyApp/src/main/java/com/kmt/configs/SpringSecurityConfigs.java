@@ -65,7 +65,7 @@ public class SpringSecurityConfigs {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/api/users", "/api/users/verify-otp", "/api/login", 
-                        "/api/track-journey", "/api/journeys/{journeyName}/stations", 
+                        "/api/track-journey", "/api/track-journey/{journeyName}/subscribe", "/api/journeys/{journeyName}/stations",
                         "/api/foods", "/api/foods/{foodId}", "/api/food-categories"
                 ).permitAll()
                 .requestMatchers(

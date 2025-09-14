@@ -16,6 +16,7 @@ const TrackJourney = () => {
     const [remainingDistance, setRemainingDistance] = useState(null);
     const [stations, setStations] = useState([]);
     const [hoverStation, setHoverStation] = useState(null);
+    const [subscribed, setSubscribed] = useState(false);
 
     // Fetch progress và stations
     useEffect(() => {
@@ -74,6 +75,25 @@ const TrackJourney = () => {
         nav(`/service-registration/${stationId}`, { state: { journeyName } });
     };
 
+    const handleSubscribe = async () => {
+        if (!user) {
+            alert("Vui lòng đăng nhập trước khi nhận thông báo!");
+            nav("/login");
+            return;
+        }
+
+        try {
+            const res = await Apis.post(endpoints["notification"](journeyName), null, {
+                params: { userId: user.id },
+            });
+            alert(res.data); // thông báo thành công
+            setSubscribed(true); // cập nhật trạng thái
+        } catch (err) {
+            console.error("Subscribe API error:", err);
+            alert(err.response?.data || "Đăng ký thất bại");
+        }
+    };
+
     return (
         <div className="track-journey-page">
             {/* Video nền */}
@@ -128,6 +148,13 @@ const TrackJourney = () => {
                         )}
                     </>
                 )}
+
+                {!subscribed && (
+                    <button className="btn-notify mt-3" onClick={handleSubscribe}>
+                        <i className="bi bi-bell-fill me-2"></i> Nhận thông báo
+                    </button>
+                )}
+                {subscribed && <p className="fw-bold mt-2">Bạn đã đăng ký nhận thông báo</p>}
 
                 {status === "COMPLETED" && (
                     <p className="status-text status-completed">✅ Hành trình đã kết thúc</p>

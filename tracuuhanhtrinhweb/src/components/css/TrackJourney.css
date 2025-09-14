@@ -139,6 +139,38 @@ html,
     animation: pulseText 1.5s infinite;
 }
 
+/* Nút nhận thông báo */
+.btn-notify {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #9b59b6, #8e44ad);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.6);
+    transition: all 0.3s ease;
+}
+
+.btn-notify:hover {
+    background: linear-gradient(45deg, #8e44ad, #9b59b6);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(155, 89, 182, 0.8);
+}
+
+.btn-notify:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.6);
+}
+
+.btn-notify i {
+    font-size: 18px;
+}
+
 /* Hiệu ứng nhấp nháy chữ */
 @keyframes pulseText {
     0% {

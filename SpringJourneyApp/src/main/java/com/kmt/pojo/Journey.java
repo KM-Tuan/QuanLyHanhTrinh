@@ -24,6 +24,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -105,6 +106,9 @@ public class Journey implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "journeyName")
     @JsonIgnore
     private Set<ServiceOrder> serviceOrderSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "journeyName")
+    @JsonIgnore
+    private Collection<NotificationSubscription> notificationSubscriptionCollection;
 
     public Journey() {
     }
@@ -265,6 +269,21 @@ public class Journey implements Serializable {
 
     public enum JourneyStatus {
         WAITTING, RUNNING, COMPLETED
+    }
+
+    /**
+     * @return the notificationSubscriptionCollection
+     */
+    public Collection<NotificationSubscription> getNotificationSubscriptionCollection() {
+        return notificationSubscriptionCollection;
+    }
+
+    /**
+     * @param notificationSubscriptionCollection the
+     * notificationSubscriptionCollection to set
+     */
+    public void setNotificationSubscriptionCollection(Collection<NotificationSubscription> notificationSubscriptionCollection) {
+        this.notificationSubscriptionCollection = notificationSubscriptionCollection;
     }
 
 }

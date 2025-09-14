@@ -43,5 +43,6 @@
     <class>com.kmt.pojo.Station</class>
     <class>com.kmt.pojo.Train</class>
     <class>com.kmt.pojo.Otp</class>
+    <class>com.kmt.pojo.NotificationSubscription</class>
   </persistence-unit>
 </persistence>

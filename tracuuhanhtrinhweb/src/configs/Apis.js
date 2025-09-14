@@ -10,6 +10,7 @@ export const endpoints = {
     'track-journey': '/track-journey',
     'station': (stationId) => `/stations/${stationId}`,
     'journey-stations': (journeyName) => `/journeys/${journeyName}/stations`,
+    'notification': (journeyName) => `/track-journey/${journeyName}/subscribe`,
 
     // Service
     'station-services': (stationId) => `/stations/${stationId}/services`,
