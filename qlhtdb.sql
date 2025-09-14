@@ -56,7 +56,7 @@ CREATE TABLE `email` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `user_id` (`user_id`),
   CONSTRAINT `email_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `email` (
 
 LOCK TABLES `email` WRITE;
 /*!40000 ALTER TABLE `email` DISABLE KEYS */;
-INSERT INTO `email` VALUES (1,1,'eren.yeager@gmail.com'),(2,2,'levi.ackerman@gmail.com'),(3,3,'armin.arlert@gmail.com'),(4,4,'mikasa.ackerman@gmail.com'),(5,5,'reiner.braun@gmail.com'),(6,6,'jean.kirstein@gmail.com');
+INSERT INTO `email` VALUES (1,1,'eren.yeager@gmail.com'),(2,2,'levi.ackerman@gmail.com'),(3,3,'armin.arlert@gmail.com'),(4,4,'mikasa.ackerman@gmail.com'),(5,5,'reiner.braun@gmail.com'),(6,6,'jean.kirstein@gmail.com'),(7,7,'2251012149tuan@ou.edu.vn');
 /*!40000 ALTER TABLE `email` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +153,7 @@ CREATE TABLE `food_comment` (
 
 LOCK TABLES `food_comment` WRITE;
 /*!40000 ALTER TABLE `food_comment` DISABLE KEYS */;
-INSERT INTO `food_comment` VALUES (1,3,1,'Phở rất ngon và đậm đà!','2025-09-12 14:39:53'),(2,3,2,'Bánh mì ngon, giòn rụm','2025-09-12 14:39:53'),(3,2,1,'Mình thích món này, nên ăn nhiều hơn.','2025-09-12 14:39:53');
+INSERT INTO `food_comment` VALUES (1,3,1,'Phở rất ngon và đậm đà!','2025-09-14 19:53:22'),(2,3,2,'Bánh mì ngon, giòn rụm','2025-09-14 19:53:22'),(3,2,1,'Mình thích món này, nên ăn nhiều hơn.','2025-09-14 19:53:22');
 /*!40000 ALTER TABLE `food_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +183,7 @@ CREATE TABLE `food_like` (
 
 LOCK TABLES `food_like` WRITE;
 /*!40000 ALTER TABLE `food_like` DISABLE KEYS */;
-INSERT INTO `food_like` VALUES (1,3,1,'2025-09-12 14:39:53'),(2,3,2,'2025-09-12 14:39:53'),(3,2,1,'2025-09-12 14:39:53');
+INSERT INTO `food_like` VALUES (1,3,1,'2025-09-14 19:53:22'),(2,3,2,'2025-09-14 19:53:22'),(3,2,1,'2025-09-14 19:53:22');
 /*!40000 ALTER TABLE `food_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +272,7 @@ CREATE TABLE `journey` (
   UNIQUE KEY `name` (`name`),
   KEY `created_by` (`created_by`),
   CONSTRAINT `journey_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,8 +281,38 @@ CREATE TABLE `journey` (
 
 LOCK TABLES `journey` WRITE;
 /*!40000 ALTER TABLE `journey` DISABLE KEYS */;
-INSERT INTO `journey` VALUES (1,'JRN229',1,1,2,'2025-08-13 21:13:00','2025-08-13 22:09:00',56,'00:56:00','COMPLETED','2025-08-13 21:13:29',1),(2,'JRN720',1,1,5,'2025-08-08 21:13:00','2025-08-08 23:52:00',159,'02:39:00','COMPLETED','2025-08-13 21:13:48',1),(3,'JRN995',2,34,7,'2025-08-06 21:14:00','2025-08-07 16:36:00',1162,'19:22:00','COMPLETED','2025-08-13 21:14:05',1);
+INSERT INTO `journey` VALUES (1,'JRN229',1,1,2,'2025-08-13 21:13:00','2025-08-13 22:09:00',56,'00:56:00','COMPLETED','2025-08-13 21:13:29',1),(2,'JRN720',1,1,5,'2025-08-08 21:13:00','2025-08-08 23:52:00',159,'02:39:00','COMPLETED','2025-08-13 21:13:48',1),(3,'JRN995',2,34,7,'2025-08-06 21:14:00','2025-08-07 16:36:00',1162,'19:22:00','COMPLETED','2025-08-13 21:14:05',1),(10,'JRN703',1,1,2,'2025-09-14 20:51:00','2025-09-14 21:47:00',56,'00:56:00','COMPLETED','2025-09-14 20:51:22',1);
 /*!40000 ALTER TABLE `journey` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notification_subscription`
+--
+
+DROP TABLE IF EXISTS `notification_subscription`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notification_subscription` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `journey_name` varchar(100) NOT NULL,
+  `user_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `journey_name` (`journey_name`,`user_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `notification_subscription_ibfk_1` FOREIGN KEY (`journey_name`) REFERENCES `journey` (`name`) ON DELETE CASCADE,
+  CONSTRAINT `notification_subscription_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notification_subscription`
+--
+
+LOCK TABLES `notification_subscription` WRITE;
+/*!40000 ALTER TABLE `notification_subscription` DISABLE KEYS */;
+INSERT INTO `notification_subscription` VALUES (8,'JRN703',7,NULL);
+/*!40000 ALTER TABLE `notification_subscription` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -351,7 +381,7 @@ CREATE TABLE `phone` (
   UNIQUE KEY `user_id` (`user_id`),
   UNIQUE KEY `phone` (`phone`),
   CONSTRAINT `phone_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +390,7 @@ CREATE TABLE `phone` (
 
 LOCK TABLES `phone` WRITE;
 /*!40000 ALTER TABLE `phone` DISABLE KEYS */;
-INSERT INTO `phone` VALUES (1,1,'0123456789'),(2,2,'0987654321'),(3,3,'0911222333'),(4,4,'0123426789'),(5,5,'0987634321'),(6,6,'0991222333');
+INSERT INTO `phone` VALUES (1,1,'0123456789'),(2,2,'0987654321'),(3,3,'0911222333'),(4,4,'0123426789'),(5,5,'0987634321'),(6,6,'0991222333'),(7,7,'9999999999');
 /*!40000 ALTER TABLE `phone` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -421,7 +451,7 @@ CREATE TABLE `service_comment` (
 
 LOCK TABLES `service_comment` WRITE;
 /*!40000 ALTER TABLE `service_comment` DISABLE KEYS */;
-INSERT INTO `service_comment` VALUES (1,3,1,'Phòng chờ rộng rãi và thoải mái','2025-09-12 14:39:53'),(2,2,2,'Dịch vụ gửi hành lý rất tiện lợi','2025-09-12 14:39:53');
+INSERT INTO `service_comment` VALUES (1,3,1,'Phòng chờ rộng rãi và thoải mái','2025-09-14 19:53:22'),(2,2,2,'Dịch vụ gửi hành lý rất tiện lợi','2025-09-14 19:53:22');
 /*!40000 ALTER TABLE `service_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -451,7 +481,7 @@ CREATE TABLE `service_like` (
 
 LOCK TABLES `service_like` WRITE;
 /*!40000 ALTER TABLE `service_like` DISABLE KEYS */;
-INSERT INTO `service_like` VALUES (1,3,1,'2025-09-12 14:39:53'),(2,2,2,'2025-09-12 14:39:53');
+INSERT INTO `service_like` VALUES (1,3,1,'2025-09-14 19:53:22'),(2,2,2,'2025-09-14 19:53:22');
 /*!40000 ALTER TABLE `service_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -619,7 +649,7 @@ CREATE TABLE `users` (
   `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -628,7 +658,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'eren123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Eren','Yeager','https://res.cloudinary.com/daupdu9bs/image/upload/v1753343504/eren_fqrw3q.jpg','ADMIN',1),(2,'levi123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Levi','Ackerman','https://res.cloudinary.com/daupdu9bs/image/upload/v1753342986/levi_hvyxo8.jpg','ADMIN',1),(3,'armin123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Armin','Arlert','https://res.cloudinary.com/daupdu9bs/image/upload/v1753342986/armin_ndwqwd.jpg','STAFF',1),(4,'mikasa123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Mikasa','Ackerman','https://res.cloudinary.com/daupdu9bs/image/upload/v1753343372/mikasa_vto86i.jpg','STAFF',1),(5,'reiner123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Reiner','Braun','https://res.cloudinary.com/daupdu9bs/image/upload/v1753342986/reiner_tl9nie.jpg','PASSENGER',1),(6,'jean123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Jean','Kirstein','https://res.cloudinary.com/daupdu9bs/image/upload/v1753342987/jean_mtroyu.jpg','PASSENGER',1);
+INSERT INTO `users` VALUES (1,'eren123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Eren','Yeager','https://res.cloudinary.com/daupdu9bs/image/upload/v1753343504/eren_fqrw3q.jpg','ADMIN',1),(2,'levi123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Levi','Ackerman','https://res.cloudinary.com/daupdu9bs/image/upload/v1753342986/levi_hvyxo8.jpg','ADMIN',1),(3,'armin123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Armin','Arlert','https://res.cloudinary.com/daupdu9bs/image/upload/v1753342986/armin_ndwqwd.jpg','STAFF',1),(4,'mikasa123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Mikasa','Ackerman','https://res.cloudinary.com/daupdu9bs/image/upload/v1753343372/mikasa_vto86i.jpg','STAFF',1),(5,'reiner123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Reiner','Braun','https://res.cloudinary.com/daupdu9bs/image/upload/v1753342986/reiner_tl9nie.jpg','PASSENGER',1),(6,'jean123','$2a$10$AC0M4jkseVK3ph9GYGnw4OMC/x7em3RURFDgQ1L7Y7IJPbWNQM4E2','Jean','Kirstein','https://res.cloudinary.com/daupdu9bs/image/upload/v1753342987/jean_mtroyu.jpg','PASSENGER',1),(7,'tuan123','$2a$10$QXb3ebMcrs01eJFs9sYbAOk7Bjyg5fvkfY4db6ctU3vRpWoJnM3DK','Kiều Minh','Tuấn','https://res.cloudinary.com/daupdu9bs/image/upload/v1757854825/nyuvucp59zmrsa7f1ej2.jpg','PASSENGER',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -641,4 +671,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-12 14:40:33
+-- Dump completed on 2025-09-14 20:54:07
