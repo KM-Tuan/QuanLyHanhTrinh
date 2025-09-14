@@ -23,4 +23,5 @@ public interface TrainRouteService {
     void addOrUpdateRoute(Integer routeId, int trainId, int departureStationId, int arrivalStationId, int distance, LocalTime travelTime, int stopOrder);
     TrainRoute getLastRouteByTrainId(int trainId);
     TrainRoute getRouteByTrainIdAndStopOrder(int trainId, int stopOrder);
+    TrainRoute findNextRouteByProgress(int trainId, double distanceTraveled, int journeyDepartureId, int journeyArrivalId);
 }

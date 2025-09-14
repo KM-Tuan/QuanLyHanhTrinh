@@ -173,4 +173,27 @@ public class TrainRouteRepositoryImpl implements TrainRouteRepository {
         return query.uniqueResult(); // trả về 1 route hoặc null
     }
 
+    @Override
+    public TrainRoute findNextRouteByProgress(int trainId, double distanceTraveled,
+            int journeyDepartureId, int journeyArrivalId) {
+        Session session = factory.getObject().getCurrentSession();
+
+        List<TrainRoute> routes = session
+                .createNamedQuery("TrainRoute.findRoutesInJourney", TrainRoute.class)
+                .setParameter("trainId", trainId)
+                .setParameter("journeyDepartureId", journeyDepartureId)
+                .setParameter("journeyArrivalId", journeyArrivalId)
+                .getResultList();
+
+        double cumulative = 0.0;
+        for (TrainRoute tr : routes) {
+            cumulative += tr.getDistance();
+            if (cumulative > distanceTraveled) {
+                return tr;
+            }
+        }
+
+        return null; // đã tới ga cuối hoặc không tìm thấy
+    }
+
 }

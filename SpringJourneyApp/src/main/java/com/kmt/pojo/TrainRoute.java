@@ -40,8 +40,8 @@ import org.springframework.format.annotation.DateTimeFormat;
     @NamedQuery(name = "TrainRoute.findRoutesBetweenStations", query = "SELECT tr FROM TrainRoute tr " + "WHERE tr.trainId.id = :trainId " + "AND tr.stopOrder >= (SELECT tr1.stopOrder FROM TrainRoute tr1 WHERE tr1.trainId.id = :trainId AND tr1.departureStationId.id = :departureStationId) " + "AND tr.stopOrder <= (SELECT tr2.stopOrder FROM TrainRoute tr2 WHERE tr2.trainId.id = :trainId AND tr2.arrivalStationId.id = :arrivalStationId) " + "ORDER BY tr.stopOrder ASC"),
     @NamedQuery(name = "TrainRoute.findLastByTrainId", query = "SELECT t FROM TrainRoute t WHERE t.trainId.id = :trainId ORDER BY t.stopOrder DESC"),
     @NamedQuery(name = "TrainRoute.findRoutesToShift", query = "SELECT tr FROM TrainRoute tr " + "WHERE tr.trainId.id = :trainId AND tr.stopOrder >= :stopOrder " + "ORDER BY tr.stopOrder DESC"),
-    @NamedQuery(name = "TrainRoute.findByTrainIdAndStopOrder", query = "SELECT r FROM TrainRoute r WHERE r.trainId.id = :trainId AND r.stopOrder = :stopOrder"
-    )})
+    @NamedQuery(name = "TrainRoute.findByTrainIdAndStopOrder", query = "SELECT r FROM TrainRoute r WHERE r.trainId.id = :trainId AND r.stopOrder = :stopOrder"),
+    @NamedQuery(name = "TrainRoute.findRoutesInJourney", query = "SELECT tr FROM TrainRoute tr " + "WHERE tr.trainId.id = :trainId " + "AND tr.stopOrder >= (" + "   SELECT trd.stopOrder FROM TrainRoute trd " + "   WHERE trd.trainId.id = :trainId AND trd.departureStationId.id = :journeyDepartureId" + ") " + "AND tr.stopOrder <= (" + "   SELECT tra.stopOrder FROM TrainRoute tra " + "   WHERE tra.trainId.id = :trainId AND tra.arrivalStationId.id = :journeyArrivalId" + ") " + "ORDER BY tr.stopOrder ASC")})
 public class TrainRoute implements Serializable {
 
     private static final long serialVersionUID = 1L;
