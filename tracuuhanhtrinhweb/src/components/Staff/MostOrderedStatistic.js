@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-    BarChart,
-    Bar,
-    YAxis,
-    Tooltip,
-    ResponsiveContainer,
-    Cell,
-    XAxis,
-} from "recharts";
+import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer, Cell, XAxis } from "recharts";
 import { Button, Spinner } from "react-bootstrap";
 import { endpoints, authApis } from "../../configs/Apis";
+import "../css/MostOrderedStatistic.css";
 
 const MostOrderedStatistic = () => {
     const [data, setData] = useState([]);
@@ -62,6 +55,7 @@ const MostOrderedStatistic = () => {
             console.error("Error downloading CSV:", err);
         }
     };
+
     const handleExportPdf = async () => {
         try {
             const res = await authApis().get(endpoints["ordered-pdf"], {
@@ -85,7 +79,7 @@ const MostOrderedStatistic = () => {
         if (active && payload && payload.length) {
             const item = payload[0].payload;
             return (
-                <div style={{ background: "#fff", border: "1px solid #ccc", padding: "10px" }}>
+                <div className="custom-tooltip">
                     <p><strong>Journey:</strong> {item.journey}</p>
                     <p><strong>Food:</strong> {item.food}</p>
                     <p><strong>Total Ordered:</strong> {item.total}</p>
@@ -96,46 +90,57 @@ const MostOrderedStatistic = () => {
     };
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h3 className="mb-4">Most Ordered Food (All Journeys)</h3>
+        <div className="mostordered-page">
+            {/* Video nền */}
+            <video autoPlay muted loop playsInline id="mostordered-bg-video">
+                <source
+                    src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4"
+                    type="video/mp4"
+                />
+            </video>
 
-            <div className="mb-3 d-flex gap-2">
-                <Button variant="success" onClick={handleExportCsv}>Xuất CSV</Button>
-                <Button variant="danger" onClick={handleExportPdf}>Xuất PDF</Button>
-            </div>
+            {/* Box */}
+            <div className="mostordered-box">
+                <h2>THỐNG KÊ MÓN ĂN ĐẶT NHIỀU NHẤT</h2>
 
-            {loading ? (
-                <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
-                    <Spinner animation="border" />
+                <div className="btn-group">
+                    <Button variant="success" onClick={handleExportCsv}>Xuất CSV</Button>
+                    <Button variant="danger" onClick={handleExportPdf}>Xuất PDF</Button>
                 </div>
-            ) : (
-                <ResponsiveContainer width="100%" height={400}>
-                    <BarChart
-                        data={data}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                    >
-                        <XAxis />
-                        <YAxis />
-                        <Tooltip content={<CustomTooltip />} />
 
-                        <Bar
-                            dataKey="total"
-                            name="Total Ordered"
-                            radius={[5, 5, 0, 0]} // bo tròn 2 góc trên
-                            stroke="#555"          // viền bar
-                            strokeWidth={1}
+                {loading ? (
+                    <div className="loading">
+                        <Spinner animation="border" />
+                    </div>
+                ) : (
+                    <ResponsiveContainer width="100%" height={400}>
+                        <BarChart
+                            data={data}
+                            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                         >
-                            {data.map((entry, index) => (
-                                <Cell
-                                    key={index}
-                                    fill={entry.color}
-                                    style={{ filter: "drop-shadow(2px 2px 4px rgba(0,0,0,0.3))" }} // đổ bóng
-                                />
-                            ))}
-                        </Bar>
-                    </BarChart>
-                </ResponsiveContainer>
-            )}
+                            <XAxis />
+                            <YAxis />
+                            <Tooltip content={<CustomTooltip />} />
+
+                            <Bar
+                                dataKey="total"
+                                name="Total Ordered"
+                                radius={[5, 5, 0, 0]}
+                                stroke="#555"
+                                strokeWidth={1}
+                            >
+                                {data.map((entry, index) => (
+                                    <Cell
+                                        key={index}
+                                        fill={entry.color}
+                                        style={{ filter: "drop-shadow(2px 2px 4px rgba(0,0,0,0.3))" }}
+                                    />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                )}
+            </div>
         </div>
     );
 };

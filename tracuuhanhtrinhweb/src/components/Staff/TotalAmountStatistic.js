@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Button, Spinner } from "react-bootstrap";
 import { authApis, endpoints } from "../../configs/Apis";
+import "../css/TotalAmountStatistic.css";
 
 const COLORS = [
   "#0088FE", "#00C49F", "#FFBB28", "#FF8042",
@@ -33,10 +34,8 @@ const TotalAmountStatistic = () => {
         if(type === "day") {
           name = new Date(item[0]).toLocaleDateString();
         } else if(type === "month") {
-          // item = [year, month, value]
           name = `${item[1]}/${item[0]}`; // mm/yyyy
         } else if(type === "year") {
-          // item = [year, value]
           name = `${item[0]}`; // yyyy
         }
         return { name, value };
@@ -50,7 +49,6 @@ const TotalAmountStatistic = () => {
     setLoading(false);
   };
 
-  // Xuất CSV
   const handleExportCsv = async () => {
     try {
       let url = "";
@@ -70,7 +68,6 @@ const TotalAmountStatistic = () => {
     }
   };
 
-  // Xuất PDF
   const handleExportPdf = async () => {
     try {
       let url = "";
@@ -91,45 +88,56 @@ const TotalAmountStatistic = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h3 className="mb-4">Thống kê doanh thu theo {type}</h3>
+    <div className="totalamount-page">
+      {/* Video nền */}
+      <video autoPlay muted loop playsInline id="totalamount-bg-video">
+        <source
+          src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4"
+          type="video/mp4"
+        />
+      </video>
 
-      <div className="mb-3 d-flex gap-2">
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="day">Ngày</option>
-          <option value="month">Tháng</option>
-          <option value="year">Năm</option>
-        </select>
-        <Button variant="success" onClick={handleExportCsv}>Xuất CSV</Button>
-        <Button variant="danger" onClick={handleExportPdf}>Xuất PDF</Button>
-      </div>
+      {/* Box */}
+      <div className="totalamount-box">
+        <h2>THỐNG KÊ DOANH THU THEO {type.toUpperCase()}</h2>
 
-      {loading ? (
-        <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
-          <Spinner animation="border" />
+        <div className="btn-group">
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            <option value="day">Ngày</option>
+            <option value="month">Tháng</option>
+            <option value="year">Năm</option>
+          </select>
+          <Button variant="success" onClick={handleExportCsv}>Xuất CSV</Button>
+          <Button variant="danger" onClick={handleExportPdf}>Xuất PDF</Button>
         </div>
-      ) : (
-        <ResponsiveContainer width="100%" height={400}>
-          <PieChart>
-            <Pie
-              data={data}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={120}
-              fill="#8884d8"
-              label={(entry) => `${entry.name}: ${new Intl.NumberFormat('vi-VN').format(entry.value)} VNĐ`}
-            >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip formatter={(value) => new Intl.NumberFormat('vi-VN').format(value) + " VNĐ"} />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
-      )}
+
+        {loading ? (
+          <div className="loading">
+            <Spinner animation="border" />
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={400}>
+            <PieChart>
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={120}
+                fill="#8884d8"
+                label={(entry) => `${entry.name}: ${new Intl.NumberFormat('vi-VN').format(entry.value)} VNĐ`}
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip formatter={(value) => new Intl.NumberFormat('vi-VN').format(value) + " VNĐ"} />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        )}
+      </div>
     </div>
   );
 };
