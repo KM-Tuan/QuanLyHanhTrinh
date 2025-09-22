@@ -86,8 +86,8 @@ const TrackJourney = () => {
             const res = await Apis.post(endpoints["notification"](journeyName), null, {
                 params: { userId: user.id },
             });
-            alert(res.data); // thông báo thành công
-            setSubscribed(true); // cập nhật trạng thái
+            alert(res.data);
+            setSubscribed(true);
         } catch (err) {
             console.error("Subscribe API error:", err);
             alert(err.response?.data || "Đăng ký thất bại");
@@ -96,7 +96,7 @@ const TrackJourney = () => {
 
     return (
         <div className="track-journey-page">
-            {/* Video nền */}
+            
             <video autoPlay muted loop playsInline id="bg-video">
                 <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
             </video>

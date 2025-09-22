@@ -26,7 +26,7 @@ const MyFoodOrders = () => {
 
   return (
     <div className="myfood-page">
-      {/* Video nền */}
+      
       <video autoPlay muted loop playsInline id="myfood-bg-video">
         <source
           src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4"
@@ -34,7 +34,7 @@ const MyFoodOrders = () => {
         />
       </video>
 
-      {/* Box */}
+      
       <div className="myfood-box">
         <h2>DANH SÁCH HÓA ĐƠN</h2>
 

@@ -27,7 +27,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  z-index: 1; /* nằm trên video */
+  z-index: 1;
   position: relative;
 }
 

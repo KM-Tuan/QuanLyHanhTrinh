@@ -120,7 +120,7 @@
     <div th:replace="base :: sidebar"></div>
 
     <div class="content-wrapper">
-        <!-- Form thêm/cập nhật danh mục -->
+        
         <div class="form-container">
 
             <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -140,7 +140,7 @@
             </form>
         </div>
 
-        <!-- Bảng danh sách danh mục -->
+       
         <div class="table-container">
             <h2>Danh sách danh mục hiện có</h2>
             <table>
@@ -156,12 +156,12 @@
                         <td th:text="${cat.id}"></td>
                         <td th:text="${cat.name}"></td>
                         <td>
-                            <!-- Link chỉnh sửa -->
+                           
                             <a th:href="@{/foodcategory/add/{id}(id=${cat.id})}"
                                class="btn btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <!-- Link xóa -->
+                            
                             <a th:href="@{/foodcategory/delete/{id}(id=${cat.id})}"
                                class="btn btn-sm btn-danger"
                                onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');">

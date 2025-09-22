@@ -26,7 +26,7 @@ const MyServiceOrders = () => {
 
   return (
     <div className="myservice-page">
-      {/* Video nền */}
+      
       <video autoPlay muted loop playsInline id="myservice-bg-video">
         <source
           src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4"
@@ -34,7 +34,7 @@ const MyServiceOrders = () => {
         />
       </video>
 
-      {/* Box */}
+      
       <div className="myservice-box">
         <h2>DANH SÁCH ĐĂNG KÝ DỊCH VỤ</h2>
 

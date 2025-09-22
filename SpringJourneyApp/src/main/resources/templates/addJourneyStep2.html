@@ -32,9 +32,9 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* căn giữa theo chiều dọc */
-            align-items: center;     /* căn giữa theo chiều ngang */
-            padding: 30px 0;         /* padding trên/dưới */
+            justify-content: center;
+            align-items: center;
+            padding: 30px 0;
             box-sizing: border-box;
             width: 100%;
         }
@@ -145,12 +145,12 @@
                 <input type="hidden" name="departureStationId" th:value="${departureStationId}" />
                 <input type="hidden" name="arrivalStationId" th:value="${arrivalStationId}" />
 
-                <!-- Nếu không có tàu thì hiển thị thông báo -->
+                
                 <div th:if="${trains == null or #lists.isEmpty(trains)}" class="no-train">
                     Không tìm thấy tàu nào
                 </div>
 
-                <!-- Box bọc 2 select/input cạnh nhau -->
+                
                 <div class="form-group-box" th:if="${trains != null and !#lists.isEmpty(trains)}">
                     <div class="form-item">
                         <label>Chọn tàu:</label>

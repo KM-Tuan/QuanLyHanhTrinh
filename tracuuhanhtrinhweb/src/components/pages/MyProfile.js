@@ -13,21 +13,21 @@ const MyProfile = () => {
     return (
         <div className="my-profile-page">
 
-            {/* Video nền */}
+            
             <video autoPlay muted loop playsInline id="bg-video">
                 <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
             </video>
 
             <Card className="my-profile-card d-flex align-items-center">
                 <Card.Body className="d-flex align-items-center flex-wrap">
-                    {/* Avatar */}
+                    
                     <img
                         src={user.avatar}
                         alt="avatar"
                         className="me-4"
                     />
 
-                    {/* Thông tin */}
+                    
                     <div>
                         <h4>
                             {user.lastName} {user.firstName}{" "}

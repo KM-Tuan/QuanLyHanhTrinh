@@ -37,14 +37,14 @@ const Header = () => {
     return (
         <header className="app-header">
             <div className="d-flex justify-content-between align-items-center">
-                {/* Logo góc trái */}
+                
                 <Link to="/" className="app-logo">
                     KMT-Tech
                 </Link>
 
-                {/* Nút góc phải */}
+                
                 <div className="d-flex gap-2 align-items-center">
-                    {/* Giỏ hàng */}
+                    
                     <Button onClick={handleCartClick} className="cart-btn">
                         <i className="bi bi-cart-fill"></i>
                         {cart === 0 ? "Mua sắm" : "Thanh toán"}
@@ -62,14 +62,14 @@ const Header = () => {
                         </>
                     ) : (
                         <div className="position-relative" ref={dropdownRef}>
-                            {/* Avatar + Name */}
+                            
                             <div className="user-box" onClick={() => setShowDropdown(!showDropdown)}>
                                 <img src={user.avatar} width="40" height="40" className="rounded-circle" />
                                 <span className="user-name">{user.firstName} {user.lastName}</span>
                                 <i className={`bi bi-caret-${showDropdown ? "up" : "down"}-fill text-white`}></i>
                             </div>
 
-                            {/* Dropdown */}
+                            
                             {showDropdown && (
                                 <div className="position-absolute mt-2 py-2 bg-white rounded shadow user-dropdown">
                                     {user.role === "STAFF" && (

@@ -29,7 +29,7 @@ public class FoodCategoryController {
     public String addCategoryForm(Model model) {
         model.addAttribute("foodCategory", new FoodCategory());
         model.addAttribute("categories", cateSer.getCate());
-        return "addOrUpdateFoodCategory";  // tên file Thymeleaf của bạn
+        return "addOrUpdateFoodCategory";
     }
 
     @GetMapping("/foodcategory/add/{id}")

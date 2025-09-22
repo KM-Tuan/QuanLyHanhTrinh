@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="footer-modern">
       <div className="footer-container">
-        {/* Bên trái */}
+        
         <div className="footer-left">
           <div>
             <i className="bi bi-c-circle"></i>
@@ -16,7 +16,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bên phải */}
+        
         <div className="footer-right">
           <a href="#"><i className="bi bi-facebook"></i> Facebook</a>
           <a href="#"><i className="bi bi-instagram"></i> Instagram</a>

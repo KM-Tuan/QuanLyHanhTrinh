@@ -56,7 +56,7 @@
         .boxes-wrapper {
             display: flex;
             gap: 30px;
-            align-items: stretch; /* Hai box cùng chiều cao */
+            align-items: stretch;
         }
 
         .left-box, .right-box {
@@ -66,7 +66,7 @@
         }
 
         .left-box {
-            justify-content: space-between; /* Avatar top, file input bottom */
+            justify-content: space-between;
         }
 
         .form-group-box {
@@ -148,16 +148,16 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.7);
         }
 
-        /* Đảm bảo box phải luôn cao bằng avatar */
+        
         .right-box .form-group-box {
             flex: 1;
-            min-height: 400px; /* chiều cao cố định bạn muốn */
+            min-height: 400px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        /* Nút file luôn ở dưới box trái */
+        
         .file-input-wrapper {
             margin-top: 15px;
         }
@@ -199,18 +199,18 @@
                             <div></div>
                         </div>
 
-                        <!-- Cập nhật avatar -->
+                        
                         <div th:if="${user.id != null}" class="avatar-wrapper">
                             <img th:src="@{${user.avatar}}" alt="Avatar" class="avatar-preview" />
                         </div>
 
-                        <!-- Nút chọn file luôn ở dưới box trái -->
+                        
                         <div class="file-input-wrapper">
                             <input type="file" th:field="*{file}" />
                         </div>
                     </div>
 
-                    <!-- Box phải -->
+                    
                     <div class="right-box">
                         <div class="form-group-box">
                             <div class="form-item">

@@ -123,11 +123,11 @@
                 <h2 th:unless="${station.id == null}">CẬP NHẬT GA TÀU</h2>
                 <input type="hidden" th:field="*{id}" />
 
-                <!-- Tên trạm -->
+                
                 <label for="name">Tên ga:</label>
                 <input type="text" th:field="*{name}" placeholder="Nhập tên trạm" required />
 
-                <!-- Ảnh -->
+                
                 <label>Ảnh mô tả:</label>
                 <input type="file" th:field="*{file}" />
 
@@ -140,7 +140,7 @@
             </form>
         </div>
 
-        <!--DANH SÁCH DỊCH VỤ -->
+        
         <div th:if="${station.id != null}" class="services-wrapper">
             <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <span th:text="${successMessage}"></span>
@@ -166,12 +166,12 @@
                         </td>
                         <td th:text="${s.isActive} ? 'Có' : 'Không'"></td>
                         <td>
-                            <!--Link chỉnh sửa--> 
+                            
                             <a th:href="@{/services/add/{id}/{stationId}(id=${s.id}, stationId=${station.id})}"
                                class="btn btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <!--Link xóa--> 
+                            
                             <a th:href="@{/services/delete/{id}/{stationId}(id=${s.id}, stationId=${station.id})}"
                                class="btn btn-sm btn-danger"
                                onclick="return confirm('Bạn có chắc chắn muốn xóa dịch vụ này?');">

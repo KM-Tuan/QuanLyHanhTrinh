@@ -5,7 +5,7 @@ import "../css/Statistic.css";
 const Statistic = () => {
   return (
     <div className="statistic-page">
-      {/* Video nền */}
+      
       <video
         autoPlay
         muted
@@ -19,7 +19,7 @@ const Statistic = () => {
         />
       </video>
 
-      {/* 2 ô thống kê */}
+      
       <div className="statistic-wrapper">
         <Link to="/most-ordered-statistic" className="statistic-box food">
           <i className="bi bi-basket"></i>

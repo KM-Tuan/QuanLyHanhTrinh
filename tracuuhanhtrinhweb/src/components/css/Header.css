@@ -9,7 +9,6 @@
 /* Logo chữ */
 .app-logo {
     color: #9b59b6;
-    /* tím giống nút theo dõi */
     font-weight: bold;
     font-size: 1.6rem;
     text-decoration: none;
@@ -18,7 +17,6 @@
 
 .app-logo:hover {
     color: #b983d3;
-    /* sáng hơn khi hover */
 }
 
 /* Nút giỏ hàng */

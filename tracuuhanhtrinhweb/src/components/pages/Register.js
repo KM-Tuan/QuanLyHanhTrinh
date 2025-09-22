@@ -45,7 +45,7 @@ const Register = () => {
         }
         if (avatar.current.files[0]) form.append("avatar", avatar.current.files[0]);
         form.append("role", user.role || "PASSENGER");
-        form.append("isActive", false); // ban đầu chưa kích hoạt
+        form.append("isActive", false);
 
         try {
             setLoading(true);
@@ -53,7 +53,7 @@ const Register = () => {
                 headers: { 'Content-type': 'multipart/form-data' }
             });
 
-            // Sau khi đăng ký thành công thì hiển thị modal nhập OTP
+            
             if (res.status === 201 || res.status === 200) {
                 setEmailId(res.data.emailId);
                 setShowOtpModal(true);
@@ -130,7 +130,7 @@ const Register = () => {
                 </Form>
             </div>
 
-            {/* Modal nhập OTP */}
+            
             <Modal show={showOtpModal} centered>
                 <Modal.Header>
                     <Modal.Title>Xác thực OTP</Modal.Title>

@@ -36,8 +36,8 @@ body, html, #root {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
     text-align: left;
-    max-width: 1200px; /* tăng từ 900px lên 1200px */
-    width: 90%; /* chiếm 90% màn hình */
+    max-width: 1200px;
+    width: 90%;
     animation: fadeIn 1.2s ease-in-out;
 }
 

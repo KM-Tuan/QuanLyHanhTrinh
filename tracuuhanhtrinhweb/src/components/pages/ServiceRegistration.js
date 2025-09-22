@@ -57,13 +57,13 @@ const ServiceRegistration = () => {
 
     return (
         <div className="service-registration-page">
-            {/* Video nền */}
+            
             <video autoPlay muted loop playsInline id="bg-video">
                 <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
             </video>
 
             <div className="service-registration-box">
-                {/* Station */}
+                
                 {station && (
                     <div className="station-section">
                         <img src={station.image} alt={station.name} />
@@ -71,7 +71,7 @@ const ServiceRegistration = () => {
                     </div>
                 )}
 
-                {/* Services list */}
+                
                 <div className="services-list">
                     {services.map((service) => (
                         <div
@@ -85,7 +85,7 @@ const ServiceRegistration = () => {
                     ))}
                 </div>
 
-                {/* Selected Service */}
+                
                 {selectedService && (
                     <div className="selected-service">
                         <h5>{selectedService.name}</h5>
@@ -111,7 +111,7 @@ const ServiceRegistration = () => {
                     </div>
                 )}
 
-                {/* Thông báo */}
+                
                 {message && <div className="alert-box">{message}</div>}
             </div>
         </div>

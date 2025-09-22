@@ -8,7 +8,7 @@ const History = () => {
 
   return (
     <div className="history-page">
-      {/* Video nền */}
+      
       <video
         autoPlay
         muted
@@ -22,7 +22,7 @@ const History = () => {
         />
       </video>
 
-      {/* Nội dung 2 ô */}
+      
       <div className="history-wrapper">
         <Link to={`/my-service/${user.id}`} className="history-box service">
           <i className="bi bi-tools"></i>

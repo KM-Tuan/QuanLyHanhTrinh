@@ -52,18 +52,18 @@ public class UserController {
         userSer.deleteUserById(id);
         redirectAttributes.addFlashAttribute("successMessage", "Xóa người dùng thành công!");
 
-        return "redirect:/users"; // Quay về danh sách
+        return "redirect:/users";
     }
     
     @PostMapping("/users/add/submit")
     public String addUser(@ModelAttribute("user") User user, Model model) {
         try {
-            userSer.addOrUpdateUser(user); // Gọi service xử lý tất cả
+            userSer.addOrUpdateUser(user);
             return "redirect:/users";
         } catch (IllegalArgumentException ex) {
             model.addAttribute("errorMessage", ex.getMessage());
             model.addAttribute("user", user);
-            return "addOrUpdateUser"; // trang form
+            return "addOrUpdateUser";
         }
     }
 
@@ -71,7 +71,7 @@ public class UserController {
     public String updateUser(@PathVariable("id") int id, Model model) {
         User user = userSer.getUserById(id);
         if (user == null) {
-            return "redirect:/users"; // Nếu không tìm thấy user, quay về danh sách
+            return "redirect:/users";
         }
         model.addAttribute("user", user);
         return "addOrUpdateUser";

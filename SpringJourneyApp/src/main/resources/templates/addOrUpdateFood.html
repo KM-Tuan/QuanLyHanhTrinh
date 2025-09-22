@@ -123,7 +123,7 @@
                 <label for="file">Ảnh minh họa</label>
                 <input type="file" th:field="*{file}" accept="image/*" />
 
-                <!-- Hiển thị ảnh hiện tại nếu đang ở chế độ cập nhật -->
+                
                 <div th:if="${food.image != null}">
                     <p>Ảnh hiện tại:</p>
                     <img th:src="@{${food.image}}" alt="Ảnh món ăn" 

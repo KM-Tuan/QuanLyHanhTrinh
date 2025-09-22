@@ -24,8 +24,8 @@ html,
     position: relative;
     min-height: 100vh;
     display: flex;
-    justify-content: center; /* căn ngang */
-    align-items: center;     /* căn dọc giữa */
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     padding: 20px;
     color: white;
@@ -33,20 +33,20 @@ html,
 
 /* Box chứa bảng */
 .cart-table-box {
-    background: rgba(0, 0, 0, 0.85); /* nền đen đậm */
+    background: rgba(0, 0, 0, 0.85);
     padding: 30px 20px;
     border-radius: 20px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
     width: 100%;
-    max-width: 1000px; /* rộng */
+    max-width: 1000px;
     animation: fadeIn 1s ease-in-out;
 }
 
 /* Tiêu đề */
 .cart-table-box h1 {
     color: #fff;
-    font-size: 32px; /* chữ to */
+    font-size: 32px;
     font-weight: 700;
     margin-bottom: 25px;
     text-align: center;
@@ -59,20 +59,20 @@ html,
     border-spacing: 0;
     border-radius: 12px;
     overflow: hidden;
-    background: rgba(0,0,0,0.9); /* nền đen cho table */
-    color: white; /* chữ trắng */
-    font-size: 18px; /* chữ lớn */
+    background: rgba(0,0,0,0.9);
+    color: white;
+    font-size: 18px;
 }
 
 .cart-table-box th,
 .cart-table-box td {
-    padding: 16px 12px; /* ô to */
+    padding: 16px 12px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
     text-align: center;
 }
 
 .cart-table-box th {
-    background: rgba(50,50,50,0.9); /* nền header tối */
+    background: rgba(50,50,50,0.9);
     color: #fff;
 }
 

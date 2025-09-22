@@ -89,7 +89,7 @@ const TotalAmountStatistic = () => {
 
   return (
     <div className="totalamount-page">
-      {/* Video nền */}
+      
       <video autoPlay muted loop playsInline id="totalamount-bg-video">
         <source
           src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4"
@@ -97,7 +97,7 @@ const TotalAmountStatistic = () => {
         />
       </video>
 
-      {/* Box */}
+      
       <div className="totalamount-box">
         <h2>THỐNG KÊ DOANH THU THEO {type.toUpperCase()}</h2>
 

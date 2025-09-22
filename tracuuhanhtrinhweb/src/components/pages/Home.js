@@ -49,12 +49,12 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Video nền */}
+      
       <video autoPlay muted loop playsInline id="bg-video">
         <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
       </video>
 
-      {/* Content */}
+      
       <div className="home-wrapper">
         <div className="home-box">
           <h1>QUẢN LÝ HÀNH TRÌNH</h1>

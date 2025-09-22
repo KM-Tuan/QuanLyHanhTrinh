@@ -91,7 +91,7 @@ const MostOrderedStatistic = () => {
 
     return (
         <div className="mostordered-page">
-            {/* Video nền */}
+            
             <video autoPlay muted loop playsInline id="mostordered-bg-video">
                 <source
                     src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4"
@@ -99,7 +99,7 @@ const MostOrderedStatistic = () => {
                 />
             </video>
 
-            {/* Box */}
+            
             <div className="mostordered-box">
                 <h2>THỐNG KÊ MÓN ĂN ĐẶT NHIỀU NHẤT</h2>
 

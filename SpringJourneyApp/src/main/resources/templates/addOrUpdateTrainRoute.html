@@ -8,7 +8,7 @@
             <h2 th:if="${route.id == null}">THÊM TUYẾN TÀU</h2>
             <h2 th:unless="${route.id == null}">CẬP NHẬT TUYẾN TÀU</h2>
 
-            <!-- Giữ lại trainId và route id -->
+            
             <input type="hidden" name="trainIdValue" th:value="${train.id}" />
             <input type="hidden" name="routeId" th:value="${route.id}" />
 
@@ -16,7 +16,7 @@
             <span th:text="${train.name}"></span>
             <br/><br/>
 
-            <!-- Route đầu tiên và chưa có lastArrivalStation => chọn Departure bình thường -->
+            
             <div th:if="${route.stopOrder == 1 and lastArrivalStation == null}">
                 <label>Ga đi:</label>
                 <select name="departureStationId" required>
@@ -25,7 +25,7 @@
                 </select>
             </div>
 
-            <!-- Route thứ 2 trở đi => Departure = lastArrivalStation -->
+            
             <div th:if="${route.stopOrder != 1}">
                 <label>Ga đi:</label>
                 <input type="text" th:value="${lastArrivalStation.name}" readonly />

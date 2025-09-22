@@ -124,7 +124,7 @@
                 <h2 th:unless="${train.id == null}">CẬP NHẬT TÀU</h2>
                 <input type="hidden" th:field="*{id}" />
 
-                <!-- Tên tàu -->
+                
                 <label for="name">Tên tàu:</label>
                 <input type="text" th:field="*{name}" placeholder="Nhập tên tàu" required />
 
@@ -133,7 +133,7 @@
             </form>
         </div>
 
-        <!--DANH SÁCH TUYẾN TÀU -->
+        
         <div th:if="${train.id != null}" class="routes-wrapper">
 
             <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -161,7 +161,7 @@
                         <td th:text="${#temporals.format(r.travelTime, 'HH:mm:ss')}"></td>
                         <td th:text="${r.stopOrder}"></td>
                         <td>
-                            <!--Link chỉnh sửa--> 
+                            
                             <a th:href="@{#}"
                                class="btn btn-sm btn-primary">
                                 <i class="fa fa-edit"></i>

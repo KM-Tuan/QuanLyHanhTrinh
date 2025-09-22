@@ -26,7 +26,7 @@ public class NotificationSubscriptionRepositoryImpl implements NotificationSubsc
     @Autowired
     private LocalSessionFactoryBean factory;
 
-    // Lấy danh sách subscription theo Journey
+    
     @Override
     public List<NotificationSubscription> findByJourney(String journeyName) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -35,7 +35,7 @@ public class NotificationSubscriptionRepositoryImpl implements NotificationSubsc
                 .getResultList();
     }
 
-    // Kiểm tra tồn tại subscription cho journey + user
+    
     @Override
     public boolean existsByJourneyAndUser(String journeyName, int userId) {
         Session s = this.factory.getObject().getCurrentSession();

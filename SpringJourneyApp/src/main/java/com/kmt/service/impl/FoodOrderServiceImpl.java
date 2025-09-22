@@ -61,7 +61,7 @@ public class FoodOrderServiceImpl implements FoodOrderService {
             item.setFoodOrderId(order);
 
             total += item.getQuantity() * item.getPrice();
-            order.getFoodOrderItemList().add(item);  // thêm trực tiếp vào List
+            order.getFoodOrderItemList().add(item);
         }
 
         order.setTotalAmount(total);

@@ -49,14 +49,14 @@ const FoodDetail = () => {
     return (
         <div className="food-detail-page">
 
-            {/* Video nền */}
+            
             <video autoPlay muted loop playsInline id="bg-video">
                 <source src="https://res.cloudinary.com/daupdu9bs/video/upload/v1753496569/background_uonsor.mp4" type="video/mp4" />
             </video>
 
             <div className="food-detail-box">
                 <div className="row g-4">
-                    {/* Hình ảnh */}
+                    
                     <div className="col-md-5">
                         {food.image && (
                             <img
@@ -67,7 +67,7 @@ const FoodDetail = () => {
                         )}
                     </div>
 
-                    {/* Nội dung */}
+                    
                     <div className="col-md-7 d-flex flex-column">
                         <h2>{food.name}</h2>
                         <p>{food.description}</p>
